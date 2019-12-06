@@ -1,0 +1,89 @@
+= Jak {cpp} funguje?
+Daniel Langr <daniel.langr@gmail.com>
+:revdate: {docdate}
+:lang: cs
+:nofooter:
+:favicon: favicon.png
+:icons: font
+//:source-highlighter: coderay
+:source-highlighter: highlightjs
+:highlightjs-theme: agate
+:toc: left
+:toc-title: Obsah
+//:source-highlighter: prettify
+:source-language: c++
+:stem: 
+
+//[{docdate}]
+
+"`__Writing in C or C++ is like running a chain saw with all the safety guards removed.__`" _[Bob Gray]_
+
+{cpp} je tzv. "`kompilovaný jazyk`" (_compiled language_), tj. programovací jazyk fungující na principu *překladu zdrojového kódu na strojový kód*. Nejjednodušší zdrojový kód programu vypadá v {cpp} následovně:
+
+.main.cpp
+[source]
+----
+int main() { }
+----
+
+Jeho překladem pomocí C++ překladače, např. následujícím způsobem:
+
+[source,bash]
+----
+g++ main.cpp
+----
+
+vznikne *program* spustitelný na daném operačním systému. Jeho spuštěním vznikne běžící instance programu -- *proces* operačního systému -- který začne vykonávat překladačem vygenerovaný strojový kód, tj. *instrukce procesoru*. Ty v uvedeném případě při překladu na architektuře x86_64 vypadají následovně:
+
+[source,x86asm]
+----
+push rbp
+mov  rbp, rsp
+mov  eax, 0
+pop  rbp
+ret
+----
+
+Definice programovancího jazyka {cpp}, kterou má na starosti tzv. *Standard {cpp}*, defakto představuje úmluvu mezi programátorem a {cpp} překladačem. Tato úmluvá "`říká`", že vygenerovaný program bude mít z pohledu jeho okolí *stejný pozorovatelný efekt* (_observable effect_) jako jeho zdrojový kód.
+
+Výše zapsaný zdrojový kód zdánlivě žádný pozorovatelný efekt nemá. To ale není pravda -- každý proces po skončení vrací (např. procesu, který ho spustil) svoji *návratovou hodnotu*. Ta se v případě {cpp} programů rovná hodnotě navrácené z funkce `main`. Od {cpp}11 již nemusíme návratovou hodnotu 0 funkce `main` explicitně vracet pomocí `return`. 
+
+Jak tento pozorovatelný efekt program docílí je záležitost překladače. 
+
+
+Vidíme, že i 
+
+
+
+
+
+
+
+
+Nějaký text v "`českém jazyce`"...
+
+[source]
+----
+#include <iostream>
+#include <string>
+
+int main()
+{
+  const std::string s = "hello world";
+  std::cout << s << std::endl;
+}
+----
+
+== Nadpis druhé úrovně
+
+Nějaký matematický výraz: stem:[\alpha=\sum_{i=1}^{n}a_i].
+
+=== Nadpis třetí úrovně
+
+stem:[E=mc^2], stem:[e^{i\pi}+1=0]
+
+'''
+
+****
+NOTE: (C) 2018 Daniel Langr -- všechna práva vyhrazena.
+****
