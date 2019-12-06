@@ -56,10 +56,6 @@ Vidíme, že i
 
 
 
-
-
-
-
 Nějaký text v "`českém jazyce`"...
 
 [source]
