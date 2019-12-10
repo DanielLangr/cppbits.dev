@@ -3,7 +3,7 @@ Daniel Langr <daniel.langr@gmail.com>
 :revdate: {docdate}
 :lang: cs
 :nofooter:
-:favicon: favicon/favicon.png
+:favicon: ../favicon/favicon.png
 :icons: font
 //:source-highlighter: coderay
 :source-highlighter: highlightjs
@@ -86,7 +86,7 @@ stem:[E=mc^2], stem:[e^{i\pi}+1=0]
 
 
 
-include::include/disqus.adoc[]
+include::../include/disqus.adoc[]
 
 ****
 NOTE: (C) 2018 Daniel Langr -- všechna práva vyhrazena.
