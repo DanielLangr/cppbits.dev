@@ -5,7 +5,7 @@ Daniel Langr <daniel.langr@gmail.com>
 :nofooter:
 :linkcss:
 :stylesdir: ../stylesheets/
-:stylesheet: ubuntu.css
+:stylesheet: ubuntu-custom.css
 :favicon: ../favicon/favicon.png
 :icons: font
 //:source-highlighter: coderay
