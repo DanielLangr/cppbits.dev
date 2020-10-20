@@ -17,12 +17,10 @@
 <div class="details">
 <span id="author" class="author">Daniel Langr</span><br>
 <span id="email" class="email"><a href="mailto:daniel.langr@gmail.com">daniel.langr@gmail.com</a></span><br>
-<span id="revdate">2020-10-20</span>
+<span id="revdate">2020-10-21</span>
 </div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
 <p>&#8220;<em>Every time I write a line of code in C&#43;&#43; I check the assembly output to make sure it&#8217;s running at optimal speed. I profile everything and also I have no friends.</em>&#8221; <em>[Cole Rowland]</em></p>
 </div>
@@ -87,58 +85,94 @@ ret</code></pre>
 <div class="paragraph">
 <p>Ten totiž pozorovatelné chování programu&#8201;&#8212;&#8201;normální ukončení programu s návratovým statusem 0&#8201;&#8212;&#8201;zajišťuje <strong>nejúspornějším způsobem</strong>. Podle pravidel operačního systému je totiž návratový status programu předán v registru <code>eax</code>.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Proč je instrukce <code>xor eax, eax</code> efektivnější než <code>mov eax, 0</code>?
-</td>
-</tr>
-</table>
-</div>
-<hr>
+<div class="sidebarblock">
+<div class="content">
 <div class="paragraph">
-<p>Definice programovancího jazyka C&#43;&#43;, kterou má na starosti tzv. <strong>Standard C&#43;&#43;</strong>, defakto představuje úmluvu mezi programátorem a C&#43;&#43; překladačem. Tato úmluvá &#8220;říká&#8221;, že vygenerovaný program bude mít z pohledu jeho okolí <strong>stejný pozorovatelný efekt</strong> (<em>observable effect</em>) jako jeho zdrojový kód.</p>
+<p>Proč je instrukce <code>xor eax, eax</code> efektivnější než <code>mov eax, 0</code>? Operační kód (<em>opcode</em>) té druhé je totiž <code>b8 00 00 00 00</code>, zatímco té první <code>32 c0</code>, a tedy podstatně kratší. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.</p>
+</div>
+</div>
 </div>
 <div class="paragraph">
-<p>Výše zapsaný zdrojový kód zdánlivě žádný pozorovatelný efekt nemá. To ale není pravda&#8201;&#8212;&#8201;každý proces po skončení vrací (např. procesu, který ho spustil) svoji <strong>návratovou hodnotu</strong>. Ta se v případě C&#43;&#43; programů rovná hodnotě navrácené z funkce <code>main</code>. Od C&#43;&#43;11 již nemusíme návratovou hodnotu 0 funkce <code>main</code> explicitně vracet pomocí <code>return</code>.</p>
-</div>
-<div class="paragraph">
-<p>Jak tento pozorovatelný efekt program docílí je záležitost překladače.</p>
-</div>
-<div class="paragraph">
-<p>Vidíme, že i a o</p>
-</div>
-<div class="paragraph">
-<p>Nějaký text v &#8220;českém jazyce&#8221;&#8230;&#8203;</p>
+<p>Pokud nyní přepíšeme zdrojový soubor na:</p>
 </div>
 <div class="listingblock">
+<div class="title">main1.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-int main()
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
 {
-  const std::string s = "hello world";
-  std::cout &lt;&lt; s &lt;&lt; std::endl;
+  return 1;
 }</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_nadpis_druhé_úrovně">Nadpis druhé úrovně</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Nějaký matematický výraz: \$\alpha=\sum_{i=1}^{n}a_i\$.</p>
+<p>tak překladač již vygeneruje instrukci <code>mov</code>:</p>
 </div>
-<div class="sect2">
-<h3 id="_nadpis_třetí_úrovně">Nadpis třetí úrovně</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">mov eax, 1
+ret</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>\$E=mc^2\$, \$e^{i\pi}+1=0\$</p>
+<p>Naprosto stejně dopadl vygenerovaný strojový kód pro následující zdrojový soubor:</p>
+</div>
+<div class="listingblock">
+<div class="title">main2.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
+{
+  int i = 0;
+  i++;
+  return i;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A stejně tak pro:</p>
+</div>
+<div class="listingblock">
+<div class="title">main3.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">class Int
+{
+  int i_;
+public:
+  Int(int i) : i_(i) { }
+  operator int&amp;() { return i_; }
+};
+
+int main()
+{
+  Int i(0);
+  i++;
+  return i;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Pozorovatelné chování všech tří zdrojových souborů <code>main1.cpp</code>, <code>main2.cpp</code> i <code>main3.cpp</code> je totiž <strong>totožné</strong>. To má mimo jiné důsledek, že z přeloženého strojového kódu samotného nelze zjistit, z jakého zdrojového kódu byl vytvořen.</p>
+</div>
+<div class="paragraph">
+<p>Co přesně tvoří pozorovatelný efekt programu nemusí být vždy úplně jasné. Vezměme v úvahu následující zdrojový kód:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
+{
+  int* pi = new int(0);
+  delete pi;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Zdánlivě má tento program stejné pozorovatelné chování jako <code>main.cpp</code>, tedy pouze ukončení programu s návratovým statusem 0. Na druhou stranu zde dochází k dynamické alokaci paměti a ta může být z okolí programu rovněž pozorovatelná, např. pomocí profilovacích nástorjů haldy jako jsou Valgrind nebo Heaptrack. O tom, zda mohou být dynamické alokace eliminovány v rámci optimalizací se vedly a vedou diskuze. Novější implementace tuto optimalizaci umožňují&#8201;&#8212;&#8201;například <code>g++</code> se tímto způsobem v mých experimentech chovalo od verze 10.1. Starší verze vygenerovaly strojový kód s volání alokační a dealokační funkce.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p><em>As-if</em> pravidlo je důležité pro psaní benchmarků, tj. programů, kde se snažíme změřit dobu běhu nějaké operace. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté dává nesmyslné výsledky.</p>
+</div>
+</div>
 </div>
 <hr>
 <div id="disqus_thread"></div>
@@ -157,20 +191,8 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <div class="sidebarblock">
 <div class="content">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;všechna práva vyhrazena.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
+<div class="paragraph text-center">
+<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;všechna práva vyhrazena.</p>
 </div>
 </div>
 </div>

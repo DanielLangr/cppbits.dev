@@ -73,61 +73,88 @@ ret
 
 Ten totiž pozorovatelné chování programu -- normální ukončení programu s návratovým statusem 0 -- zajišťuje *nejúspornějším způsobem*. Podle pravidel operačního systému je totiž návratový status programu předán v registru `eax`.
 
-NOTE: Proč je instrukce `xor eax, eax` efektivnější než `mov eax, 0`?
+****
+Proč je instrukce `xor eax, eax` efektivnější než `mov eax, 0`? Operační kód (_opcode_) té druhé je totiž `b8 00 00 00 00`, zatímco té první `32 c0`, a tedy podstatně kratší. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.
+****
 
+Pokud nyní přepíšeme zdrojový soubor na:
 
-
-
-
-'''
-
-
-
-
-Definice programovancího jazyka {cpp}, kterou má na starosti tzv. *Standard {cpp}*, defakto představuje úmluvu mezi programátorem a {cpp} překladačem. Tato úmluvá "`říká`", že vygenerovaný program bude mít z pohledu jeho okolí *stejný pozorovatelný efekt* (_observable effect_) jako jeho zdrojový kód.
-
-Výše zapsaný zdrojový kód zdánlivě žádný pozorovatelný efekt nemá. To ale není pravda -- každý proces po skončení vrací (např. procesu, který ho spustil) svoji *návratovou hodnotu*. Ta se v případě {cpp} programů rovná hodnotě navrácené z funkce `main`. Od {cpp}11 již nemusíme návratovou hodnotu 0 funkce `main` explicitně vracet pomocí `return`. 
-
-Jak tento pozorovatelný efekt program docílí je záležitost překladače. 
-
-
-Vidíme, že i a o
-
-
-
-
-
-
-
-
-Nějaký text v "`českém jazyce`"...
-
+.main1.cpp
 [source]
 ----
-#include <iostream>
-#include <string>
-
 int main()
 {
-  const std::string s = "hello world";
-  std::cout << s << std::endl;
+  return 1;
 }
 ----
 
-== Nadpis druhé úrovně
+tak překladač již vygeneruje instrukci `mov`:
 
-Nějaký matematický výraz: stem:[\alpha=\sum_{i=1}^{n}a_i].
+[source,x86asm]
+----
+mov eax, 1
+ret
+----
 
-=== Nadpis třetí úrovně
+Naprosto stejně dopadl vygenerovaný strojový kód pro následující zdrojový soubor:
 
-stem:[E=mc^2], stem:[e^{i\pi}+1=0]
+.main2.cpp
+[source]
+----
+int main()
+{
+  int i = 0;
+  i++;
+  return i;
+}
+----
+
+A stejně tak pro:
+
+.main3.cpp
+[source]
+----
+class Int 
+{
+  int i_;
+public:
+  Int(int i) : i_(i) { }
+  operator int&() { return i_; }
+};
+
+int main()
+{
+  Int i(0);
+  i++;
+  return i;
+}
+----
+
+Pozorovatelné chování všech tří zdrojových souborů `main1.cpp`, `main2.cpp` i `main3.cpp` je totiž *totožné*. To má mimo jiné důsledek, že z přeloženého strojového kódu samotného nelze zjistit, z jakého zdrojového kódu byl vytvořen.
+
+Co přesně tvoří pozorovatelný efekt programu nemusí být vždy úplně jasné. Vezměme v úvahu následující zdrojový kód:
+
+[source]
+----
+int main()
+{
+  int* pi = new int(0);
+  delete pi;
+}
+----
+
+Zdánlivě má tento program stejné pozorovatelné chování jako `main.cpp`, tedy pouze ukončení programu s návratovým statusem 0. Na druhou stranu zde dochází k dynamické alokaci paměti a ta může být z okolí programu rovněž pozorovatelná, např. pomocí profilovacích nástorjů haldy jako jsou Valgrind nebo Heaptrack. O tom, zda mohou být dynamické alokace eliminovány v rámci optimalizací se vedly a vedou diskuze. Novější implementace tuto optimalizaci umožňují -- například `g++` se tímto způsobem v mých experimentech chovalo od verze 10.1. Starší verze vygenerovaly strojový kód s volání alokační a dealokační funkce.
+ 
+****
+_As-if_ pravidlo je důležité pro psaní benchmarků, tj. programů, kde se snažíme změřit dobu běhu nějaké operace. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat nesmyslné výsledky.
+****
+
+//stem:[E=mc^2], stem:[e^{i\pi}+1=0]
 
 '''
-
-
-
 include::../include/disqus.adoc[]
 
 ****
-NOTE: (C) 2020 Daniel Langr -- všechna práva vyhrazena.
+[.text-center]
+(C) 2020 Daniel Langr -- všechna práva vyhrazena.
 ****
