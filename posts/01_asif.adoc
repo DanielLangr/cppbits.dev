@@ -1,4 +1,4 @@
-= Jak {cpp} funguje?
+= 01: _As-if_ pravidlo
 Daniel Langr <daniel.langr@gmail.com>
 :revdate: {docdate}
 :lang: cs
@@ -8,14 +8,12 @@ Daniel Langr <daniel.langr@gmail.com>
 :stylesheet: ubuntu-custom.css
 :favicon: ../favicon/favicon.png
 :icons: font
-//:source-highlighter: coderay
 :source-highlighter: highlightjs
 :highlightjs-theme: agate
+:source-language: c++
 //:toc: left
 //:toc-title: Obsah
-//:source-highlighter: prettify
-:source-language: c++
-:stem: 
+//:stem: 
 
 //[{docdate}]
 
