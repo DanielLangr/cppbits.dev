@@ -18,7 +18,7 @@ Daniel Langr <daniel.langr@gmail.com>
 
 "`__Writing in C or C++ is like running a chain saw with all the safety guards removed.__`" _[Bob Gray]_
 
-{cpp} je tzv. "`kompilovaný jazyk`" (_compiled language_), tj. programovací jazyk fungující na principu *překladu zdrojového kódu na strojový kód*. Nejjednodušší zdrojový kód programu vypadá v {cpp} následovně:
+{cpp} je tzv. „kompilovaný jazyk“ (_compiled language_), tj. programovací jazyk fungující na principu *překladu zdrojového kódu na strojový kód*. Nejjednodušší zdrojový kód programu vypadá v {cpp} následovně:
 
 .main.cpp
 [source]
@@ -89,5 +89,5 @@ stem:[E=mc^2], stem:[e^{i\pi}+1=0]
 include::../include/disqus.adoc[]
 
 ****
-NOTE: (C) 2018 Daniel Langr -- všechna práva vyhrazena.
+NOTE: (C) 2020 Daniel Langr -- všechna práva vyhrazena.
 ****
