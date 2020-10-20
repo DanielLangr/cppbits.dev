@@ -11,8 +11,8 @@ Daniel Langr <daniel.langr@gmail.com>
 //:source-highlighter: coderay
 :source-highlighter: highlightjs
 :highlightjs-theme: agate
-:toc: left
-:toc-title: Obsah
+//:toc: left
+//:toc-title: Obsah
 //:source-highlighter: prettify
 :source-language: c++
 :stem: 
