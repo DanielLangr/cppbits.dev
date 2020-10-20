@@ -24,7 +24,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>&#8220;<em>Writing in C or C++ is like running a chain saw with all the safety guards removed.</em>&#8221; <em>[Bob Gray]</em></p>
+<p>&#8220;<em>Every time I write a line of code in C&#43;&#43; I check the assembly output to make sure it&#8217;s running at optimal speed. I profile everything and also I have no friends.</em>&#8221; <em>[Cole Rowland]</em></p>
 </div>
 <div class="paragraph">
 <p>C&#43;&#43; je tzv. „kompilovaný jazyk“ (<em>compiled language</em>), tj. programovací jazyk fungující na principu <strong>překladu zdrojového kódu na strojový kód</strong>. Nejjednodušší zdrojový kód programu vypadá v C&#43;&#43; následovně:</p>
@@ -36,7 +36,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Jeho překladem pomocí C++ překladače, např. následujícím způsobem:</p>
+<p>Jeho překladem pomocí C&#43;&#43; překladače, např. následujícím způsobem:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -44,7 +44,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>vznikne <strong>program</strong> spustitelný na daném operačním systému. Jeho spuštěním vznikne běžící instance programu&#8201;&#8212;&#8201;<strong>proces</strong> operačního systému&#8201;&#8212;&#8201;který začne vykonávat překladačem vygenerovaný strojový kód, tj. <strong>instrukce procesoru</strong>. Ty v uvedeném případě při překladu na architektuře x86_64 vypadají následovně:</p>
+<p>vznikne <strong>program</strong> spustitelný na daném počítačovém systému. Spuštěním tohoto programu vznikne jeho běžící instance&#8201;&#8212;&#8201;<strong>proces</strong> operačního systému. Ten začne vykonávat překladačem vygenerovaný strojový kód, tedy <strong>instrukce procesoru</strong>. V mém případě architektury x86_64 a operačního systému Linux měly následující podobu:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -55,6 +55,51 @@ pop  rbp
 ret</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Chování programu definuje <strong>Standard C&#43;&#43;</strong>. Otázkou je, co si vlastně pod pojmem <strong>chováním programu</strong> představit. Jednoduše řečeno je to <strong>pozorovatelný efekt programu</strong> z pohledu jeho okolí.</p>
+</div>
+<div class="paragraph">
+<p>Co o chování našeho programu říká Standard C&#43;&#43;? Od C&#43;&#43;11 je opuštění funkce <code>main</code> mimo příkaz <code>return</code> ekvivaletní příkazu <code>return 0;</code>. V takovém případě je zavolána funkce <code>std::exit</code> s argumentem <code>0</code>. To způsobí <strong>normální ukončení programu s návratovým statusem 0</strong>, což představuje jediný pozorovatelný efekt tohoto programu.</p>
+</div>
+<div class="paragraph">
+<p>C&#43;&#43; standard definuje chování programu na <strong>abstraktním počítači</strong>. Na <strong>konkrétním počítačovém systému</strong> toto chování zajišťuje tzv. <strong>implementace C&#43;&#43;</strong>. V našem případě tuto implementaci představuje již zmíněný překladač <code>g++</code>.</p>
+</div>
+<div class="paragraph">
+<p>Jedním z nejdůležitějších konceptů C&#43;&#43; je tzv. <strong><em>as-if</em> pravidlo</strong> (<em>as-if rule</em>). To říká, že C&#43;&#43; implementace musí zajisit pouze pozorovatelné chování programu, ale <strong>jak</strong> tohoto chování docílí nechává zcela na ní. A jelikož důvodem programování v C&#43;&#43; je většinou hlavně <strong>vysoký výkon a efektivita</strong> vytvářených programů (či knihoven), implementace se snaží pozorovatelné chování zajistit právě s tímto ohledem. Alespoň, pokud zapneme <strong>optimalizace</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Výše ukázaný překlad proběhl s vypnutými optimalizacemi. Proto se ve vygenerovaném strojovém kódu objevily instrukce, které pozorovatelnému efektu programu nijak nepřispívají. Konkréntě to jsou instrukce pracující s registry zásobníku <code>rbp</code> a <code>rsp</code>. V případě překladu se zapnutými optimalizacemi:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">g++ -O2 main.cpp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>se vygenerovaný strojový kód změnil na:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">xor  eax, eax
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ten totiž pozorovatelné chování programu&#8201;&#8212;&#8201;normální ukončení programu s návratovým statusem 0&#8201;&#8212;&#8201;zajišťuje <strong>nejúspornějším způsobem</strong>. Podle pravidel operačního systému je totiž návratový status programu předán v registru <code>eax</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Proč je instrukce <code>xor eax, eax</code> efektivnější než <code>mov eax, 0</code>?
+</td>
+</tr>
+</table>
+</div>
+<hr>
 <div class="paragraph">
 <p>Definice programovancího jazyka C&#43;&#43;, kterou má na starosti tzv. <strong>Standard C&#43;&#43;</strong>, defakto představuje úmluvu mezi programátorem a C&#43;&#43; překladačem. Tato úmluvá &#8220;říká&#8221;, že vygenerovaný program bude mít z pohledu jeho okolí <strong>stejný pozorovatelný efekt</strong> (<em>observable effect</em>) jako jeho zdrojový kód.</p>
 </div>

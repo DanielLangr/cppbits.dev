@@ -11,7 +11,8 @@
 :root{
 --maincolor:#FFFFFF;
 --primarycolor:#E95420;
---secondarycolor:#333333;
+/* --secondarycolor:#333333; */
+--secondarycolor:#444444;
 --tertiarycolor: #772953;
 --sidebarbackground:#CCC;
 --linkcolor:#b71c1c;

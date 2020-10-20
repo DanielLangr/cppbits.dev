@@ -19,7 +19,8 @@ Daniel Langr <daniel.langr@gmail.com>
 
 //[{docdate}]
 
-"`__Writing in C or C++ is like running a chain saw with all the safety guards removed.__`" _[Bob Gray]_
+//"`__Writing in C or {cpp} is like running a chain saw with all the safety guards removed.__`" _[Bob Gray]_
+"`__Every time I write a line of code in {cpp} I check the assembly output to make sure it's running at optimal speed. I profile everything and also I have no friends.__`" _[Cole Rowland]_
 
 {cpp} je tzv. „kompilovaný jazyk“ (_compiled language_), tj. programovací jazyk fungující na principu *překladu zdrojového kódu na strojový kód*. Nejjednodušší zdrojový kód programu vypadá v {cpp} následovně:
 
@@ -29,14 +30,14 @@ Daniel Langr <daniel.langr@gmail.com>
 int main() { }
 ----
 
-Jeho překladem pomocí C++ překladače, např. následujícím způsobem:
+Jeho překladem pomocí {cpp} překladače, např. následujícím způsobem:
 
 [source,bash]
 ----
 g++ main.cpp
 ----
 
-vznikne *program* spustitelný na daném operačním systému. Jeho spuštěním vznikne běžící instance programu -- *proces* operačního systému -- který začne vykonávat překladačem vygenerovaný strojový kód, tj. *instrukce procesoru*. Ty v uvedeném případě při překladu na architektuře x86_64 vypadají následovně:
+vznikne *program* spustitelný na daném počítačovém systému. Spuštěním tohoto programu vznikne jeho běžící instance -- *proces* operačního systému. Ten začne vykonávat překladačem vygenerovaný strojový kód, tedy *instrukce procesoru*. V mém případě architektury x86_64 a operačního systému Linux měly následující podobu:
 
 [source,x86asm]
 ----
@@ -46,6 +47,42 @@ mov  eax, 0
 pop  rbp
 ret
 ----
+
+Chování programu definuje *Standard {cpp}*. Otázkou je, co si vlastně pod pojmem *chováním programu* představit. Jednoduše řečeno je to *pozorovatelný efekt programu* z pohledu jeho okolí.
+
+Co o chování našeho programu říká Standard {cpp}? Od {cpp}11 je opuštění funkce `main` mimo příkaz `return` ekvivaletní příkazu `return 0;`. V takovém případě je zavolána funkce `std::exit` s argumentem `0`. To způsobí *normální ukončení programu s návratovým statusem 0*, což představuje jediný pozorovatelný efekt tohoto programu. 
+
+{cpp} standard definuje chování programu na *abstraktním počítači*. Na *konkrétním počítačovém systému* toto chování zajišťuje tzv. *implementace {cpp}*. V našem případě tuto implementaci představuje již zmíněný překladač `g++`.
+
+Jedním z nejdůležitějších konceptů {cpp} je tzv. *_as-if_ pravidlo* (_as-if rule_). To říká, že {cpp} implementace musí zajisit pouze pozorovatelné chování programu, ale *jak* tohoto chování docílí nechává zcela na ní. A jelikož důvodem programování v {cpp} je většinou hlavně *vysoký výkon a efektivita* vytvářených programů (či knihoven), implementace se snaží pozorovatelné chování zajistit právě s tímto ohledem. Alespoň, pokud zapneme *optimalizace*.
+
+Výše ukázaný překlad proběhl s vypnutými optimalizacemi. Proto se ve vygenerovaném strojovém kódu objevily instrukce, které pozorovatelnému efektu programu nijak nepřispívají. Konkréntě to jsou instrukce pracující s registry zásobníku `rbp` a `rsp`. V případě překladu se zapnutými optimalizacemi:
+
+[source,bash]
+----
+g++ -O2 main.cpp
+----
+
+se vygenerovaný strojový kód změnil na:
+
+[source,x86asm]
+----
+xor  eax, eax
+ret
+----
+
+Ten totiž pozorovatelné chování programu -- normální ukončení programu s návratovým statusem 0 -- zajišťuje *nejúspornějším způsobem*. Podle pravidel operačního systému je totiž návratový status programu předán v registru `eax`.
+
+NOTE: Proč je instrukce `xor eax, eax` efektivnější než `mov eax, 0`?
+
+
+
+
+
+'''
+
+
+
 
 Definice programovancího jazyka {cpp}, kterou má na starosti tzv. *Standard {cpp}*, defakto představuje úmluvu mezi programátorem a {cpp} překladačem. Tato úmluvá "`říká`", že vygenerovaný program bude mít z pohledu jeho okolí *stejný pozorovatelný efekt* (_observable effect_) jako jeho zdrojový kód.
 
