@@ -3,6 +3,9 @@ Daniel Langr <daniel.langr@gmail.com>
 :revdate: {docdate}
 :lang: cs
 :nofooter:
+:linkcss:
+:stylesdir: ../stylesheets/
+:stylesheet: ubuntu.css
 :favicon: ../favicon/favicon.png
 :icons: font
 //:source-highlighter: coderay
@@ -51,7 +54,7 @@ Výše zapsaný zdrojový kód zdánlivě žádný pozorovatelný efekt nemá. T
 Jak tento pozorovatelný efekt program docílí je záležitost překladače. 
 
 
-Vidíme, že i 
+Vidíme, že i a o
 
 
 
