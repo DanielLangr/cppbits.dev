@@ -29,7 +29,7 @@
 <p>Důvodem programování v C&#43;&#43; je především požadavek na <strong>vysoký výkon a efektivitu programů</strong>. Tím je myšleno, že programy běží co nejrychleji a spotřebovávají minimální množství systémových prostředků, jako je čas procesoru či množství alokované paměti. Pro dosažení tohoto cíle ale často nestačí pohybovat se jen na úrovni zdrojového kódu. Je potřeba se podívat, co se děje „uvnitř“ na úrovni <strong>strojového kódu</strong>, který ze zdrojového kódu vygeneruje C&#43;&#43; překladač.</p>
 </div>
 <div class="paragraph">
-<p>Jednoduchý příklad&#8201;&#8212;&#8201;v každém materiálu pro začátečníky se dočteme, jak ve funcki vytvořit <strong>lokální proměnnou</strong> (přesněji řečeno nestatickou proměnnou s automatickou životností). Běžná představa je, že takováto proměnná bude při behu programu uložena na <strong>zásobníku</strong>. Je to ale pravda? Může být proměnná uložena jen v <strong>registru procesoru</strong>? Musí tato proměnná za běhu programu <strong>vůbec existovat</strong>? Jaké faktory o tom rozhodují? A co když je to proměnná <strong>třídního typu</strong>? Co vůbec znamená vytvoření proměnné třídního typu pomocí <strong>konstruktoru</strong>? Zdánlivě triviální problematika na úrovni zdrojového kódu v sobě skrývá vysoce netriviální problematiku na úrovni strojového kódu, který procesor vykonává v době běhu programu.</p>
+<p>Jednoduchý příklad&#8201;&#8212;&#8201;v každém materiálu pro začátečníky se dočteme, jak ve funcki vytvořit <strong>lokální proměnnou</strong> (přesněji řečeno nestatickou proměnnou s automatickou životností). Běžná představa je, že takováto proměnná bude při behu programu uložena na <strong>zásobníku</strong>. Je to ale pravda? Může místo toho být proměnná uložena v <strong>registru procesoru</strong>? Musí tato proměnná za běhu programu <strong>vůbec existovat</strong>? Jaké faktory o tom rozhodují? A co když je to proměnná <strong>třídního typu</strong>? Co vůbec znamená vytvoření proměnné třídního typu pomocí <strong>konstruktoru</strong>? Zdánlivě triviální problematika na úrovni zdrojového kódu v sobě skrývá vysoce netriviální problematiku na úrovni strojového kódu, který procesor vykonává v době běhu programu.</p>
 </div>
 <div class="paragraph">
 <p>Zde jsou příklady dalších témat, která nejsou zcela běžně diskutována ve výukových materiálech a přesto může být velmi podstatné jim rozumět:</p>
@@ -51,6 +51,9 @@
 <p>Proč nelze oddělit <strong>API</strong> třídy od všech jejích <strong>implementačních detailů</strong>?</p>
 </li>
 <li>
+<p>Jak je v praxi zajištěno <strong>předávání argumentů a návratových hodnot</strong> do/z funkcí?</p>
+</li>
+<li>
 <p>Co je to <strong>ABI</strong> a jak zajistit <strong>kompatabilitu</strong> na této úrovni?</p>
 </li>
 <li>
@@ -65,12 +68,18 @@
 <li>
 <p>Co je to <strong>nedefinované chování</strong>? Pokud má program nedefinované chování podle Standardu C&#43;&#43;, má nedefinované chování i vygenerovaný strojový kód?</p>
 </li>
+<li>
+<p>Proč v paměti nelze <strong>přesunout objekt</strong> z jednoho místa na druhé?</p>
+</li>
+<li>
+<p>Proč funkce <code>std::move</code> nic nikam nepřesouvá a funkce <code>std::forward</code> nic nikam nepředává, jakkoliv to jejich názvy napovídají?</p>
+</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Účelem těchto stránek je témata tohoto typu rozebírat a vysvětlovat. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na Stack Overflow ohledně dotazů týkajících se C&#43;&#43; a také s výukou pokročilého programování v C&#43;&#43; na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako zásadní programový <em>bottleneck</em>.</p>
+<p>Účelem tohoto blogu je <strong>témata tohoto typu rozebírat a vysvětlovat</strong>. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na Stack Overflow ohledně dotazů týkajících se C&#43;&#43; a také s výukou pokročilého programování v C&#43;&#43; na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může při běhu programu projevit jako zásadní <em>bottleneck</em>.</p>
 </div>
 <div class="paragraph">
 <p>Není určen pro úplné začátečníky. Respektive, není sám o sobě určen pro začátečníky.</p>
