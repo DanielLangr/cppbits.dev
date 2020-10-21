@@ -1,21 +1,8 @@
 = Trochu jiný {cpp} blog
 Daniel Langr <daniel.langr@gmail.com>
 //:revdate: {docdate}
-:docinfodir: include
-:docinfo: shared-head
-:lang: cs
-:nofooter:
-:linkcss:
-:stylesdir: stylesheets
-:stylesheet: ubuntu-custom.css
-:favicon: favicon/favicon.png
-:icons: font
-:source-highlighter: highlightjs
-:highlightjs-theme: agate
-:source-language: c++
-//:toc: left
-//:toc-title: Obsah
-//:stem: 
+:rootdir: .
+include::{rootdir}/include/attributes.adoc[]
 
 [.normal]
 Cílem těchto stránek je vytvořit *výukový materiál pro programování v {cpp}*. Takového materiálu sice existuje nepřeberné množství, ale já bych se rád zaměřil na *témata, která se úplně běžně neprobírají*. A přesto jsou podle mého názoru pro pochopení fylozofie {cpp} naprosto klíčová.
@@ -44,11 +31,8 @@ Zde jsou příklady dalších témat, která nejsou zcela běžně diskutována 
 Účelem tohoto blogu je *témata tohoto typu rozebírat a vysvětlovat*. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na Stack Overflow ohledně dotazů týkajících se {cpp} a také s výukou pokročilého programování v {cpp} na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může při běhu programu projevit jako zásadní _bottleneck_.
 
 
-Není určen pro úplné začátečníky. Respektive, není sám o sobě určen pro začátečníky. 
-
-+ěščřžýáí
-
-
+TBD...
+//Není určen pro úplné začátečníky. Respektive, není sám o sobě určen pro začátečníky. 
 
 == Obsah
 
@@ -56,7 +40,7 @@ link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
 
 == O autorovi
 
-
+TBD...
 
 include::include/copyright.adoc[]
 include::include/disqus.adoc[]

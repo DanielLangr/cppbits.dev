@@ -3,21 +3,8 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revdate: {docdate}
 :revdate: říjen 2020
 //:revremark: poslední modifikace říjen 2020
-:docinfodir: ../include
-:docinfo: shared-head
-:lang: cs
-:nofooter:
-:linkcss:
-:stylesdir: ../stylesheets
-:stylesheet: ubuntu-custom.css
-:favicon: ../favicon/favicon.png
-:icons: font
-:source-highlighter: highlightjs
-:highlightjs-theme: agate
-:source-language: c++
-//:toc: left
-//:toc-title: Obsah
-//:stem: 
+:rootdir: ..
+include::{rootdir}/include/attributes.adoc[]
 
 //[{docdate}]
 
