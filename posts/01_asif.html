@@ -2,9 +2,9 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="generator" content="Asciidoctor 1.5.8">
 <meta name="author" content="Daniel Langr">
 <link rel="icon" type="image/png" href="../favicon/favicon.png">
 <title>01: As-if pravidlo</title>
@@ -30,7 +30,7 @@
 <div class="listingblock">
 <div class="title">main.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main() { }</code></pre>
+<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">int main() { }</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -38,7 +38,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">g++ main.cpp</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">g++ main.cpp</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -46,7 +46,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">push rbp
+<pre class="highlightjs highlight"><code class="language-x86asm hljs" data-lang="x86asm">push rbp
 mov  rbp, rsp
 mov  eax, 0
 pop  rbp
@@ -70,7 +70,7 @@ ret</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">g++ -O2 main.cpp</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">g++ -O2 main.cpp</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -78,7 +78,7 @@ ret</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">xor  eax, eax
+<pre class="highlightjs highlight"><code class="language-x86asm hljs" data-lang="x86asm">xor  eax, eax
 ret</code></pre>
 </div>
 </div>
@@ -98,7 +98,7 @@ ret</code></pre>
 <div class="listingblock">
 <div class="title">main1.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
+<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">int main()
 {
   return 1;
 }</code></pre>
@@ -109,7 +109,7 @@ ret</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">mov eax, 1
+<pre class="highlightjs highlight"><code class="language-x86asm hljs" data-lang="x86asm">mov eax, 1
 ret</code></pre>
 </div>
 </div>
@@ -119,7 +119,7 @@ ret</code></pre>
 <div class="listingblock">
 <div class="title">main2.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
+<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">int main()
 {
   int i = 0;
   i++;
@@ -133,7 +133,7 @@ ret</code></pre>
 <div class="listingblock">
 <div class="title">main3.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">class Int
+<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">class Int
 {
   int i_;
 public:
@@ -157,7 +157,7 @@ int main()
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
+<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">int main()
 {
   int* pi = new int(0);
   delete pi;
@@ -197,8 +197,8 @@ s.setAttribute('data-timestamp', +new Date());
 </div>
 </div>
 </div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/agate.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
 <script>hljs.initHighlighting()</script>
 </body>
 </html>
