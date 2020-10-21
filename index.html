@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.8">
+<meta name="author" content="Daniel Langr">
+<link rel="icon" type="image/png" href="favicon/favicon.png">
+<title>Trochu jiný C&#43;&#43; blog</title>
+<link rel="stylesheet" href="stylesheets/ubuntu-custom.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Trochu jiný C&#43;&#43; blog</h1>
+<div class="details">
+<span id="author" class="author">Daniel Langr</span><br>
+<span id="email" class="email"><a href="mailto:daniel.langr@gmail.com">daniel.langr@gmail.com</a></span><br>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph normal">
+<p>Cílem těchto stránek je vytvořit <strong>výukový materiál pro programování v C&#43;&#43;</strong>. Takového materiálu sice existuje nepřeberné množství, ale já bych se rád zaměřil na <strong>témata, která se úplně běžně neprobírají</strong>. A přesto jsou podle mého názoru pro pochopení fylozofie C&#43;&#43; naprosto klíčová.</p>
+</div>
+<div class="paragraph">
+<p>Důvodem programování v C&#43;&#43; je především požadavek na <strong>vysoký výkon a efektivitu programů</strong>. Tím je myšleno, že programy běží co nejrychleji a spotřebovávají minimální množství systémových prostředků, jako je čas procesoru či množství alokované paměti. Pro dosažení tohoto cíle ale často nestačí pohybovat se jen na úrovni zdrojového kódu. Je potřeba se podívat, co se děje „uvnitř“ na úrovni <strong>strojového kódu</strong>, který ze zdrojového kódu vygeneruje C&#43;&#43; překladač.</p>
+</div>
+<div class="paragraph">
+<p>Jednoduchý příklad&#8201;&#8212;&#8201;v každém materiálu pro začátečníky se dočteme, jak ve funcki vytvořit <strong>lokální proměnnou</strong> (přesněji řečeno nestatickou proměnnou s automatickou životností). Běžná představa je, že takováto proměnná bude při behu programu uložena na <strong>zásobníku</strong>. Je to ale pravda? Může být proměnná uložena jen v <strong>registru procesoru</strong>? Musí tato proměnná za běhu programu <strong>vůbec existovat</strong>? Jaké faktory o tom rozhodují? A co když je to proměnná <strong>třídního typu</strong>? Co vůbec znamená vytvoření proměnné třídního typu pomocí <strong>konstruktoru</strong>? Zdánlivě triviální problematika na úrovni zdrojového kódu v sobě skrývá vysoce netriviální problematiku na úrovni strojového kódu, který procesor vykonává v době běhu programu.</p>
+</div>
+<div class="paragraph">
+<p>Zde jsou příklady dalších témat, která nejsou zcela běžně diskutována ve výukových materiálech a přesto může být velmi podstatné jim rozumět:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Co je to <strong>implementace C&#43;&#43;</strong>? Jak se od sebe jednotlivé implementace liší?</p>
+</li>
+<li>
+<p>Jaký je rozdíl mezi velikostí objektů z hlediska <strong>obsahu</strong> a velikostí jejich <strong>bitové reprezentace</strong>?</p>
+</li>
+<li>
+<p>Proč existuje <strong><em>padding</em></strong> a jak souvisí se <strong>zarovnáním</strong> bitové reprezetnace objektů v paměti?</p>
+</li>
+<li>
+<p>Proč nelze oddělit <strong>API</strong> třídy od všech jejích <strong>implementačních detailů</strong>?</p>
+</li>
+<li>
+<p>Co je to <strong>ABI</strong> a jak zajistit <strong>kompatabilitu</strong> na této úrovni?</p>
+</li>
+<li>
+<p>Co jsou to <strong>jednotky překladu</strong>? Jak souvisí s problematikou <strong><em>linkage</em></strong>?</p>
+</li>
+<li>
+<p>Proč specifikátor <code>inline</code> <strong>nesouvisí</strong> s „inlinováním“ funkcí?</p>
+</li>
+<li>
+<p>Proč nelze z vygenrovaného strojového kódu programu <strong>zpětně zjistit jeho zdrojový kód</strong>?</p>
+</li>
+<li>
+<p>Co je to <strong>nedefinované chování</strong>? Pokud má program nedefinované chování podle Standardu C&#43;&#43;, má nedefinované chování i vygenerovaný strojový kód?</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Účelem těchto stránek je témata tohoto typu rozebírat a vysvětlovat. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na Stack Overflow ohledně dotazů týkajících se C&#43;&#43; a také s výukou pokročilého programování v C&#43;&#43; na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako zásadní programový <em>bottleneck</em>.</p>
+</div>
+<div class="paragraph">
+<p>Není určen pro úplné začátečníky. Respektive, není sám o sobě určen pro začátečníky.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_obsah">Obsah</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="posts/01_asif.html">01: <em>As-if</em> pravidlo</a> <em>(říjen 2020)</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_o_autorovi">O autorovi</h2>
+<div class="sectionbody">
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph text-center">
+<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;všechna práva vyhrazena.</p>
+</div>
+</div>
+</div>
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = window.location.href;
+this.page.identifier = window.location.pathname;
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://cppblog.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/agate.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>
