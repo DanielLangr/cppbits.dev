@@ -1,10 +1,12 @@
 = Trochu jiný {cpp} blog
 Daniel Langr <daniel.langr@gmail.com>
 //:revdate: {docdate}
+:docinfodir: include
+:docinfo: shared-head
 :lang: cs
 :nofooter:
 :linkcss:
-:stylesdir: stylesheets/
+:stylesdir: stylesheets
 :stylesheet: ubuntu-custom.css
 :favicon: favicon/favicon.png
 :icons: font
@@ -44,6 +46,7 @@ Zde jsou příklady dalších témat, která nejsou zcela běžně diskutována 
 
 Není určen pro úplné začátečníky. Respektive, není sám o sobě určen pro začátečníky. 
 
++ěščřžýáí
 
 
 

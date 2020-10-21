@@ -2,14 +2,23 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.8">
+<meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Daniel Langr">
 <link rel="icon" type="image/png" href="../favicon/favicon.png">
 <title>01: As-if pravidlo</title>
 <link rel="stylesheet" href="../stylesheets/ubuntu-custom.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180949618-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-180949618-1');
+</script>
 </head>
 <body class="article">
 <div id="header">
@@ -17,7 +26,7 @@
 <div class="details">
 <span id="author" class="author">Daniel Langr</span><br>
 <span id="email" class="email"><a href="mailto:daniel.langr@gmail.com">daniel.langr@gmail.com</a></span><br>
-<span id="revdate">2020-10-21</span>
+<span id="revdate">říjen 2020</span>
 </div>
 </div>
 <div id="content">
@@ -30,7 +39,7 @@
 <div class="listingblock">
 <div class="title">main.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">int main() { }</code></pre>
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main() { }</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -38,7 +47,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">g++ main.cpp</code></pre>
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">g++ main.cpp</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -46,7 +55,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-x86asm hljs" data-lang="x86asm">push rbp
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">push rbp
 mov  rbp, rsp
 mov  eax, 0
 pop  rbp
@@ -70,7 +79,7 @@ ret</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">g++ -O2 main.cpp</code></pre>
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">g++ -O2 main.cpp</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -78,7 +87,7 @@ ret</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-x86asm hljs" data-lang="x86asm">xor  eax, eax
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">xor  eax, eax
 ret</code></pre>
 </div>
 </div>
@@ -98,7 +107,7 @@ ret</code></pre>
 <div class="listingblock">
 <div class="title">main1.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">int main()
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
 {
   return 1;
 }</code></pre>
@@ -109,7 +118,7 @@ ret</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-x86asm hljs" data-lang="x86asm">mov eax, 1
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">mov eax, 1
 ret</code></pre>
 </div>
 </div>
@@ -119,7 +128,7 @@ ret</code></pre>
 <div class="listingblock">
 <div class="title">main2.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">int main()
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
 {
   int i = 0;
   i++;
@@ -133,7 +142,7 @@ ret</code></pre>
 <div class="listingblock">
 <div class="title">main3.cpp</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">class Int
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">class Int
 {
   int i_;
 public:
@@ -157,7 +166,7 @@ int main()
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-c++ hljs" data-lang="c++">int main()
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
 {
   int* pi = new int(0);
   delete pi;
@@ -174,7 +183,13 @@ int main()
 </div>
 </div>
 </div>
-<hr>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph text-center">
+<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;všechna práva vyhrazena.</p>
+</div>
+</div>
+</div>
 <div id="disqus_thread"></div>
 <script>
 var disqus_config = function () {
@@ -189,16 +204,9 @@ s.setAttribute('data-timestamp', +new Date());
 })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph text-center">
-<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;všechna práva vyhrazena.</p>
 </div>
-</div>
-</div>
-</div>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/agate.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
 <script>hljs.initHighlighting()</script>
 </body>
 </html>

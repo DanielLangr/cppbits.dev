@@ -1,10 +1,14 @@
 = 01: _As-if_ pravidlo
 Daniel Langr <daniel.langr@gmail.com>
-:revdate: {docdate}
+//:revdate: {docdate}
+:revdate: říjen 2020
+//:revremark: poslední modifikace říjen 2020
+:docinfodir: ../include
+:docinfo: shared-head
 :lang: cs
 :nofooter:
 :linkcss:
-:stylesdir: ../stylesheets/
+:stylesdir: ../stylesheets
 :stylesheet: ubuntu-custom.css
 :favicon: ../favicon/favicon.png
 :icons: font
@@ -147,12 +151,5 @@ Zdánlivě má tento program stejné pozorovatelné chování jako `main.cpp`, t
 _As-if_ pravidlo je důležité pro psaní benchmarků, tj. programů, kde se snažíme změřit dobu běhu nějaké operace. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat nesmyslné výsledky.
 ****
 
-//stem:[E=mc^2], stem:[e^{i\pi}+1=0]
-
-'''
+include::../include/copyright.adoc[]
 include::../include/disqus.adoc[]
-
-****
-[.text-center]
-(C) 2020 Daniel Langr -- všechna práva vyhrazena.
-****
