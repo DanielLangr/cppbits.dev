@@ -1,5 +1,5 @@
 // +++ contents-related attributes:
-:lang: cs
+:lang: en
 :copyright: (C) Daniel Langr 2020
 :favicon: {rootdir}/favicon/favicon.png
 :icons: font
@@ -9,7 +9,7 @@
 :docinfo: shared-head
 // style:
 :linkcss:
-:stylesdir: {rootdir}/stylesheets
+:stylesdir: {rootdir}/../stylesheets
 :stylesheet: ubuntu-custom.css
 // +++ code highlighting:
 :source-highlighter: highlightjs

@@ -19,14 +19,14 @@ include::{rootdir}/include/attributes.adoc[]
 int main() { }
 ----
 
-Jeho překladem pomocí {cpp} překladače, např. následujícím způsobem:
+Jeho překladem pomocí {cpp} překladače, např. tímto způsobem:
 
 [source,bash]
 ----
 g++ main.cpp
 ----
 
-vznikne *program* spustitelný na daném počítačovém systému. Spuštěním tohoto programu vznikne jeho běžící instance -- *proces* operačního systému. Ten začne vykonávat překladačem vygenerovaný strojový kód, tedy *instrukce procesoru*. V mém případě architektury x86_64 a operačního systému Linux měly následující podobu:
+vznikne *program* spustitelný na daném počítačovém systému. Spuštěním tohoto programu se vytvoří jeho běžící instance -- *proces* operačního systému. Ten začne vykonávat překladačem vygenerovaný strojový kód, tedy *instrukce procesoru*. V mém případě architektury x86_64 a operačního systému Linux měly následující podobu:
 
 [source,x86asm]
 ----
@@ -138,5 +138,5 @@ Zdánlivě má tento program stejné pozorovatelné chování jako `main.cpp`, t
 _As-if_ pravidlo je důležité pro psaní benchmarků, tj. programů, kde se snažíme změřit dobu běhu nějaké operace. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat nesmyslné výsledky.
 ****
 
-include::../include/copyright.adoc[]
-include::../include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]
+include::{rootdir}/include/disqus.adoc[]

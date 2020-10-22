@@ -28,8 +28,7 @@ Zde jsou příklady dalších témat, která nejsou zcela běžně diskutována 
 - Proč funkce `std::move` nic nikam nepřesouvá a funkce `std::forward` nic nikam nepředává, jakkoliv to jejich názvy napovídají?
 ****
 
-Účelem tohoto blogu je *témata tohoto typu rozebírat a vysvětlovat*. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na Stack Overflow ohledně dotazů týkajících se {cpp} a také s výukou pokročilého programování v {cpp} na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může při běhu programu projevit jako zásadní _bottleneck_.
-
+Účelem tohoto blogu je *témata tohoto typu rozebírat a vysvětlovat*. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na link:https://stackoverflow.com/[Stack Overflow] ohledně dotazů týkajících se {cpp} a také s výukou pokročilého programování v {cpp} na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako úzké hrdlo běhu programu.
 
 TBD...
 //Není určen pro úplné začátečníky. Respektive, není sám o sobě určen pro začátečníky. 
@@ -42,5 +41,5 @@ link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
 
 TBD...
 
-include::include/copyright.adoc[]
-include::include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]
+include::{rootdir}/include/disqus.adoc[]

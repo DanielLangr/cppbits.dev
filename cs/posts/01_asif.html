@@ -9,7 +9,7 @@
 <meta name="copyright" content="(C) Daniel Langr 2020">
 <link rel="icon" type="image/png" href="../favicon/favicon.png">
 <title>01: As-if pravidlo</title>
-<link rel="stylesheet" href="../stylesheets/ubuntu-custom.css">
+<link rel="stylesheet" href="../../stylesheets/ubuntu-custom.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180949618-1"></script>
@@ -44,7 +44,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Jeho překladem pomocí C&#43;&#43; překladače, např. následujícím způsobem:</p>
+<p>Jeho překladem pomocí C&#43;&#43; překladače, např. tímto způsobem:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -52,7 +52,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>vznikne <strong>program</strong> spustitelný na daném počítačovém systému. Spuštěním tohoto programu vznikne jeho běžící instance&#8201;&#8212;&#8201;<strong>proces</strong> operačního systému. Ten začne vykonávat překladačem vygenerovaný strojový kód, tedy <strong>instrukce procesoru</strong>. V mém případě architektury x86_64 a operačního systému Linux měly následující podobu:</p>
+<p>vznikne <strong>program</strong> spustitelný na daném počítačovém systému. Spuštěním tohoto programu se vytvoří jeho běžící instance&#8201;&#8212;&#8201;<strong>proces</strong> operačního systému. Ten začne vykonávat překladačem vygenerovaný strojový kód, tedy <strong>instrukce procesoru</strong>. V mém případě architektury x86_64 a operačního systému Linux měly následující podobu:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -196,6 +196,7 @@ int main()
 var disqus_config = function () {
 this.page.url = window.location.href;
 this.page.identifier = window.location.pathname;
+this.language = "cs";
 };
 (function() { // DON'T EDIT BELOW THIS LINE
 var d = document, s = d.createElement('script');
