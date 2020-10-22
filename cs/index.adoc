@@ -5,6 +5,14 @@ Daniel Langr <daniel.langr@gmail.com>
 include::{rootdir}/include/attributes.adoc[]
 
 [.normal]
+link:../en/index.html[English version] image:https://www.countryflags.io/gb/shiny/24.png"[English, link="../en/index.html"]
+
+== Nejnovější příspěvky
+
+link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
+
+== Úvod
+
 Cílem těchto stránek je vytvořit *výukový materiál pro programování v {cpp}*. Takového materiálu sice existuje nepřeberné množství, ale já bych se rád zaměřil na *témata, která se úplně běžně neprobírají*. A přesto jsou podle mého názoru pro pochopení fylozofie {cpp} naprosto klíčová.
 
 Důvodem programování v {cpp} je především požadavek na *vysoký výkon a efektivitu programů*. Tím je myšleno, že programy běží co nejrychleji a spotřebovávají minimální množství systémových prostředků, jako je čas procesoru či množství alokované paměti. Pro dosažení tohoto cíle ale často nestačí pohybovat se jen na úrovni zdrojového kódu. Je potřeba se podívat, co se děje „uvnitř“ na úrovni *strojového kódu*, který ze zdrojového kódu vygeneruje {cpp} překladač.
@@ -30,10 +38,13 @@ Zde jsou příklady dalších témat, která nejsou zcela běžně diskutována 
 
 Účelem tohoto blogu je *témata tohoto typu rozebírat a vysvětlovat*. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na link:https://stackoverflow.com/[Stack Overflow] ohledně dotazů týkajících se {cpp} a také s výukou pokročilého programování v {cpp} na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako úzké hrdlo běhu programu.
 
-TBD...
-//Není určen pro úplné začátečníky. Respektive, není sám o sobě určen pro začátečníky. 
+Rohodně se ale nepovažuji za „všeználka“. Současný draft Stadnardu {cpp} (N4868) má *1849 stránek* a asi na světě neexistuje člověk, který by o {cpp} věděl vše. Navíc detailní rozbor problémů by často byl pro běžného zájemce o {cpp} *nesmyslně rozsáhlý a nezábavný*. Často proto bude výklad více čí méně *zjednodušený*, ale vždy se v takových případech budu snažit, aby to nebylo na úkor kvality prezentovaných informací v souvislosti s daným problémem. Pokud se z pohledu čtenáře v textu vyskytnou jakékoliv *nejasnosti, nepřesnosti, nebo chyby*, velmi uvítám reakce ve formě *komentářů* dostupných na konci každé jednotlivé stránky.  
 
-== Obsah
+== Pro koho je tutoriál určen?
+
+
+
+== Celý obsah
 
 link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
 
@@ -41,5 +52,7 @@ link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
 
 TBD...
 
-include::{rootdir}/include/copyright.adoc[]
+== Komentáře
+
 include::{rootdir}/include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]
