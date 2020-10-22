@@ -1,4 +1,4 @@
-= Trochu jiný {cpp} blog
+= Trochu jiný {cpp} tutoriál
 Daniel Langr <daniel.langr@gmail.com>
 //:revdate: {docdate}
 :rootdir: .
