@@ -10,7 +10,7 @@ link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/
 
 == New posts
 
-link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
+//link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
 
 == Introduction
 
@@ -18,7 +18,7 @@ link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
 
 == Contents
 
-link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
+//link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
 
 == About author
 
