@@ -1,0 +1,28 @@
+= Yet another {cpp} tutorial
+Daniel Langr <daniel.langr@gmail.com>
+//:revdate: {docdate}
+:rootdir: .
+include::{rootdir}/include/attributes.adoc[]
+:description: 
+
+[.normal]
+link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[English, link="../cs/index.html"]
+
+== New posts
+
+link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
+
+== Introduction
+
+== Who is this tutorial for?
+
+== Contents
+
+link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
+
+== About author
+
+== Comments
+
+include::{rootdir}/include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]

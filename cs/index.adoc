@@ -45,7 +45,7 @@ Rohodně se ale nepovažuji za „všeználka“. Současný draft Stadnardu {cp
 
 Tento tutoriál není určen pro úplné začátečníky s {cpp} *sám o sobě*. Opravdu zde nemá smyls řešit, jak se používají typy, objekty, funkce, třídy či šablony. Na toto téma vzniklo mnoho vynikajících knih, nemluvě o materiálech dostupných online. Přesto tento tutoriál není určený jen pro programátory, kteří základy {cpp} již dobře znají. Zrovna tak může posloužit jako *doplňkový výukový materiál pro začátečníky*, kteří se základy {cpp} teprve učí. V takovém případě nabídne na získávané znalosti odlišnou a doufám i *atraktivní a užitečnou perspektivu*.
 
-== Celý obsah
+== Obsah
 
 link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
 
