@@ -3,7 +3,7 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revdate: {docdate}
 :rootdir: .
 include::{rootdir}/include/attributes.adoc[]
-:description: 
+:description: Výukový materiál pro programovací jazyk {cpp} zaměřený na témata, která jsou běžně opomíjená, ale přitom pro pochopení {cpp} a jeho efektivního použití důležitá.
 
 [.normal]
 link:../en/index.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../en/index.html"]
@@ -51,7 +51,10 @@ link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
 
 == O autorovi
 
-TBD...
+Působím jako akademický pracovník na Fakultě informačních technologií ČVUT, kde se věnuji převážně vědecko-výzkumné práci a výuce studentů magisterského bloku. {cpp} provází můj život tedy již více než 25 let, z počátku díky implementaci Borland {cpp}, která existovala ještě před první standradizací {cpp}98. Za tu dobu se {cpp} stalo mou prací i mým koníčkem. V aplikační rovině ho používám především pro vývoj paralelních programů určených pro velké superpočítače. Spolupracuji například s teoretickými jadernými fyziky na řešení Schrödingerovy rovnice atomových jader modelovaných pomocí speciální verze tzv. _ab-inito no-core shell_ modelu založené na využití teorie grup a reprezentací.
+
+
+// díky knížkám Objektové programování 1 a 2 autorů R.{nbsp}Pecinovského a M.{nbsp}Viriuse nakladatelství Grada
 
 == Komentáře
 
