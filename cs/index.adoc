@@ -3,9 +3,10 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revdate: {docdate}
 :rootdir: .
 include::{rootdir}/include/attributes.adoc[]
+:description: 
 
 [.normal]
-link:../en/index.html[English version] image:https://www.countryflags.io/gb/shiny/24.png"[English, link="../en/index.html"]
+link:../en/index.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../en/index.html"]
 
 == Nejnovější příspěvky
 
@@ -42,7 +43,7 @@ Rohodně se ale nepovažuji za „všeználka“. Současný draft Stadnardu {cp
 
 == Pro koho je tutoriál určen?
 
-
+Tento tutoriál není určen pro úplné začátečníky s {cpp} *sám o sobě*. Opravdu zde nemá smyls řešit, jak se používají typy, objekty, funkce, třídy či šablony. Na toto téma vzniklo mnoho vynikajících knih, nemluvě o materiálech dostupných online. Přesto tento tutoriál není určený jen pro programátory, kteří základy {cpp} již dobře znají. Zrovna tak může posloužit jako *doplňkový výukový materiál pro začátečníky*, kteří se základy {cpp} teprve učí. V takovém případě nabídne na získávané znalosti odlišnou a doufám i *atraktivní a užitečnou perspektivu*.
 
 == Celý obsah
 
