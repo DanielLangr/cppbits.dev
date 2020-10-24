@@ -12,7 +12,7 @@
 --maincolor:#FFFFFF;
 --primarycolor:#E95420;
 /* --secondarycolor:#333333; */
---secondarycolor:#444444;
+--secondarycolor:#383838;
 --tertiarycolor: #772953;
 --sidebarbackground:#CCC;
 --linkcolor:#b71c1c;
@@ -49,3 +49,7 @@ table {
   width: 55vw!important;
   font-size: 3vw;
 }
+
+
+/* OWN CUSTOMIZATION */
+/*.sidebarblock>.content>.title{font-size:1.0em !important}*/

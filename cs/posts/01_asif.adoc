@@ -5,8 +5,10 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revremark: poslední modifikace říjen 2020
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
+:description: Úkolem implementace {cpp} je u programu zajistit pozorovatelné chování, které mu podle zdrojového kódu předepisuje Standard {cpp}.
 
-//[{docdate}]
+[.normal]
+link:../index.html[Úvodní stránka]
 
 //"`__Writing in C or {cpp} is like running a chain saw with all the safety guards removed.__`" _[Bob Gray]_
 "`__Every time I write a line of code in {cpp} I check the assembly output to make sure it's running at optimal speed. I profile everything and also I have no friends.__`" _[Cole Rowland]_
@@ -37,6 +39,11 @@ pop  rbp
 ret
 ----
 
+.Compiler Explorer
+****
+Neocenitelným pomocníkem při zkoumání vygenerovaného kódu je online {cpp} překladač a _disassembler_ link:https://godbolt.org/[Compiler Explorer]. Nabízí možnost *zobrazení překladačem vygenerovaných instrukcí pro daný zdrojový kód*. Na výběr je velké množství *překldačů {cpp}* od různých poskytovatelů a rovněž několik cílových *architektur procesoru*.
+****
+
 Chování programu definuje *Standard {cpp}*. Otázkou je, co si vlastně pod pojmem *chováním programu* představit. Jednoduše řečeno je to *pozorovatelný efekt programu* z pohledu jeho okolí.
 
 Co o chování našeho programu říká Standard {cpp}? Od {cpp}11 je opuštění funkce `main` mimo příkaz `return` ekvivaletní příkazu `return 0;`. V takovém případě je zavolána funkce `std::exit` s argumentem `0`. To způsobí *normální ukončení programu s návratovým statusem 0*, což představuje jediný pozorovatelný efekt tohoto programu. 
@@ -44,6 +51,11 @@ Co o chování našeho programu říká Standard {cpp}? Od {cpp}11 je opuštěn�
 {cpp} standard definuje chování programu na *abstraktním počítači*. Na *konkrétním počítačovém systému* toto chování zajišťuje tzv. *implementace {cpp}*. V našem případě tuto implementaci představuje již zmíněný překladač `g++`.
 
 Jedním z nejdůležitějších konceptů {cpp} je tzv. *_as-if_ pravidlo* (_as-if rule_). To říká, že {cpp} implementace musí zajisit pouze pozorovatelné chování programu, ale *jak* tohoto chování docílí nechává zcela na ní. A jelikož důvodem programování v {cpp} je většinou hlavně *vysoký výkon a efektivita* vytvářených programů (či knihoven), implementace se snaží pozorovatelné chování zajistit právě s tímto ohledem. Alespoň, pokud zapneme *optimalizace*.
+
+.Efektivní vs efektivní
+****
+Výraz „efektivní“ má *dva významy*. První znamená, že nějaká operace *má určitý efekt* -- například, že výpočet vede ke správnému výsledku. To ale ještě neznamená, že tento výpočet bude efektivní *ve smyslu spotřebovaných prostředků systému*. Angličtina tyto významy rozlišuje samostatnými slovíčky _effective_ a _efficient_. V češtině nám nezbývá než význam rozlišit podle *aktuálního kontextu*.
+****
 
 Výše ukázaný překlad proběhl s vypnutými optimalizacemi. Proto se ve vygenerovaném strojovém kódu objevily instrukce, které pozorovatelnému efektu programu nijak nepřispívají. Konkréntě to jsou instrukce pracující s registry zásobníku `rbp` a `rsp`. V případě překladu se zapnutými optimalizacemi:
 
@@ -62,8 +74,11 @@ ret
 
 Ten totiž pozorovatelné chování programu -- normální ukončení programu s návratovým statusem 0 -- zajišťuje *nejúspornějším způsobem*. Podle pravidel operačního systému je totiž návratový status programu předán v registru `eax`.
 
+.Proč je instrukce `xor eax, eax` efektivnější než `mov eax, 0`?
 ****
-Proč je instrukce `xor eax, eax` efektivnější než `mov eax, 0`? Operační kód (_opcode_) té druhé je totiž `b8 00 00 00 00`, zatímco té první `32 c0`, a tedy podstatně kratší. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.
+//*Proč je instrukce `xor eax, eax` efektivnější než `mov eax, 0`?*
+
+Operační kód (_opcode_) té druhé je totiž `b8 00 00 00 00`, zatímco té první `32 c0`, a tedy podstatně kratší. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.
 ****
 
 Pokud nyní přepíšeme zdrojový soubor na:
@@ -119,7 +134,7 @@ int main()
 }
 ----
 
-Pozorovatelné chování všech tří zdrojových souborů `main1.cpp`, `main2.cpp` i `main3.cpp` je totiž *totožné*. To má mimo jiné důsledek, že z přeloženého strojového kódu samotného nelze zjistit, z jakého zdrojového kódu byl vytvořen.
+Pozorovatelné chování všech tří zdrojových souborů `main1.cpp`, `main2.cpp` i `main3.cpp` je totiž *totožné*. To má mimo jiné důsledek, že obecně z přeloženého strojového kódu samotného nelze zjistit, z jakého zdrojového kódu byl vytvořen. Dokonce se zapnutými optimalizacemi ani neexistuje korespondece mezi konkrétními příkazy zdrojového kódu a vygenerovanými instrukcemi (viz například `maic3.cpp`).
 
 Co přesně tvoří pozorovatelný efekt programu nemusí být vždy úplně jasné. Vezměme v úvahu následující zdrojový kód:
 
@@ -132,11 +147,19 @@ int main()
 }
 ----
 
-Zdánlivě má tento program stejné pozorovatelné chování jako `main.cpp`, tedy pouze ukončení programu s návratovým statusem 0. Na druhou stranu zde dochází k dynamické alokaci paměti a ta může být z okolí programu rovněž pozorovatelná, např. pomocí profilovacích nástorjů haldy jako jsou Valgrind nebo Heaptrack. O tom, zda mohou být dynamické alokace eliminovány v rámci optimalizací se vedly a vedou diskuze. Novější implementace tuto optimalizaci umožňují -- například `g++` se tímto způsobem v mých experimentech chovalo od verze 10.1. Starší verze vygenerovaly strojový kód s volání alokační a dealokační funkce.
+Zdánlivě má tento program stejné pozorovatelné chování jako `main.cpp`, tedy pouze ukončení programu s návratovým statusem 0. Na druhou stranu zde dochází k dynamické alokaci paměti a ta může být z okolí programu rovněž pozorovatelná, např. pomocí profilovacích nástorjů haldy jako jsou _Valgrind_ nebo _Heaptrack_. O tom, zda mohou být dynamické alokace eliminovány v rámci optimalizací se vedly a vedou diskuze. Novější implementace tuto optimalizaci umožňují -- například `g++` se tímto způsobem v mých experimentech chovalo od verze 10.1. Starší verze vygenerovaly strojový kód s volání alokační a dealokační funkce.
  
+.Benchmarky
 ****
-_As-if_ pravidlo je důležité pro psaní benchmarků, tj. programů, kde se snažíme změřit dobu běhu nějaké operace. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat nesmyslné výsledky.
+_As-if_ pravidlo je důležité pro psaní *_benchmarků_*, tj. programů, kde se snažíme změřit dobu běhu nějaké operace. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat nesmyslné výsledky. Například ve frameworku _Google/Benchmark_ je tento problém adresován funkcí `benchmark::DoNotOptimize`.
 ****
 
-include::{rootdir}/include/copyright.adoc[]
+.Souhrn
+****
+- {cpp} funguje na základě *překladu zdrojového kódu na strojový kód procesoru*.
+- Implementace {cpp} zajišťuje, aby vygenerovaný strojový kód na daném počítači měl *stejné pozorovatelné chování*, které mu podle zdrojového kódu předepisuje Stadnard {cpp}.
+- Překladače se v rámci optimalizací snaží vygenerovat *co nejefektivnější strojvý kód*, které toto chování zajistí.
+****
+
 include::{rootdir}/include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]

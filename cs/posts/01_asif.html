@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="description" content="Úkolem implementace C&#43;&#43; je u programu zajistit pozorovatelné chování, které mu podle zdrojového kódu předepisuje Standard C&#43;&#43;.">
 <meta name="author" content="Daniel Langr">
 <meta name="copyright" content="(C) Daniel Langr 2020">
 <link rel="icon" type="image/png" href="../favicon/favicon.png">
@@ -31,6 +32,9 @@
 </div>
 </div>
 <div id="content">
+<div class="paragraph normal">
+<p><a href="../index.html">Úvodní stránka</a></p>
+</div>
 <div class="paragraph">
 <p>&#8220;<em>Every time I write a line of code in C&#43;&#43; I check the assembly output to make sure it&#8217;s running at optimal speed. I profile everything and also I have no friends.</em>&#8221; <em>[Cole Rowland]</em></p>
 </div>
@@ -63,6 +67,14 @@ pop  rbp
 ret</code></pre>
 </div>
 </div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Compiler Explorer</div>
+<div class="paragraph">
+<p>Neocenitelným pomocníkem při zkoumání vygenerovaného kódu je online C&#43;&#43; překladač a <em>disassembler</em> <a href="https://godbolt.org/">Compiler Explorer</a>. Nabízí možnost <strong>zobrazení překladačem vygenerovaných instrukcí pro daný zdrojový kód</strong>. Na výběr je velké množství <strong>překldačů C&#43;&#43;</strong> od různých poskytovatelů a rovněž několik cílových <strong>architektur procesoru</strong>.</p>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Chování programu definuje <strong>Standard C&#43;&#43;</strong>. Otázkou je, co si vlastně pod pojmem <strong>chováním programu</strong> představit. Jednoduše řečeno je to <strong>pozorovatelný efekt programu</strong> z pohledu jeho okolí.</p>
 </div>
@@ -74,6 +86,14 @@ ret</code></pre>
 </div>
 <div class="paragraph">
 <p>Jedním z nejdůležitějších konceptů C&#43;&#43; je tzv. <strong><em>as-if</em> pravidlo</strong> (<em>as-if rule</em>). To říká, že C&#43;&#43; implementace musí zajisit pouze pozorovatelné chování programu, ale <strong>jak</strong> tohoto chování docílí nechává zcela na ní. A jelikož důvodem programování v C&#43;&#43; je většinou hlavně <strong>vysoký výkon a efektivita</strong> vytvářených programů (či knihoven), implementace se snaží pozorovatelné chování zajistit právě s tímto ohledem. Alespoň, pokud zapneme <strong>optimalizace</strong>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Efektivní vs efektivní</div>
+<div class="paragraph">
+<p>Výraz „efektivní“ má <strong>dva významy</strong>. První znamená, že nějaká operace <strong>má určitý efekt</strong>&#8201;&#8212;&#8201;například, že výpočet vede ke správnému výsledku. To ale ještě neznamená, že tento výpočet bude efektivní <strong>ve smyslu spotřebovaných prostředků systému</strong>. Angličtina tyto významy rozlišuje samostatnými slovíčky <em>effective</em> a <em>efficient</em>. V češtině nám nezbývá než význam rozlišit podle <strong>aktuálního kontextu</strong>.</p>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>Výše ukázaný překlad proběhl s vypnutými optimalizacemi. Proto se ve vygenerovaném strojovém kódu objevily instrukce, které pozorovatelnému efektu programu nijak nepřispívají. Konkréntě to jsou instrukce pracující s registry zásobníku <code>rbp</code> a <code>rsp</code>. V případě překladu se zapnutými optimalizacemi:</p>
@@ -97,8 +117,9 @@ ret</code></pre>
 </div>
 <div class="sidebarblock">
 <div class="content">
+<div class="title">Proč je instrukce <code>xor eax, eax</code> efektivnější než <code>mov eax, 0</code>?</div>
 <div class="paragraph">
-<p>Proč je instrukce <code>xor eax, eax</code> efektivnější než <code>mov eax, 0</code>? Operační kód (<em>opcode</em>) té druhé je totiž <code>b8 00 00 00 00</code>, zatímco té první <code>32 c0</code>, a tedy podstatně kratší. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.</p>
+<p>Operační kód (<em>opcode</em>) té druhé je totiž <code>b8 00 00 00 00</code>, zatímco té první <code>32 c0</code>, a tedy podstatně kratší. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.</p>
 </div>
 </div>
 </div>
@@ -160,7 +181,7 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>Pozorovatelné chování všech tří zdrojových souborů <code>main1.cpp</code>, <code>main2.cpp</code> i <code>main3.cpp</code> je totiž <strong>totožné</strong>. To má mimo jiné důsledek, že z přeloženého strojového kódu samotného nelze zjistit, z jakého zdrojového kódu byl vytvořen.</p>
+<p>Pozorovatelné chování všech tří zdrojových souborů <code>main1.cpp</code>, <code>main2.cpp</code> i <code>main3.cpp</code> je totiž <strong>totožné</strong>. To má mimo jiné důsledek, že obecně z přeloženého strojového kódu samotného nelze zjistit, z jakého zdrojového kódu byl vytvořen. Dokonce se zapnutými optimalizacemi ani neexistuje korespondece mezi konkrétními příkazy zdrojového kódu a vygenerovanými instrukcemi (viz například <code>maic3.cpp</code>).</p>
 </div>
 <div class="paragraph">
 <p>Co přesně tvoří pozorovatelný efekt programu nemusí být vždy úplně jasné. Vezměme v úvahu následující zdrojový kód:</p>
@@ -175,19 +196,31 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>Zdánlivě má tento program stejné pozorovatelné chování jako <code>main.cpp</code>, tedy pouze ukončení programu s návratovým statusem 0. Na druhou stranu zde dochází k dynamické alokaci paměti a ta může být z okolí programu rovněž pozorovatelná, např. pomocí profilovacích nástorjů haldy jako jsou Valgrind nebo Heaptrack. O tom, zda mohou být dynamické alokace eliminovány v rámci optimalizací se vedly a vedou diskuze. Novější implementace tuto optimalizaci umožňují&#8201;&#8212;&#8201;například <code>g++</code> se tímto způsobem v mých experimentech chovalo od verze 10.1. Starší verze vygenerovaly strojový kód s volání alokační a dealokační funkce.</p>
+<p>Zdánlivě má tento program stejné pozorovatelné chování jako <code>main.cpp</code>, tedy pouze ukončení programu s návratovým statusem 0. Na druhou stranu zde dochází k dynamické alokaci paměti a ta může být z okolí programu rovněž pozorovatelná, např. pomocí profilovacích nástorjů haldy jako jsou <em>Valgrind</em> nebo <em>Heaptrack</em>. O tom, zda mohou být dynamické alokace eliminovány v rámci optimalizací se vedly a vedou diskuze. Novější implementace tuto optimalizaci umožňují&#8201;&#8212;&#8201;například <code>g++</code> se tímto způsobem v mých experimentech chovalo od verze 10.1. Starší verze vygenerovaly strojový kód s volání alokační a dealokační funkce.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
+<div class="title">Benchmarky</div>
 <div class="paragraph">
-<p><em>As-if</em> pravidlo je důležité pro psaní benchmarků, tj. programů, kde se snažíme změřit dobu běhu nějaké operace. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat nesmyslné výsledky.</p>
+<p><em>As-if</em> pravidlo je důležité pro psaní <strong><em>benchmarků</em></strong>, tj. programů, kde se snažíme změřit dobu běhu nějaké operace. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat nesmyslné výsledky. Například ve frameworku <em>Google/Benchmark</em> je tento problém adresován funkcí <code>benchmark::DoNotOptimize</code>.</p>
 </div>
 </div>
 </div>
 <div class="sidebarblock">
 <div class="content">
-<div class="paragraph text-center">
-<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;všechna práva vyhrazena.</p>
+<div class="title">Souhrn</div>
+<div class="ulist">
+<ul>
+<li>
+<p>C&#43;&#43; funguje na základě <strong>překladu zdrojového kódu na strojový kód procesoru</strong>.</p>
+</li>
+<li>
+<p>Implementace C&#43;&#43; zajišťuje, aby vygenerovaný strojový kód na daném počítači měl <strong>stejné pozorovatelné chování</strong>, které mu podle zdrojového kódu předepisuje Stadnard C&#43;&#43;.</p>
+</li>
+<li>
+<p>Překladače se v rámci optimalizací snaží vygenerovat <strong>co nejefektivnější strojvý kód</strong>, které toto chování zajistí.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -200,12 +233,19 @@ this.language = "cs";
 };
 (function() { // DON'T EDIT BELOW THIS LINE
 var d = document, s = d.createElement('script');
-s.src = 'https://cppblog.disqus.com/embed.js';
+s.src = 'https://yact.disqus.com/embed.js';
 s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph text-center">
+<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;všechna práva vyhrazena.</p>
+</div>
+</div>
+</div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
