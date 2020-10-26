@@ -10,11 +10,13 @@ link:../en/index.html[English version] image:https://www.countryflags.io/gb/shin
 
 == Nejnovější příspěvky
 
-link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
+link:posts/03_nedefinovane_chovani.html[03: Nedefinované chování] _(říjen 2020)_ +
+link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ +
+link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_ 
 
 == Úvod
 
-Cílem těchto stránek je vytvořit *výukový materiál pro programování v {cpp}*. Takového materiálu sice existuje nepřeberné množství, ale já bych se rád zaměřil na *témata, která se úplně běžně neprobírají*. A přesto jsou podle mého názoru pro pochopení fylozofie {cpp} naprosto klíčová.
+Cílem těchto stránek je vytvořit *výukový materiál pro programování v {cpp}*. Takového materiálu sice existuje nepřeberné množství, ale já bych se rád zaměřil na *témata, která se úplně běžně neprobírají*. A přesto jsou podle mého názoru pro pochopení {cpp} naprosto klíčová.
 
 Důvodem programování v {cpp} je především požadavek na *vysoký výkon a efektivitu programů*. Tím je myšleno, že programy běží co nejrychleji a spotřebovávají minimální množství systémových prostředků, jako je čas procesoru či množství alokované paměti. Pro dosažení tohoto cíle ale často nestačí pohybovat se jen na úrovni zdrojového kódu. Je potřeba se podívat, co se děje „uvnitř“ na úrovni *strojového kódu*, který ze zdrojového kódu vygeneruje {cpp} překladač.
 
@@ -47,7 +49,9 @@ Tento tutoriál není určen pro úplné začátečníky s {cpp} *sám o sobě*.
 
 == Obsah
 
-link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_
+link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_ +
+link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ +
+link:posts/03_nedefinovane_chovani.html[03: Nedefinované chování] _(říjen 2020)_ 
 
 == O autorovi
 

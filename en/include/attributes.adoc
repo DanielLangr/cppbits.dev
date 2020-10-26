@@ -15,6 +15,7 @@
 :source-highlighter: highlightjs
 :highlightjs-theme: agate
 :source-language: c++
+:imagesdir: {rootdir}/../images
 // +++ table of contents:
 //:toc: left
 //:toc-title: Obsah

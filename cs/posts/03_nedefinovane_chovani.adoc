@@ -1,0 +1,29 @@
+= 03: Nedefinované chování
+Daniel Langr <daniel.langr@gmail.com>
+:revdate: říjen 2020
+//:revremark: poslední modifikace říjen 2020
+:rootdir: ..
+include::{rootdir}/include/attributes.adoc[]
+:description: 
+
+[.normal]
+link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
+link:../../en/posts/03_undefined_behavior.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/03_undefined_behavior.html"]
+
+''''
+
+//"`__Writing in C or {cpp} is like running a chain saw with all the safety guards removed.__`" _[Bob Gray]_
+[quote, Bob Gray]
+____
+Writing in C or {cpp} is like running a chain saw with all the safety guards removed.
+____
+
+
+
+.Souhrn
+****
+
+****
+
+include::{rootdir}/include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]

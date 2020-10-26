@@ -8,10 +8,16 @@ include::{rootdir}/include/attributes.adoc[]
 :description: Úkolem implementace {cpp} je u programu zajistit pozorovatelné chování, které mu podle zdrojového kódu předepisuje Standard {cpp}.
 
 [.normal]
-link:../index.html[Úvodní stránka]
+link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
+link:../../en/posts/01_asif.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/01_asif.html"]
 
-//"`__Writing in C or {cpp} is like running a chain saw with all the safety guards removed.__`" _[Bob Gray]_
-"`__Every time I write a line of code in {cpp} I check the assembly output to make sure it's running at optimal speed. I profile everything and also I have no friends.__`" _[Cole Rowland]_
+''''
+
+//"`__Every time I write a line of code in {cpp} I check the assembly output to make sure it's running at optimal speed. I profile everything and also I have no friends.__`" _[Cole Rowland]_
+[quote, Cole Rowland]
+____
+Every time I write a line of code in {cpp} I check the assembly output to make sure it's running at optimal speed. I profile everything and also I have no friends.
+____
 
 {cpp} je tzv. „kompilovaný jazyk“ (_compiled language_), tj. programovací jazyk fungující na principu *překladu zdrojového kódu na strojový kód*. Nejjednodušší zdrojový kód programu vypadá v {cpp} následovně:
 
