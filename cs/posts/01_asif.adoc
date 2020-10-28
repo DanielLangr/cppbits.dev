@@ -9,7 +9,7 @@ include::{rootdir}/include/attributes.adoc[]
 
 [.normal]
 link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
-link:../../en/posts/01_asif.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/01_asif.html"]
+//link:../../en/posts/01_asif.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/01_asif.html"]
 
 ''''
 
@@ -19,7 +19,7 @@ ____
 Every time I write a line of code in {cpp} I check the assembly output to make sure it's running at optimal speed. I profile everything and also I have no friends.
 ____
 
-{cpp} je tzv. „kompilovaný jazyk“ (_compiled language_), tj. programovací jazyk fungující na principu *překladu zdrojového kódu na strojový kód*. Nejjednodušší zdrojový kód programu vypadá v {cpp} následovně:
+{cpp} je tzv. „kompilovaný jazyk“ _(compiled language)_, tj. programovací jazyk fungující na principu *překladu zdrojového kódu na strojový kód*. Nejjednodušší zdrojový kód programu vypadá v {cpp} následovně:
 
 .main.cpp
 [source]
@@ -56,7 +56,7 @@ Co o chování našeho programu říká Standard {cpp}? Od {cpp}11 je opuštěn�
 
 {cpp} standard definuje chování programu na *abstraktním počítači*. Na *konkrétním počítačovém systému* toto chování zajišťuje tzv. *implementace {cpp}*. V našem případě tuto implementaci představuje již zmíněný překladač `g++`.
 
-Jedním z nejdůležitějších konceptů {cpp} je tzv. *_as-if_ pravidlo* (_as-if rule_). To říká, že {cpp} implementace musí zajisit pouze pozorovatelné chování programu, ale *jak* tohoto chování docílí nechává zcela na ní. A jelikož důvodem programování v {cpp} je většinou hlavně *vysoký výkon a efektivita* vytvářených programů (či knihoven), implementace se snaží pozorovatelné chování zajistit právě s tímto ohledem. Alespoň, pokud zapneme *optimalizace*.
+Jedním z nejdůležitějších konceptů {cpp} je tzv. *_as-if_ pravidlo* _(as-if rule)_. To říká, že {cpp} implementace musí zajisit pouze pozorovatelné chování programu, ale *jak* tohoto chování docílí nechává zcela na ní. A jelikož důvodem programování v {cpp} je většinou hlavně *vysoký výkon a efektivita* vytvářených programů (či knihoven), implementace se snaží pozorovatelné chování zajistit právě s tímto ohledem. Alespoň, pokud zapneme *optimalizace*.
 
 .Efektivní vs efektivní
 ****
@@ -84,7 +84,7 @@ Ten totiž pozorovatelné chování programu -- normální ukončení programu s
 ****
 //*Proč je instrukce `xor eax, eax` efektivnější než `mov eax, 0`?*
 
-Operační kód (_opcode_) té druhé je totiž `b8 00 00 00 00`, zatímco té první `32 c0`, a tedy podstatně kratší. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.
+Operační kód _(opcode)_ té druhé je totiž `b8 00 00 00 00`, zatímco té první `32 c0`, a tedy podstatně kratší. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.
 ****
 
 Pokud nyní přepíšeme zdrojový soubor na:

@@ -33,8 +33,7 @@
 </div>
 <div id="content">
 <div class="paragraph normal">
-<p><a href="../index.html">Úvodní stránka</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span><br>
-<a href="../../en/posts/03_undefined_behavior.html">English version</a> <span class="image"><a class="image" href="../../en/posts/03_undefined_behavior.html"><img src="https://www.countryflags.io/gb/shiny/24.png" alt="English"></a></span></p>
+<p><a href="../index.html">Úvodní stránka</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span><br></p>
 </div>
 <hr>
 <div class="quoteblock">
@@ -45,6 +44,139 @@
 </blockquote>
 <div class="attribution">
 &#8212; Bob Gray
+</div>
+</div>
+<div class="paragraph">
+<p>Jak již bylo řečeno, standard C&#43;&#43; definuje jak se má program chovat na abstraktním počítači na základě zdrojového kódu, ze kterého byl vygenerován. Implementace C&#43;&#43; poté zajistí, aby stejné pozorovatelné chování měl i program na konkrétním počítačovém systému.</p>
+</div>
+<div class="paragraph">
+<p>Standard C&#43;&#43; ale nedfinuje chování programu <strong>za všech okolností</strong>. Definuje ho pouze v případě, že jsou <strong>dodrženy v něm obsažené požadavky</strong> <em>(requiremetns)</em>. Pokud tomu tak není, chování programu standard nedefinuje. To se označuje pojmem <strong>nedefinované chování</strong> <em>(undefined behavior</em>&#8201;&#8212;&#8201;zkráceně <em>UB)</em>.</p>
+</div>
+<div class="paragraph">
+<p>Nedefinované chování se netýká jen <strong>doby běhu programu</strong> <em>(runtime)</em>. Pokud nejsou dodrženy požadavky standardu, které se týkají <strong>překladu zdrojového kódu</strong>, standard nedefinuje chování implementace ani v <strong>době překladu</strong> <em>(compile time)</em>. Obecně se tedy dá říct, že při nedefinovaném chování, tj. nedodržení požadavků standardu C&#43;&#43;, se implementace C&#43;&#43; může <strong>chovat libovolným způsobem</strong>. A to v době překladu zdrojového kódu i běhu vygenerovaného programu (v případě, že byl vůbec vygenerován).</p>
+</div>
+<div class="paragraph">
+<p>Příkladem konkrétního požadavku standardu je, že u <strong>celočíselných typů se znaménkem</strong> <em>(signed)</em> nesmí dojít k <strong>přetečení</strong> <em>(overflow)</em>. Takové přeteční tedy vede na nedefinované chování:</p>
+</div>
+<div class="listingblock">
+<div class="title">main.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">#include &lt;limits&gt;
+
+int main()
+{
+  int i = std::numeric_limits&lt;int&gt;::max();
+  i++;
+  return i;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Tento zdrojový kód může vést na nedefinované chování <strong>již v čase překladu</strong> V rámci optimalizací totiž problematický inkrement může vyhodnocovat překladač. Oproti tomu následující zdrojový kód:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">#include &lt;iostream&gt;
+#include &lt;limits&gt;
+
+int main()
+{
+  int i;
+  std::cin &gt;&gt; i;
+  i++;
+  return i;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>způsobí přetečení a tedy nedefinované chování pouze pokud je ze standardního vstupu přečtena maximální hodnota typu <code>int</code>. To se samozřejmě nemůže odehrát dříve než <strong>v čase běhu programu</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Velmi často kladenou otázkou je, <strong>co se ve skutečnosti stane</strong>, pokud chování není definované. Tj. pokud dojde k porušení požadavků standardu C&#43;&#43;. Vraťmě se ke zdrojovému kódu <code>main.cpp</code>. V mém případě jeho překlad pomocí <code>g++ -O2 main.cpp</code> vygeneroval následující instrukce strojového kódu:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">mov eax, -2147483648
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Je chování tohoto programu na úrovni strojového kódu nedefinované? V žádném případě. Instrukce zcela jasně jeho chování definují&#8201;&#8212;&#8201;jedná se o normální ukončení programu s návratovým statusem -2147483648. Důležité je zde si uvědomit, že nedefinované chování se týká jen úrovně standardu C&#43;&#43;. Standard chování programu pro zdrojový kód <code>main.cpp</code> prostě nedefinuje. To, že vznikl program s definovaným chování je dáno impelmentací, v našem případě překladačem <code>g++</code>.</p>
+</div>
+<div class="paragraph">
+<p>Otázkou zůstává, zda je zde zaručeno, že se vygenerovaný program bude chovat tímto způsobem. Standard C&#43;&#43; to samozřejmě nezaručuje. Implementace to zaručovat může, ale také nemusí. Přesnou odpověď může být velmi komplikované až takřka nemožné zjistit. Někdy ale může být uvedena v dokumentaci. Dobrou zprávou je, že tvůrci implementací jsou rozumní a implementace se tudíž chovají deterministicky. Je tedy velmi pravděpodobné, že v našem případě vygeneruje překladač <code>g++</code> spustitelný soubor s uvedeným chováním vždy při dodržení stejné konfigurace překladu.</p>
+</div>
+<div class="paragraph">
+<p>Podívejme se na jiný příklad nedefinovaného chování:</p>
+</div>
+<div class="listingblock">
+<div class="title">main2.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
+{
+  float f = 0.0f;
+  int* pi = reinterpret_cast&lt;int*&gt;(&amp;f);
+  return *pi;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>reinterpret_cast</code> nám umožňuje, abychom se na bitovou reprezentaci objektu nějakého typu podívali jako by to byla bitová reprezentace objektu jiného typu. V našem případě chceme zjistit, jaká je hodnota objektu typu <code>int</code>, která má stejnou bitovou reprezentaci jako má objekt typu <code>float</code> s nulovou hodnotou.</p>
+</div>
+<div class="paragraph">
+<p>Problémem našeho kódu však je, že standard C&#43;&#43; dovoluje použít <code>reinterpret_cast</code> jen ve velmi malém a specifickém počtu případů, mezi které ten náš nepatří. Díky tomu dochází na úrovni standardu opět na nedefinované chování. Jak se zachová implementace? Já jsem v případě překladu pomocí <code>g++ -O2 main2.cpp</code> obdržel program s těmito instrukcemi:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">xor eax, eax
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Jeho chování je samozřejmě opět zcela přesně definované (normální ukončení programu s návartovým statusem 0).</p>
+</div>
+<div class="paragraph">
+<p>V některých případech opravdu implementace C&#43;&#43; zaručeně definuje chování programu, který podle standradu C&#43;&#43; vede na nedefinované chování.</p>
+</div>
+<div class="paragraph">
+<p>Příklad&#8201;&#8212;&#8201;union type punning a vector pointerová aritmetika.</p>
+</div>
+<div class="paragraph">
+<p>Tricky&#8201;&#8212;&#8201;očekávané chování&#8201;&#8212;&#8201;co to je?
+Časté dotazy jsou právě na aktuální chování programu, nikoliv na chování podle standardu. - nutno se podívat do dokumnetace implementace nebo na vygenerovaný strojový kód</p>
+</div>
+<div class="paragraph">
+<p>Proč existuje a proč nelze detekovat?</p>
+</div>
+<div class="paragraph">
+<p>Try in wandbox.org:</p>
+</div>
+<div class="listingblock">
+<div class="title">f.h</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int* cast_to_int_ptr(void*);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">f.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int* cast_to_int_ptr(void* ptr)
+{
+  return reinterpret_cast&lt;int*&gt;(ptr);
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">main3.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">#include "f.h"
+
+int main()
+{
+  float f = 0.0;
+  int* pi = cast_to_int_ptr(&amp;f);
+  return *pi;
+}</code></pre>
 </div>
 </div>
 <div class="sidebarblock">

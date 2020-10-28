@@ -8,15 +8,140 @@ include::{rootdir}/include/attributes.adoc[]
 
 [.normal]
 link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
-link:../../en/posts/03_undefined_behavior.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/03_undefined_behavior.html"]
+//link:../../en/posts/03_undefined_behavior.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/03_undefined_behavior.html"]
 
 ''''
 
-//"`__Writing in C or {cpp} is like running a chain saw with all the safety guards removed.__`" _[Bob Gray]_
 [quote, Bob Gray]
 ____
 Writing in C or {cpp} is like running a chain saw with all the safety guards removed.
 ____
+
+Jak již bylo řečeno, standard {cpp} definuje jak se má program chovat na abstraktním počítači na základě zdrojového kódu, ze kterého byl vygenerován. Implementace {cpp} poté zajistí, aby stejné pozorovatelné chování měl i program na konkrétním počítačovém systému.
+
+Standard {cpp} ale nedfinuje chování programu *za všech okolností*. Definuje ho pouze v případě, že jsou *dodrženy v něm obsažené požadavky* _(requiremetns)_. Pokud tomu tak není, chování programu standard nedefinuje. To se označuje pojmem *nedefinované chování* _(undefined behavior_ -- zkráceně _UB)_. 
+
+Nedefinované chování se netýká jen *doby běhu programu* _(runtime)_. Pokud nejsou dodrženy požadavky standardu, které se týkají *překladu zdrojového kódu*, standard nedefinuje chování implementace ani v *době překladu* _(compile time)_. Obecně se tedy dá říct, že při nedefinovaném chování, tj. nedodržení požadavků standardu {cpp}, se implementace {cpp} může *chovat libovolným způsobem*. A to v době překladu zdrojového kódu i běhu vygenerovaného programu (v případě, že byl vůbec vygenerován).
+
+Příkladem konkrétního požadavku standardu je, že u *celočíselných typů se znaménkem* _(signed)_ nesmí dojít k *přetečení* _(overflow)_. Takové přeteční tedy vede na nedefinované chování:
+
+.main.cpp
+[source]
+----
+#include <limits>
+
+int main()
+{
+  int i = std::numeric_limits<int>::max();
+  i++;
+  return i;
+}
+----
+
+Tento zdrojový kód může vést na nedefinované chování *již v čase překladu* V rámci optimalizací totiž problematický inkrement může vyhodnocovat překladač. Oproti tomu následující zdrojový kód:
+
+[source]
+----
+#include <iostream>
+#include <limits>
+
+int main()
+{
+  int i;
+  std::cin >> i;
+  i++;
+  return i;
+}
+----
+
+způsobí přetečení a tedy nedefinované chování pouze pokud je ze standardního vstupu přečtena maximální hodnota typu `int`. To se samozřejmě nemůže odehrát dříve než *v čase běhu programu*.
+
+Velmi často kladenou otázkou je, *co se ve skutečnosti stane*, pokud chování není definované. Tj. pokud dojde k porušení požadavků standardu {cpp}. Vraťmě se ke zdrojovému kódu `main.cpp`. V mém případě jeho překlad pomocí `g++ -O2 main.cpp` vygeneroval následující instrukce strojového kódu:
+
+[source,x86asm]
+----
+mov eax, -2147483648
+ret
+----
+
+Je chování tohoto programu na úrovni strojového kódu nedefinované? V žádném případě. Instrukce zcela jasně jeho chování definují -- jedná se o normální ukončení programu s návratovým statusem -2147483648. Důležité je zde si uvědomit, že nedefinované chování se týká jen úrovně standardu {cpp}. Standard chování programu pro zdrojový kód `main.cpp` prostě nedefinuje. To, že vznikl program s definovaným chování je dáno impelmentací, v našem případě překladačem `g++`.
+
+Otázkou zůstává, zda je zde zaručeno, že se vygenerovaný program bude chovat tímto způsobem. Standard {cpp} to samozřejmě nezaručuje. Implementace to zaručovat může, ale také nemusí. Přesnou odpověď může být velmi komplikované až takřka nemožné zjistit. Někdy ale může být uvedena v dokumentaci. Dobrou zprávou je, že tvůrci implementací jsou rozumní a implementace se tudíž chovají deterministicky. Je tedy velmi pravděpodobné, že v našem případě vygeneruje překladač `g++` spustitelný soubor s uvedeným chováním vždy při dodržení stejné konfigurace překladu.
+
+Podívejme se na jiný příklad nedefinovaného chování:
+
+.main2.cpp
+[source]
+----
+int main()
+{
+  float f = 0.0f;
+  int* pi = reinterpret_cast<int*>(&f);
+  return *pi;
+}
+----
+
+`reinterpret_cast` nám umožňuje, abychom se na bitovou reprezentaci objektu nějakého typu podívali jako by to byla bitová reprezentace objektu jiného typu. V našem případě chceme zjistit, jaká je hodnota objektu typu `int`, která má stejnou bitovou reprezentaci jako má objekt typu `float` s nulovou hodnotou. 
+
+Problémem našeho kódu však je, že standard {cpp} dovoluje použít `reinterpret_cast` jen ve velmi malém a specifickém počtu případů, mezi které ten náš nepatří. Díky tomu dochází na úrovni standardu opět na nedefinované chování. Jak se zachová implementace? Já jsem v případě překladu pomocí `g++ -O2 main2.cpp` obdržel program s těmito instrukcemi:
+
+[source,x86asm]
+----
+xor eax, eax
+ret
+----
+
+Jeho chování je samozřejmě opět zcela přesně definované (normální ukončení programu s návartovým statusem 0).
+
+
+
+
+
+
+
+
+
+V některých případech opravdu implementace {cpp} zaručeně definuje chování programu, který podle standradu {cpp} vede na nedefinované chování.
+
+Příklad -- union type punning a vector pointerová aritmetika.
+
+Tricky -- očekávané chování -- co to je?
+Časté dotazy jsou právě na aktuální chování programu, nikoliv na chování podle standardu. - nutno se podívat do dokumnetace implementace nebo na vygenerovaný strojový kód
+
+Proč existuje a proč nelze detekovat?
+
+Try in wandbox.org:
+
+.f.h
+[source]
+----
+int* cast_to_int_ptr(void*);
+----
+
+.f.cpp
+[source]
+----
+int* cast_to_int_ptr(void* ptr)
+{
+  return reinterpret_cast<int*>(ptr);
+}
+----
+
+.main3.cpp
+[source]
+----
+#include "f.h"
+
+int main()
+{
+  float f = 0.0;
+  int* pi = cast_to_int_ptr(&f);
+  return *pi;
+}
+
+----
+
+
 
 
 

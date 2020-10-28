@@ -8,7 +8,7 @@ include::{rootdir}/include/attributes.adoc[]
 
 [.normal]
 link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
-link:../../en/posts/02_implementation.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/02_implementation.html"]
+//link:../../en/posts/02_implementation.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/02_implementation.html"]
 
 ''''
 
@@ -97,7 +97,7 @@ int main()
 }
 ----
 
-V mém případě tento kód bez problému přeložily implemntace používající _libstdc{plus}{plus}_ i _libc{plus}{plus}_. Překlad s _Microsoft STL_ ale *skončil s chybou*. Proč tomu tak je? Ze zdrojového kódu lze zjisit, že u _libstdc{plus}{plus}_ i _libc{plus}{plus}_ *přesouvací konstruktor* (_move constructor_) typu `std::map<int, std::thread>` *nemůže vyhodit výjimku* -- „je“ tzv. _noexcept_ (správně bychom měli říkat, že tento konstruktor má „nevyhazující specifikaci výjimky“ -- _non-throwing exception specification_). V implementaci _Microsoft STL_ to ale *neplatí*.
+V mém případě tento kód bez problému přeložily implemntace používající _libstdc{plus}{plus}_ i _libc{plus}{plus}_. Překlad s _Microsoft STL_ ale *skončil s chybou*. Proč tomu tak je? Ze zdrojového kódu lze zjisit, že u _libstdc{plus}{plus}_ i _libc{plus}{plus}_ *přesouvací konstruktor* _(move constructor)_ typu `std::map<int, std::thread>` *nemůže vyhodit výjimku* -- „je“ tzv. _noexcept_ (správně bychom měli říkat, že tento konstruktor má „nevyhazující specifikaci výjimky“ -- _non-throwing exception specification_). V implementaci _Microsoft STL_ to ale *neplatí*.
 
 Přesouvací konstruktory vyhazující výjimky jsou obecně *problematické*. V případě „realokační“ členské funkce `reserve` u vektoru může takové vyhození výjimky způsobit, že obsah vektoru bude po volání funkce *jiný* než jaký byl před tímto voláním (nebude splněna tzv. _strong exception guarantee_). Standard {cpp} proto předepisuje, že členská funkce `reserve` má v takovém případě *dát přednost kopírovacímu konstruktoru*.
 
