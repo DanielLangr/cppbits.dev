@@ -1,0 +1,157 @@
+= 04: Nedefinované chování II.
+Daniel Langr <daniel.langr@gmail.com>
+:revdate: říjen 2020
+//:revremark: poslední modifikace říjen 2020
+:rootdir: ..
+include::{rootdir}/include/attributes.adoc[]
+:description: 
+
+[.normal]
+link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
+//link:../../en/posts/03_undefined_behavior.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/03_undefined_behavior.html"]
+
+''''
+
+[quote, Bob Gray]
+____
+Writing in C or {cpp} is like running a chain saw with all the safety guards removed.
+____
+
+Nedefinované chování je nebeznečné především z toho důvodu, že program vygenerovaný z příslušného zdrojového kódu se často chová „očkávaným“ způsobem. Typickým argumentem v diskuzích je, že přeci „když se program chová jak očkvávám, tak jeho zdrojový kód musí být v pořádku“. Nic nemůže být vzdálenější skutenčosti.
+
+Prvním problémem je, že pod oním očekávaným chováním si každý může představit něco jiného. Jednoduchý příklad:
+
+.main.cpp
+[source]
+----
+int main()
+{ 
+  int i;
+  return i;
+}
+----
+
+Podle standradu {cpp} má proměnná `i` díky absenci inicializace neurčitou hodntou. Její vyhodnocení v rámci `return i;` poté vede na nedefinované chování. Pokud však budeme předpokládát, že implmentace {cpp} zdrojový kód přeloží a vygeneruje spustitelný program, jaké bude jeho očekávané chování? Jsou zde *dvě základní možnosti*:
+
+. Dojde k normálnímu ukončení programu s *návratovým statusem 0*.
+. Dojde k normálnímu ukončení programu s *návratovým statusem libovolné hodnoty, která může být nulová i nenulová*.
+
+Pojem očekávané chování je zde tedy subjektivní, protože závisí na tom, které z těchto variant dáme přednost. 
+
+Jak se zachová implementace? Nejprve jsem přeložil kód pomocí příkazu `g++ -O2 main.cpp`, který vedl na vygenerování těchto instrukcí:
+
+.g{plus}{plus}
+[source,x86asm]
+----
+xor eax, eax
+ret
+----
+
+Chování programu je tedy definované jako jeho normální ukončení s návratovým statusem 0, což odpovídá první možnosti očekávaného chování. Pokud jsem však použil jinou implementaci {cpp} založenou na překladači Clang (`clang++ -O2 main.cpp`), obdržel jsem jiný strojový kód:
+
+.clang{plus}{plus}
+[source,x86asm]
+----
+ret
+----
+
+Ta definuje chování programu jako jeho normální ukončení s návratovým statusem, jehož hodnota je určená obsahem registru `eax` před voláním funkce `main`. A to odpovídá druhé možnsoti očekávaného chování. Já jsem například při prvním spuštění dostal návratový status 32, při následných spuštěních pak i jiné hodnoty. Problém by mohl nastat, pokud by programátor při testovacím spuštění obdržel návratový status 0. Mohl by pak mylně očekávat, že ho program vrátí vždy. 
+
+Na tomto (akademickém) příkladu je vidět záludnost nedefinovaného chování. Obecně se může stát, že program, který podle zdrojového kódu vede na nedefinované chování, bude v praxi fungovat dle očekávání. Může například úspěšně projít rozsáhlým testováním a následně být nasazen do provozu. Zde se ale může stát, že po dlouhé době bezproblémového provozu zdánlivě bez jakékoliv příčiny dojde k problému (způsobeným např. tím, že, jako v našem případě, nějaká funkce vrátí najednou jinou hodnotu než bylo očekáváno). 
+
+Tyto problémy navíc mohou být extrémně obtížně zjistitelné. V lepším případě program zhavaruje. Pokud se ale pak při opakovaném testování a ladění program opět začne chovat očekávaně, je nalezení chyby často skoro nemožné. V horším případě navíc program „tiše“ poběží dál, ale jeho stav nebude v pořádku, což se projeví někde jinde a někdy jindy. V takovém případě je nalezení příčiny problému ještě nemožnější.
+
+Nabízí se tedy dvě otázky?
+
+. Proč nedefinové chování vůbec existuje?
+. A zda ho lze detekovat?
+
+Formulace první otázky je zavádějící. Podle definice nedefinovaného chování bychom se totiž správně měli ptát, proč stadndard {cpp} definuje chování program pouze pokud jsou splněny určité požadavky. Jinak řečeno, proč nedefinuje chování programu za všech okolností.
+
+Odpověď na tuto otázku je, že i kdyby to teoreticky šlo, tak by to mělo nepředstavitelně veliký negativní dopad na výkon a efektivitu programů. A jelikož v {cpp} se programuje především kvůli vysokému výkonu a efektivitě, takový dopad by byl pro {cpp} zničující.
+
+Opět si uvedeme příklad. Uvažujme následující zdrojový soubor:
+
+.source.cpp
+[source]
+----
+int dereference_int(int* ptr)
+{
+  return *ptr;
+}
+----
+
+Podle standardu můžeme ukazatel `ptr` dereferencovat pouze v případě, že ukazuje na existující objekt typu `int`. Jak by to ale implementace při překladu souboru `soruce.cpp` zjisit? Ukazatel reprezentuje adresu, čili jeho bitová reprezentace na 64-bitovém systému má 8 bytů. Kdybychom chtěli přidat informaci o jeho „platnosti“, museli bychom nějaké místo přidat. To samo o sobě už by vedlo na nižší paměťovou efektivitu.
+
+Dále by narostla časová režie samotné funkce `dereference_int`. Mně při přeložení pomocí `g++ -O2 source.cpp` vznikly tyto instrukce:
+
+[source,x86asm]
+----
+mov eax, DWORD PTR [rdi]
+ret
+----
+
+To představuje optimální strojový kód -- je přečtena hodnota z paměti na adrese dané argumentem funkce (obsah registru `rdi`) a následně je vrácena na místo volání funkce (přes registr `rax`). Pokud by bylo potřeba testovat platnost tohoto ukazatele, představovalo by to dodatečné instrukce navíc v podobě podmíněného skoku a například vyvolání výjimky v případě jeho neplatnosti.
+
+Ze všeho nejhorší by ale bylo, že bychom museli zavést mechanizmus, který by při ukončení životnosti libovolného objektu o této skutečnosti informoval všechny na něj navázané ukazatele (a reference). Jedině tak by se totiž do ukazatele mohla dostat informace o jeho zneplatnění. Paměťová a časové režie takovéhoto mechanizmu by byla nepředstavitelně vysoká.
+
+Jinými slovy se dá říct, že nedefinované chování umožňuje implementaci zaměřit se na co nejvyšší výkon a efektivitu. K dosažení tohto cíle ale musí mít možnost předpokládat, že jsou splněny požadavky obsažené ve standardu {cpp}.
+
+Nyní nám zbývá druhá otázka, a sice, zda lze nedefinované chování odhalit. Obecně to monžné bohužel není. Pro příklad předpokládejme, že kromě zdrojového souboru `source.cpp` máme ještě následující druhý zdrojový soubor:
+
+.main1.cpp
+[source]
+----
+int dereference_int(int*);
+
+int main()
+{
+  int* ptr;
+  {
+    int i = 1;
+    ptr = &i;
+  }
+  return dereference_int(ptr);
+}
+----
+
+Pokud nyní chceme z obou zdrojových souborů `source.cpp` a `main1.cpp` vytvořit spustitelný program, musíme je přeložit. Důležité je si uvědomit, že tento překlad může probíhat naprosto odděleně, například i na různých počítačových systémech. To je v praxi naprosto běžné při využívání knihoven. V našem případě může knihovnu imitovat strojový kód v souboru `source.o` získaný překladem:
+
+[source,text]
+----
+g++ -O2 -c source.cpp
+----
+
+Nyní předpokládejme, že tuto „knihovnu“ chceme použít pro tvorbu programu se zdrojovým kódem `main1.cpp`. K tomu ho musíme nejprve přeložit:
+
+[source,text]
+----
+g++ -O2 -c main1.cpp
+----
+
+čímž získáme soubor se strojovým kódem `main1.o`. Pro získání výsledného spustitelného souboru musíme nakonec oba vzniklé souboru „spojit“ dohromady, k čemuž slouží nástroj implementace nazvaný _linker_:
+
+[source,text]
+----
+ld source.o main1.o
+----
+
+Otázkou nyní je, zda impelemtnace vůbec může odhalit nedefinované chování, které se zde objevuje v podobě dereference neplatného ukazatele (ukazatele na již neexistující objekt). Při překladu souboru `source.cpp` to není možné. Jak jsme si vysvětlili výše, ukazatel samotný takovou informaci neobsahuje. Při překladu souboru `main1.cpp` to ale možné není také. V jeho zdrojovém kódu totiž k žádnému nedefinovanému chování nedochází. Neplatný ukazatel je zde pouze předán jako argument do volání funkce, což není zakázáno. Ale není zde dereferencován.
+
+Překladač tedy při překladu ani jednoho ze zdrojových souborů nemůže nedefinované chování odhalit. Musel by k tomu „vidět“ oba zdrojové soubory najednou. To ale v praxi obecně není možné. Jak jsme již zmínili, překlad souboru `main1.cpp` může probíhat na místě, kde se soubor `source.cpp` vůbec nevyskytuje. K takovým situacím dochází dennodenně při použití knihoven, které jsou do systémů distribuovány v binární podobě. K nim sice jsou k dispozici příslušné hlavičkové soubory knihovny, ale ty většinou obsahují pouze deklarace knihovních funkcí.
+
+Teoreticky by se dalo namítnout, že by nedefinované chování mohl odhalit právě linker. To ale také nelze. Chování programu na úrovni vygenerovaného strojového kódu v souborech `source.o` a `main1.o` může být (a pravděpodobně bude) již jasně definované. Nedefinované chování existuje pouze na úrovni standardu {cpp} a linker nemůže zjistit, že jestli byly nebo nebyly porušeny jeho požadavky.
+
+Toto byl jen jeden příklad dokazující, že nedefinované chování nelze obecně detekovat. Lze to udělat jen v omezeném a specifickém množství případů, k čemuž slouží nástroje jako je například _UndefinedBehaviorSanitizer (UBSan)_ překladače _Clang_. Ten dokáže odhalit případy jako dělení nulou či dereference nulového ukazatele. Jeho použití na výše zmíněné případy ale v ani jednom případě nedefinované chování neodhalil.
+
+.Souhrn
+****
+- Zdrojový kód vedoucí na nedefinované chování je chybný.
+- Nebezpečí tkví především v tom, že se výsledný program často chová „očekávaným“ způsobem. Pokud ale nastane problém, může být extrémně obtížné nalézt jeho příčinu.
+- Koncept nedefinovaného chování umožňuje implementacím generovat efektivní a výkonný strojový kód.
+- Nedefinované chování lze detekovat jen v omezeném a specifickém množství případů. Obecně ho detekovat nelze.
+
+****
+
+include::{rootdir}/include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]

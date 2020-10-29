@@ -10,7 +10,7 @@ include::{rootdir}/include/attributes.adoc[]
 
 == Nejnovější příspěvky
 
-//link:posts/03_nedefinovane_chovani.html[03: Nedefinované chování] _(říjen 2020)_ +
+link:posts/03_nedefinovane_chovani_I.html[03: Nedefinované chování I.] _(říjen 2020)_ +
 link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ +
 link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_ 
 
@@ -39,7 +39,7 @@ Zde jsou příklady dalších témat, která nejsou zcela běžně diskutována 
 - Proč funkce `std::move` nic nikam nepřesouvá a funkce `std::forward` nic nikam nepředává, jakkoliv to jejich názvy napovídají?
 ****
 
-Účelem tohoto blogu je *témata tohoto typu rozebírat a vysvětlovat*. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na link:https://stackoverflow.com/[Stack Overflow] ohledně dotazů týkajících se {cpp} a také s výukou pokročilého programování v {cpp} na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako úzké hrdlo běhu programu.
+Účelem tohoto tutoriálu je *témata tohoto typu rozebírat a vysvětlovat*. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na link:https://stackoverflow.com/[Stack Overflow] ohledně dotazů týkajících se {cpp} a také s výukou pokročilého programování v {cpp} na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako úzké hrdlo běhu programu.
 
 Rohodně se ale nepovažuji za „všeználka“. Současný draft Stadnardu {cpp} (N4868) má *1849 stránek* a asi na světě neexistuje člověk, který by o {cpp} věděl vše. Navíc detailní rozbor problémů by často byl pro běžného zájemce o {cpp} *nesmyslně rozsáhlý a nezábavný*. Často proto bude výklad více čí méně *zjednodušený*, ale vždy se v takových případech budu snažit, aby to nebylo na úkor kvality prezentovaných informací v souvislosti s daným problémem. Pokud se z pohledu čtenáře v textu vyskytnou jakékoliv *nejasnosti, nepřesnosti, nebo chyby*, velmi uvítám reakce ve formě *komentářů* dostupných na konci každé jednotlivé stránky.  
 
@@ -51,7 +51,7 @@ Tento tutoriál není určen pro úplné začátečníky s {cpp} *sám o sobě*.
 
 link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_ +
 link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ +
-//link:posts/03_nedefinovane_chovani.html[03: Nedefinované chování] _(říjen 2020)_ 
+link:posts/03_nedefinovane_chovani_I.html[03: Nedefinované chování I.] _(říjen 2020)_ 
 
 == O autorovi
 
