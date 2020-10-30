@@ -10,9 +10,9 @@ include::{rootdir}/include/attributes.adoc[]
 
 == Nejnovější příspěvky
 
+link:posts/04_nedefinovane_chovani_II.html[04: Nedefinované chování II.] _(říjen 2020)_ +
 link:posts/03_nedefinovane_chovani_I.html[03: Nedefinované chování I.] _(říjen 2020)_ +
-link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ +
-link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_ 
+link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ 
 
 == Úvod
 
@@ -51,7 +51,8 @@ Tento tutoriál není určen pro úplné začátečníky s {cpp} *sám o sobě*.
 
 link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_ +
 link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ +
-link:posts/03_nedefinovane_chovani_I.html[03: Nedefinované chování I.] _(říjen 2020)_ 
+link:posts/03_nedefinovane_chovani_I.html[03: Nedefinované chování I.] _(říjen 2020)_ +
+link:posts/04_nedefinovane_chovani_II.html[04: Nedefinované chování II.] _(říjen 2020)_ 
 
 == O autorovi
 

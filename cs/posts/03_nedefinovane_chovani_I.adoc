@@ -168,7 +168,7 @@ Uvedenou problematiku adresuje _proposal_ dokumentu P0593R6, dostupný napříkl
 - K nedefinovanému chování vede *nedodržení pravidel standardu {cpp}*.
 - Při nedefinovaném chování standard *nepředepisuje*, jak se má implementace {cpp} pro daný zdrojový kód chovat. Ta se poté může chovat *libovolným způsobem*, a to v *čase překladu* i v *čase běhu programu*.
 - Implementace se v takových případech obecně *chovají deterministicky*. Obvykle vygenerují program, jehož chování je *definované jeho strojovým kódem*.
-- Nedefinované chování obecně vede na *nepřenositlený zdrojový kód* -- ve smyslu, že se u *různých implementací* mohou chovat *odlišným způsobem*.
+- Nedefinované chování obecně vede na *nepřenositlený zdrojový kód* -- ve smyslu, že se pro něj *různé implementace* mohou chovat *odlišným způsobem*.
 - V některých případech implemnetace {cpp} *explicitně definuje chování* i v případě, že podle standardu definované není.
 ****
 
