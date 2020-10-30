@@ -16,36 +16,36 @@ link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_
 
 == Úvod
 
-Cílem těchto stránek je vytvořit *výukový materiál pro programování v {cpp}*. Takového materiálu sice existuje nepřeberné množství, ale já bych se rád zaměřil na *témata, která se úplně běžně neprobírají*. A přesto jsou podle mého názoru pro pochopení {cpp} naprosto klíčová.
+Cílem těchto stránek je poskytnout *trochu jiný výukový materiál pro programování v {cpp}*. Rád bych se zaměřil na *témata, která se úplně běžně neprobírají* a přesto jsou podle mého názoru *pro pochopení {cpp} naprosto klíčová*.
 
-Důvodem programování v {cpp} je především požadavek na *vysoký výkon a efektivitu programů*. Tím je myšleno, že programy běží co nejrychleji a spotřebovávají minimální množství systémových prostředků, jako je čas procesoru či množství alokované paměti. Pro dosažení tohoto cíle ale často nestačí pohybovat se jen na úrovni zdrojového kódu. Je potřeba se podívat, co se děje „uvnitř“ na úrovni *strojového kódu*, který ze zdrojového kódu vygeneruje {cpp} překladač.
+Důvodem programování v {cpp} je především požadavek na *vysoký výkon a efektivitu programů*. Tím je myšleno, že programy běží co nejrychleji a spotřebovávají minimální množství systémových prostředků, jako je čas procesoru či množství alokované paměti. Pro dosažení tohoto cíle ale často nestačí znát {cpp} jen na úrovni *zdrojového kódu*. Občas je potřeba se i podívat, co se děje „uvnitř“ na úrovni *strojového kódu*, který je zdrojového kódu vygeneruje překladač.
 
-Jednoduchý příklad -- v každém materiálu pro začátečníky se dočteme, jak ve funcki vytvořit *lokální proměnnou* (přesněji řečeno nestatickou proměnnou s automatickou životností). Běžná představa je, že takováto proměnná bude při behu programu uložena na *zásobníku*. Je to ale pravda? Může místo toho být proměnná uložena v *registru procesoru*? Musí tato proměnná za běhu programu *vůbec existovat*? Jaké faktory o tom rozhodují? A co když je to proměnná *třídního typu*? Co vůbec znamená vytvoření proměnné třídního typu pomocí *konstruktoru*? Zdánlivě triviální problematika na úrovni zdrojového kódu v sobě skrývá vysoce netriviální problematiku na úrovni strojového kódu, který procesor vykonává v době běhu programu.
+Jednoduchý příklad -- v každé učebnici {cpp} pro začátečníky se dočteme, jak ve funcki vytvořit *lokální proměnnou* (přesněji řečeno proměnnou s automatickou životností). Běžná představa je, že takováto proměnná bude při behu programu uložena *na zásobníku*. Je to ale pravda? Může místo toho být proměnná uložena v *registru procesoru*? Musí tato proměnná za běhu programu *vůbec existovat*? Jaké faktory o tom rozhodují? A co když je to proměnná *třídního typu*? Co vůbec znamená vytvoření proměnné třídního typu pomocí *konstruktoru*? Zdánlivě triviální problematika na úrovni zdrojového kódu v sobě skrývá poměrně rozsáhlou a složitou problematiku na úrovni strojového kódu, který procesor vykonává v době běhu programu.
 
-Zde jsou příklady dalších témat, která nejsou zcela běžně diskutována ve výukových materiálech a přesto může být velmi podstatné jim rozumět:
+Zde jsou příklady dalších témat, která nejsou zcela běžně prezentována v souvislosti s výukou {cpp}, a přesto může být podstatné jim rozumět:
 
 ****
 - Co je to *implementace {cpp}*? Jak se od sebe jednotlivé implementace liší?
-- Jaký je rozdíl mezi velikostí objektů z hlediska *obsahu* a velikostí jejich *bitové reprezentace*?
+- Co je to *nedefinované chování*? Pokud má program nedefinované chování podle Standardu {cpp}, má nedefinované chování i vygenerovaný strojový kód?
+- Jaký je rozdíl mezi velikostí objektu z hlediska *obsahu* a velikostí jeho *bitové reprezentace*?
 - Proč existuje *_padding_* a jak souvisí se *zarovnáním* bitové reprezetnace objektů v paměti?
-- Proč nelze oddělit *API* třídy od všech jejích *implementačních detailů*?
+- Proč nelze oddělit *API* (rozhraní) třídy od všech jejích *implementačních detailů*?
 - Jak je v praxi zajištěno *předávání argumentů a návratových hodnot* do/z funkcí?
 - Co je to *ABI* a jak zajistit *kompatabilitu* na této úrovni?
-- Co jsou to *jednotky překladu*? Jak souvisí s problematikou *_linkage_*? 
-- Proč specifikátor `inline` *nesouvisí* s „inlinováním“ funkcí?
+- Co jsou to *jednotky překladu*? Jak souvisí s problematikou *„spojování“ (_linkage_)*? 
+- Proč specifikátor `inline` *nesouvisí* s optimalizací zvanou _inlining_?
 - Proč nelze z vygenrovaného strojového kódu programu *zpětně zjistit jeho zdrojový kód*?
-- Co je to *nedefinované chování*? Pokud má program nedefinované chování podle Standardu {cpp}, má nedefinované chování i vygenerovaný strojový kód?
 - Proč v paměti nelze *přesunout objekt* z jednoho místa na druhé?
-- Proč funkce `std::move` nic nikam nepřesouvá a funkce `std::forward` nic nikam nepředává, jakkoliv to jejich názvy napovídají?
+//- Proč funkce `std::move` nic nikam nepřesouvá a funkce `std::forward` nic nikam nepředává, jakkoliv to jejich názvy napovídají?
 ****
 
-Účelem tohoto tutoriálu je *témata tohoto typu rozebírat a vysvětlovat*. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na link:https://stackoverflow.com/[Stack Overflow] ohledně dotazů týkajících se {cpp} a také s výukou pokročilého programování v {cpp} na Fakultě informačních technologií ČVUT. V neposlední řadě se podílím na vývoji programů, které jsou spouštěny na největších světových superpočítačích, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při spuštění na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako úzké hrdlo běhu programu.
+Účelem tohoto tutoriálu je *takováto témata rozebírat a vysvětlovat*. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na link:https://stackoverflow.com/[Stack Overflow] ohledně dotazů týkajících se {cpp} a také s výukou programování v {cpp} na Fakultě informačních technologií ČVUT. V neposlední řadě používám {cpp} i v praxi -- konkrétně se podílím na vývoji programů určených pro největší světové superpočítače, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při běhu programu na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako úzké hrdlo běhu programu.
 
-Rohodně se ale nepovažuji za „všeználka“. Současný draft Stadnardu {cpp} (N4868) má *1849 stránek* a asi na světě neexistuje člověk, který by o {cpp} věděl vše. Navíc detailní rozbor problémů by často byl pro běžného zájemce o {cpp} *nesmyslně rozsáhlý a nezábavný*. Často proto bude výklad více čí méně *zjednodušený*, ale vždy se v takových případech budu snažit, aby to nebylo na úkor kvality prezentovaných informací v souvislosti s daným problémem. Pokud se z pohledu čtenáře v textu vyskytnou jakékoliv *nejasnosti, nepřesnosti, nebo chyby*, velmi uvítám reakce ve formě *komentářů* dostupných na konci každé jednotlivé stránky.  
+Rohodně se ale nepovažuji za „všeználka“. Současný draft stadnardu {cpp} (N4868) má *1849 stránek* a asi na světě neexistuje jedinec, který by o {cpp} věděl vše. Může se tedy stát, že prezentovaný text bude na některých místech nepřesný nebo i mylný. Velmi proto uvítám *zpětnou vazbu* v podobě *komentářů* dostupných na konci každé stránky, především těch konstruktivních. V mnoha případech bude výklad rovněž více či méně *zjednodušený*, především z důvodu čitelnost a stručnosti. Rozebírat každý problém až na úroveň pravidel standardu {cpp} by totiž bylo neúměrně obsáhlé a nezábavné.
 
 == Pro koho je tutoriál určen?
 
-Tento tutoriál není určen pro úplné začátečníky s {cpp} *sám o sobě*. Opravdu zde nemá smyls řešit, jak se používají typy, objekty, funkce, třídy či šablony. Na toto téma vzniklo mnoho vynikajících knih, nemluvě o materiálech dostupných online. Přesto tento tutoriál není určený jen pro programátory, kteří základy {cpp} již dobře znají. Zrovna tak může posloužit jako *doplňkový výukový materiál pro začátečníky*, kteří se základy {cpp} teprve učí. V takovém případě nabídne na získávané znalosti odlišnou a doufám i *atraktivní a užitečnou perspektivu*.
+Tento tutoriál *sám o sobě* není určen pro úplné začátečníky. Nemá smyls zde řešit základy {cpp} -- těch jsou plné knihovny i internet. Přesto tento tutoriál není určený jen pro programátory, kteří si základy {cpp} již dobře osvojili. Stejně dobře může posloužit jako *doplňkový výukový materiál pro začátečníky*, kteří se základy {cpp} teprve učí. V takovém případě nabídne na získávané znalosti odlišnou a doufám i *atraktivní a užitečnou perspektivu*.
 
 == Obsah
 
@@ -56,10 +56,7 @@ link:posts/04_nedefinovane_chovani_II.html[04: Nedefinované chování II.] _(ř
 
 == O autorovi
 
-Působím jako akademický pracovník na Fakultě informačních technologií ČVUT, kde se věnuji převážně vědecko-výzkumné práci a výuce studentů magisterského bloku. {cpp} provází můj život tedy již více než 25 let, z počátku díky implementaci Borland {cpp}, která existovala ještě před první standradizací {cpp}98. Za tu dobu se {cpp} stalo mou prací i mým koníčkem. V aplikační rovině ho používám především pro vývoj paralelních programů určených pro velké superpočítače. Spolupracuji například s teoretickými jadernými fyziky na řešení Schrödingerovy rovnice atomových jader modelovaných pomocí speciální verze tzv. _ab-inito no-core shell_ modelu založené na využití teorie grup a reprezentací.
-
-
-// díky knížkám Objektové programování 1 a 2 autorů R.{nbsp}Pecinovského a M.{nbsp}Viriuse nakladatelství Grada
+Působím jako akademický pracovník na Fakultě informačních technologií ČVUT, kde se věnuji převážně vědecko-výzkumné práci a výuce studentů magisterského bloku. {cpp} provází můj život tedy již více než 25 let. Z počátku to bylo díky implementaci Borland {cpp}, která existovala ještě před první standradizací {cpp}98. Za těch 25 let se {cpp} stalo mou prací i mým koníčkem. V aplikační rovině ho používám především pro vývoj paralelních programů určených pro velké superpočítače. Spolupracuji například s teoretickými jadernými fyziky na řešení Schrödingerovy rovnice pro atomová jádra pomocí _ab-inito no-core shell_ modelu.
 
 == Komentáře
 
