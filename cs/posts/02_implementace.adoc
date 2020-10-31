@@ -17,17 +17,17 @@ ____
 There are only two things wrong with {cpp}: The initial concept and the implementation.
 ____
 
-Jak již bylo řečeno, *implementace {cpp}* zajišťuje aby program spuštěný na konkrétním počítačovém systému měl takové pozorvatelné chování, jaké mu předepisuje standard {cpp} dle jeho zdrojového kódu. Implementace {cpp} obsahuje především *překladač {cpp}*. Pro jednoduchost budeme pod tímto pojmem rozumět celou kolekci nástrojů, která je potřebná pro *vygenerování spustitelného programu či kninovního souboru ze zdrojového kódu*. Mimo vlastního „generátoru“ strojového kódu sem tedy zarhneme i nástroje jako například _preprocesor_ či _linker_.
+Jak již bylo řečeno, *implementace {cpp}* zajišťuje aby program spuštěný na konkrétním počítačovém systému měl takové pozorvatelné chování, jaké mu předepisuje standard {cpp} dle jeho zdrojového kódu. Implementace {cpp} obsahuje především *překladač {cpp}*. Pokud nebude uvedeno jinak, budeme pro jednoduchost pod tímto pojmem rozumět celou kolekci nástrojů, která je potřebná pro *vygenerování spustitelného programu či kninovního souboru ze zdrojového kódu*. Mimo vlastního „generátoru“ strojového kódu sem tedy zarhneme i nástroje jako jsou například _preprocesor_ či _linker_.
 
-Překladač pro implementaci {cpp} na konkrétním počítači ale sám o sobě nestačí. Standrad {cpp} obsahuje *dvě hlavní části*. Ta první popisuje *vlastní programovací jazyk*, tedy například základní datové typy a operace nad nimi, funkce, třídy, šablony, apod. Druhá a mnohem obsáhlejší část (rozsahem více jak dvojnásobná v současném draftu) se zabývá *standardní knihovnou {cpp}* ({cpp} _standard library_).
+Překladač pro implementaci {cpp} na konkrétním počítači ale sám o sobě nestačí. Standrad {cpp} obsahuje *dvě hlavní části*. Ta první popisuje *vlastní programovací jazyk*, tedy například základní datové typy a operace nad nimi, funkce, třídy, šablony, apod. Druhá a mnohem obsáhlejší část (rozsahem více jak dvojnásobně v současném draftu standardu) se zabývá *standardní knihovnou {cpp}* _({cpp} standard library)_.
 
-.{cpp} standard library vs STL
+.Standardní knihovna {cpp} vs STL
 ****
-{cpp} standardní knihovna je někdy označována pojmem *_STL_*, což je zkratka *_standard template library_*. Jindy se zase tento pojem používá pouze pro část standardní knihovny {cpp}, která definuje algoritmy, kontejnery a iterátory. Teoreticky je použití pojmu STL *nesprávné* -- ve standardu {cpp} se vůbec neobjevuje. Přesto se v praxi *zažilo a běžně se používá*. Microsoft například repozitář svoji implementaci standardní knihovny {cpp} na GitHubu pojmenovává _microsoft/STL_, Intel svoji paralelní verzi {cpp} standardní knihovny zase nazývá _Parallel STL_.
+{cpp} standardní knihovna je někdy označována pojmem *_STL_*, což je zkratka *_standard template library_*. Někdo zase tento pojem používá pouze pro část standardní knihovny {cpp}, která se zabývá algoritmy, kontejnery a iterátory. Teoreticky je použití pojmu STL *nesprávné* -- ve standardu {cpp} se vůbec neobjevuje. Přesto se v praxi *zažilo a běžně na něj můžeme narazit*. Microsoft například repozitář svoji implementace standardní knihovny {cpp} na GitHubu pojmenovává _microsoft/STL_, Intel svoji paralelní verzi standardní knihovny {cpp} zase nazývá _Parallel STL_.
 
 ****
 
-Zjednodušeně se dá říct, že první část standardu obsahuje vše, co je potřeba k napsání zdrojového kódu, který *nevyužívá* žádný hlavičkový soubor standardní knihovny {cpp}. (Existují výjimky -- například se v této části popisuje alokační funkce `::operator new`, která je poskytovaná hlavičkovým souborem `<new>`.) Příklad takového kódu je následující:
+Zjednodušeně se dá říct, že první část standardu obsahuje vše, co je potřeba k napsání zdrojového kódu, který *nevyužívá* žádný *hlavičkový soubor standardní knihovny {cpp}*. (Existují výjimky -- například se v této části popisuje alokační funkce `::operator new`, která je poskytovaná hlavičkovým souborem `<new>`.) Příklad takového kódu je následující:
 
 [source]
 ----
@@ -49,9 +49,9 @@ int main()
 }
 ----
 
-Pro vygenerování spustitelného programu a případně i jeho spuštění (v případě dynamického linkování) je zde potřeba i *implementace standardní knihovny {cpp}*. V praxi *nejpoužívanější implementace* jsou -- alespoň pro architekturu x86_64 -- _libstdc{plus}{plus}_ od _GNU_, _libc{plus}{plus}_ od _LLVM_, a již zmíněná _Microsoft STL_.
+Pro vygenerování spustitelného programu a případně i pro jeho spuštění (v případě dynamického linkování) je zde navíc potřeba ještě *implementace standardní knihovny {cpp}*. V praxi *nejpoužívanější implementace* jsou -- alespoň pro architekturu x86_64 -- _libstdc{plus}{plus}_ od _GNU_, _libc{plus}{plus}_ od _LLVM_, a již zmíněná _Microsoft STL_.
 
-Některé překladače mohou spolupracovat s různými implementacemi standardní knihovny -- například _Clang_ {cpp} překladač umí používat  _libstdc{plus}{plus}_ i s _libc{plus}{plus}_. To, jaká knihovna je použitá implicitně je dáno instalací a systémem. Na Linuxu _Clang_ většinou implicitně použije _libstdc{plus}{plus}_, zatímco na Mac OS X to bude _libc{plus}{plus}_. Většina překladačů je ale poměrně těsně svázána s *konkrétní implementaci standardní knihovny*. Pro příklad, překladače od GNU (GCC) a Intelu využívají _libstdc{plus}{plus}_, překladač Microsfotu samozřejmě _Microsoft STL_.
+Některé překladače mohou spolupracovat s různými implementacemi standardní knihovny -- například překladač _Clang_ umí používat  _libstdc{plus}{plus}_ i s _libc{plus}{plus}_. To, jaká knihovna bude použitá implicitně je dáno instalací a systémem. Na Linuxu _Clang_ většinou implicitně použije _libstdc{plus}{plus}_, zatímco na Mac OS X to bude _libc{plus}{plus}_. Většina překladačů je ale poměrně *těsně svázána* s konkrétní implementaci standardní knihovny. Pro příklad, překladače od GNU (GCC) a Intelu využívají _libstdc{plus}{plus}_, překladač Microsfotu samozřejmě _Microsoft STL_.
 
 Velkou část standardní knihovny {cpp} představují *šablony*. Jejich zdrojový kód musí být pro překladač „viditelný“ při překladu a proto ho lze u implementací najít ve formě *hlavičkových souborů*. *Kompletní zdrojový kód* zmíněných implementací je navíc dostupný i formou *repozitářů na GitHubu*, konkrétně:
 
@@ -59,11 +59,11 @@ Velkou část standardní knihovny {cpp} představují *šablony*. Jejich zdrojo
 - _libc{plus}{plus}_: repozitář _llvm/llvm-project_ -- podadresář link:https://github.com/llvm/llvm-project/tree/master/libcxx[_libcxx_],
 - _Microsoft STL_: repozitář link:https://github.com/microsoft/STL[_microsoft/STL_].
 
-Zdrojový kód může být vynijkajícím *materiálem pro učení {cpp}*. Výše zmíněné implementace jsou vyvíjené se zaměřením na vysoký výkon a zároveň jsou v praxi dennodenně testované a ověřované ohromným množstvím programátorů a jejich programů. Na druhou stranu je tento kód velmi rozsáhlý a může být obtížné se v něm na první pohled zorientovat.
+Zdrojový kód může být vynijkajícím *materiálem pro učení {cpp}*. Výše zmíněné implementace jsou vyvíjené se zaměřením na vysoký výkon a zároveň jsou v praxi dennodenně testované a ověřované vysokým množstvím programátorů a jejich programů. Na druhou stranu je tento kód velmi rozsáhlý a může být obtížné se v něm na první pohled zorientovat.
 
 Studium zdrojového kódu může být také užitečné, pokud chceme pochopit, proč se implementace *chová nějakým konkrétním způsobem*. Pro příklad -- všechny tři zmíněné implementace standardní knihovny {cpp} aplikují pro třídu `std::string` optimalizační techniku *_small (short) string optimization_ (SSO)*. Ta zajišťuje, že pro řetězce *do určité délky* není potřeba dynamická alokace paměti. Místo toho je řetězec znaků uložen *v rámci bitové reprezentace objetku třídy*.
 
-Limit pro délku „krátkého“ řetězce závisí na tom, jakým způsobem je SSO implementováno. Můžeme ho zjistit vypsáním *kapacity* prázdného objektu třídy. Zároveň se podívejme i na *velikost jeho bitové reprezentace* zjistitelné pomocí operátoru `sizeof`:
+Limit pro délku „krátkého“ řetězce závisí na tom, *jakým způsobem* je SSO implementováno. Tento limit můžeme zjistit vypsáním *kapacity* prázdného objektu třídy. Zároveň se podívejme i na *velikost jeho bitové reprezentace* zjistitelné pomocí operátoru `sizeof`:
 
 [source]
 ----
@@ -78,11 +78,11 @@ int main()
 }
 ----
 
-Já jsem na architektuře X86_64 obdržel u _libstdc{plus}{plus}_ a _Microsoft STL_ shodně *kapacitu 15 a velikost 32*, kdežto u _libc{plus}{plus}_ *kapacitu 22 a velikost 24*. Zdánlivě je tedy _libc{plus}{plus}_ výrazně efektivnější -- do 24 bytů je schopna bez dynamické alokace uložit řetězec až o 22 znacích, kdežto ostatní dvě implementace do 32 bytů uloží maximálně 15 znaků.
+Já jsem na architektuře X86_64 obdržel u _libstdc{plus}{plus}_ a _Microsoft STL_ shodně *kapacitu 15 a velikost 32*, kdežto u _libc{plus}{plus}_ *kapacitu 22 a velikost 24*. Zdánlivě je tedy _libc{plus}{plus}_ výrazně efektivnější -- do 24 bytů je schopna bez dynamické alokace uložit řetězec až o 22 znacích, kdežto ostatní dvě implementace do 32 bytů uloží maximálně 15 jen znaků.
 
-Pro pochopení rozdílu mezi implementovanými variantami SSO je nutné podívat se do zdrojového kódu. Detailní analýza je mimo rozsah tohoto tématu (snad se k ní dostaneme v budoucnu v samostaném článku), ale ve stručnosti se dá říct, že _libc{plus}{plus}_ *preferuje vysokou paměťovou efektivitu na úkor časové*. Musí totiž při každém přístupu k uloženému řetězci znaků nejprve zjistit, zda je krátký (do 22 znaků) či dlouhý, a podle toho *odvodit ukazatel na uložené znaky*. To představuje *vyhodnocení podmínky*, a tedy *podmíněný skok* na úrovni strojového kódu. Oproti tomu, u _libstdc{plus}{plus}_ a _Microsoft STL_ má objekt třídy `std::string` ukazatel na znaky řetězce přímo uložený ve formě *samostatné členské proměnné*. To sice snižuje paměťovou efektivitu, ale díky absenci podmíněného skoku zvyšuje tu časovou.
+Pro pochopení rozdílu mezi implementovanými variantami SSO je nutné podívat se do zdrojového kódu. Detailní analýza je mimo rozsah tohoto tématu (snad se k ní dostaneme v budoucnu v samostaném článku), ale ve stručnosti se dá říct, že _libc{plus}{plus}_ *preferuje vysokou paměťovou efektivitu na úkor té časové*. Musí totiž při každém přístupu k uloženému řetězci znaků nejprve zjistit, zda je krátký (do 22 znaků) či dlouhý, a podle toho *odvodit ukazatel na uložené znaky*. To představuje určitou *časovou řežii*. Oproti tomu, u _libstdc{plus}{plus}_ a _Microsoft STL_ má objekt třídy `std::string` ukazatel na znaky řetězce přímo uložený ve formě *samostatné členské proměnné*. To sice snižuje paměťovou efektivitu, ale zase zvyšuje tu časovou.
 
-Jiným příkladem pro studium zdrojového kódu implementací standardní knihovny {cpp} může být následující zdrojový kód (tento příklad je spíše *pro pokročilé* -- pokud mu neporozumíte, nedělejte si s tím hlavu a prostě ho přeskočte):
+Jiným příkladem pro studium zdrojového kódu implementací standardní knihovny {cpp} může být následující problém (tento příklad je spíše *pro pokročilé* -- pokud mu neporozumíte, nedělejte si s tím hlavu a prostě ho přeskočte):
 
 [source]
 ----
@@ -101,7 +101,7 @@ V mém případě tento kód bez problému přeložily implemntace používajíc
 
 Přesouvací konstruktory vyhazující výjimky jsou obecně *problematické*. V případě „realokační“ členské funkce `reserve` u vektoru může takové vyhození výjimky způsobit, že obsah vektoru bude po volání funkce *jiný* než jaký byl před tímto voláním (nebude splněna tzv. _strong exception guarantee_). Standard {cpp} proto předepisuje, že členská funkce `reserve` má v takovém případě *dát přednost kopírovacímu konstruktoru*.
 
-Posledním kousem skládačky je fakt, že objekty třídy `std::thread` jsou *nekopírovatelné*. To samozřejmě znamená, že nelze zkopírovat ani obsah libovolného kontejneru, který objekty této třídy obsahuje. V našem případě je to mapa `std::map<int, std::thread>`. U _Microsoft STL_ tedy členská funkce vektoru `reserve` obasahuje volání kopírovacího konstruktoru této mapy, což při překladu selže na nemožnosti kopírování uložených objektů typu `std::thread`.
+Posledním kousem skládačky je fakt, že objekty třídy `std::thread` jsou *nekopírovatelné*. To samozřejmě znamená, že nelze zkopírovat ani obsah libovolného kontejneru, který objekty této třídy obsahuje. V našem případě je to mapa `std::map<int, std::thread>`. U _Microsoft STL_ se tedy členská funkce vektoru `reserve` snaží volat kopírovací konstruktor této mapy, což při překladu selže na nemožnosti kopírování uložených objektů typu `std::thread`.
 
 .Která implementace je ta správná?
 ****

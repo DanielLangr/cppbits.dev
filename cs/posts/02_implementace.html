@@ -47,21 +47,21 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Jak již bylo řečeno, <strong>implementace C&#43;&#43;</strong> zajišťuje aby program spuštěný na konkrétním počítačovém systému měl takové pozorvatelné chování, jaké mu předepisuje standard C&#43;&#43; dle jeho zdrojového kódu. Implementace C&#43;&#43; obsahuje především <strong>překladač C&#43;&#43;</strong>. Pro jednoduchost budeme pod tímto pojmem rozumět celou kolekci nástrojů, která je potřebná pro <strong>vygenerování spustitelného programu či kninovního souboru ze zdrojového kódu</strong>. Mimo vlastního „generátoru“ strojového kódu sem tedy zarhneme i nástroje jako například <em>preprocesor</em> či <em>linker</em>.</p>
+<p>Jak již bylo řečeno, <strong>implementace C&#43;&#43;</strong> zajišťuje aby program spuštěný na konkrétním počítačovém systému měl takové pozorvatelné chování, jaké mu předepisuje standard C&#43;&#43; dle jeho zdrojového kódu. Implementace C&#43;&#43; obsahuje především <strong>překladač C&#43;&#43;</strong>. Pokud nebude uvedeno jinak, budeme pro jednoduchost pod tímto pojmem rozumět celou kolekci nástrojů, která je potřebná pro <strong>vygenerování spustitelného programu či kninovního souboru ze zdrojového kódu</strong>. Mimo vlastního „generátoru“ strojového kódu sem tedy zarhneme i nástroje jako jsou například <em>preprocesor</em> či <em>linker</em>.</p>
 </div>
 <div class="paragraph">
-<p>Překladač pro implementaci C&#43;&#43; na konkrétním počítači ale sám o sobě nestačí. Standrad C&#43;&#43; obsahuje <strong>dvě hlavní části</strong>. Ta první popisuje <strong>vlastní programovací jazyk</strong>, tedy například základní datové typy a operace nad nimi, funkce, třídy, šablony, apod. Druhá a mnohem obsáhlejší část (rozsahem více jak dvojnásobná v současném draftu) se zabývá <strong>standardní knihovnou C&#43;&#43;</strong> (C&#43;&#43; <em>standard library</em>).</p>
+<p>Překladač pro implementaci C&#43;&#43; na konkrétním počítači ale sám o sobě nestačí. Standrad C&#43;&#43; obsahuje <strong>dvě hlavní části</strong>. Ta první popisuje <strong>vlastní programovací jazyk</strong>, tedy například základní datové typy a operace nad nimi, funkce, třídy, šablony, apod. Druhá a mnohem obsáhlejší část (rozsahem více jak dvojnásobně v současném draftu standardu) se zabývá <strong>standardní knihovnou C&#43;&#43;</strong> <em>(C&#43;&#43; standard library)</em>.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
-<div class="title">C&#43;&#43; standard library vs STL</div>
+<div class="title">Standardní knihovna C&#43;&#43; vs STL</div>
 <div class="paragraph">
-<p>C&#43;&#43; standardní knihovna je někdy označována pojmem <strong><em>STL</em></strong>, což je zkratka <strong><em>standard template library</em></strong>. Jindy se zase tento pojem používá pouze pro část standardní knihovny C&#43;&#43;, která definuje algoritmy, kontejnery a iterátory. Teoreticky je použití pojmu STL <strong>nesprávné</strong>&#8201;&#8212;&#8201;ve standardu C&#43;&#43; se vůbec neobjevuje. Přesto se v praxi <strong>zažilo a běžně se používá</strong>. Microsoft například repozitář svoji implementaci standardní knihovny C&#43;&#43; na GitHubu pojmenovává <em>microsoft/STL</em>, Intel svoji paralelní verzi C&#43;&#43; standardní knihovny zase nazývá <em>Parallel STL</em>.</p>
+<p>C&#43;&#43; standardní knihovna je někdy označována pojmem <strong><em>STL</em></strong>, což je zkratka <strong><em>standard template library</em></strong>. Někdo zase tento pojem používá pouze pro část standardní knihovny C&#43;&#43;, která se zabývá algoritmy, kontejnery a iterátory. Teoreticky je použití pojmu STL <strong>nesprávné</strong>&#8201;&#8212;&#8201;ve standardu C&#43;&#43; se vůbec neobjevuje. Přesto se v praxi <strong>zažilo a běžně na něj můžeme narazit</strong>. Microsoft například repozitář svoji implementace standardní knihovny C&#43;&#43; na GitHubu pojmenovává <em>microsoft/STL</em>, Intel svoji paralelní verzi standardní knihovny C&#43;&#43; zase nazývá <em>Parallel STL</em>.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Zjednodušeně se dá říct, že první část standardu obsahuje vše, co je potřeba k napsání zdrojového kódu, který <strong>nevyužívá</strong> žádný hlavičkový soubor standardní knihovny C&#43;&#43;. (Existují výjimky&#8201;&#8212;&#8201;například se v této části popisuje alokační funkce <code>::operator new</code>, která je poskytovaná hlavičkovým souborem <code>&lt;new&gt;</code>.) Příklad takového kódu je následující:</p>
+<p>Zjednodušeně se dá říct, že první část standardu obsahuje vše, co je potřeba k napsání zdrojového kódu, který <strong>nevyužívá</strong> žádný <strong>hlavičkový soubor standardní knihovny C&#43;&#43;</strong>. (Existují výjimky&#8201;&#8212;&#8201;například se v této části popisuje alokační funkce <code>::operator new</code>, která je poskytovaná hlavičkovým souborem <code>&lt;new&gt;</code>.) Příklad takového kódu je následující:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -85,10 +85,10 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>Pro vygenerování spustitelného programu a případně i jeho spuštění (v případě dynamického linkování) je zde potřeba i <strong>implementace standardní knihovny C&#43;&#43;</strong>. V praxi <strong>nejpoužívanější implementace</strong> jsou&#8201;&#8212;&#8201;alespoň pro architekturu x86_64&#8201;&#8212;&#8201;<em>libstdc&#43;&#43;</em> od <em>GNU</em>, <em>libc&#43;&#43;</em> od <em>LLVM</em>, a již zmíněná <em>Microsoft STL</em>.</p>
+<p>Pro vygenerování spustitelného programu a případně i pro jeho spuštění (v případě dynamického linkování) je zde navíc potřeba ještě <strong>implementace standardní knihovny C&#43;&#43;</strong>. V praxi <strong>nejpoužívanější implementace</strong> jsou&#8201;&#8212;&#8201;alespoň pro architekturu x86_64&#8201;&#8212;&#8201;<em>libstdc&#43;&#43;</em> od <em>GNU</em>, <em>libc&#43;&#43;</em> od <em>LLVM</em>, a již zmíněná <em>Microsoft STL</em>.</p>
 </div>
 <div class="paragraph">
-<p>Některé překladače mohou spolupracovat s různými implementacemi standardní knihovny&#8201;&#8212;&#8201;například <em>Clang</em> C&#43;&#43; překladač umí používat  <em>libstdc&#43;&#43;</em> i s <em>libc&#43;&#43;</em>. To, jaká knihovna je použitá implicitně je dáno instalací a systémem. Na Linuxu <em>Clang</em> většinou implicitně použije <em>libstdc&#43;&#43;</em>, zatímco na Mac OS X to bude <em>libc&#43;&#43;</em>. Většina překladačů je ale poměrně těsně svázána s <strong>konkrétní implementaci standardní knihovny</strong>. Pro příklad, překladače od GNU (GCC) a Intelu využívají <em>libstdc&#43;&#43;</em>, překladač Microsfotu samozřejmě <em>Microsoft STL</em>.</p>
+<p>Některé překladače mohou spolupracovat s různými implementacemi standardní knihovny&#8201;&#8212;&#8201;například překladač <em>Clang</em> umí používat  <em>libstdc&#43;&#43;</em> i s <em>libc&#43;&#43;</em>. To, jaká knihovna bude použitá implicitně je dáno instalací a systémem. Na Linuxu <em>Clang</em> většinou implicitně použije <em>libstdc&#43;&#43;</em>, zatímco na Mac OS X to bude <em>libc&#43;&#43;</em>. Většina překladačů je ale poměrně <strong>těsně svázána</strong> s konkrétní implementaci standardní knihovny. Pro příklad, překladače od GNU (GCC) a Intelu využívají <em>libstdc&#43;&#43;</em>, překladač Microsfotu samozřejmě <em>Microsoft STL</em>.</p>
 </div>
 <div class="paragraph">
 <p>Velkou část standardní knihovny C&#43;&#43; představují <strong>šablony</strong>. Jejich zdrojový kód musí být pro překladač „viditelný“ při překladu a proto ho lze u implementací najít ve formě <strong>hlavičkových souborů</strong>. <strong>Kompletní zdrojový kód</strong> zmíněných implementací je navíc dostupný i formou <strong>repozitářů na GitHubu</strong>, konkrétně:</p>
@@ -107,13 +107,13 @@ int main()
 </ul>
 </div>
 <div class="paragraph">
-<p>Zdrojový kód může být vynijkajícím <strong>materiálem pro učení C&#43;&#43;</strong>. Výše zmíněné implementace jsou vyvíjené se zaměřením na vysoký výkon a zároveň jsou v praxi dennodenně testované a ověřované ohromným množstvím programátorů a jejich programů. Na druhou stranu je tento kód velmi rozsáhlý a může být obtížné se v něm na první pohled zorientovat.</p>
+<p>Zdrojový kód může být vynijkajícím <strong>materiálem pro učení C&#43;&#43;</strong>. Výše zmíněné implementace jsou vyvíjené se zaměřením na vysoký výkon a zároveň jsou v praxi dennodenně testované a ověřované vysokým množstvím programátorů a jejich programů. Na druhou stranu je tento kód velmi rozsáhlý a může být obtížné se v něm na první pohled zorientovat.</p>
 </div>
 <div class="paragraph">
 <p>Studium zdrojového kódu může být také užitečné, pokud chceme pochopit, proč se implementace <strong>chová nějakým konkrétním způsobem</strong>. Pro příklad&#8201;&#8212;&#8201;všechny tři zmíněné implementace standardní knihovny C&#43;&#43; aplikují pro třídu <code>std::string</code> optimalizační techniku <strong><em>small (short) string optimization</em> (SSO)</strong>. Ta zajišťuje, že pro řetězce <strong>do určité délky</strong> není potřeba dynamická alokace paměti. Místo toho je řetězec znaků uložen <strong>v rámci bitové reprezentace objetku třídy</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Limit pro délku „krátkého“ řetězce závisí na tom, jakým způsobem je SSO implementováno. Můžeme ho zjistit vypsáním <strong>kapacity</strong> prázdného objektu třídy. Zároveň se podívejme i na <strong>velikost jeho bitové reprezentace</strong> zjistitelné pomocí operátoru <code>sizeof</code>:</p>
+<p>Limit pro délku „krátkého“ řetězce závisí na tom, <strong>jakým způsobem</strong> je SSO implementováno. Tento limit můžeme zjistit vypsáním <strong>kapacity</strong> prázdného objektu třídy. Zároveň se podívejme i na <strong>velikost jeho bitové reprezentace</strong> zjistitelné pomocí operátoru <code>sizeof</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -129,13 +129,13 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>Já jsem na architektuře X86_64 obdržel u <em>libstdc&#43;&#43;</em> a <em>Microsoft STL</em> shodně <strong>kapacitu 15 a velikost 32</strong>, kdežto u <em>libc&#43;&#43;</em> <strong>kapacitu 22 a velikost 24</strong>. Zdánlivě je tedy <em>libc&#43;&#43;</em> výrazně efektivnější&#8201;&#8212;&#8201;do 24 bytů je schopna bez dynamické alokace uložit řetězec až o 22 znacích, kdežto ostatní dvě implementace do 32 bytů uloží maximálně 15 znaků.</p>
+<p>Já jsem na architektuře X86_64 obdržel u <em>libstdc&#43;&#43;</em> a <em>Microsoft STL</em> shodně <strong>kapacitu 15 a velikost 32</strong>, kdežto u <em>libc&#43;&#43;</em> <strong>kapacitu 22 a velikost 24</strong>. Zdánlivě je tedy <em>libc&#43;&#43;</em> výrazně efektivnější&#8201;&#8212;&#8201;do 24 bytů je schopna bez dynamické alokace uložit řetězec až o 22 znacích, kdežto ostatní dvě implementace do 32 bytů uloží maximálně 15 jen znaků.</p>
 </div>
 <div class="paragraph">
-<p>Pro pochopení rozdílu mezi implementovanými variantami SSO je nutné podívat se do zdrojového kódu. Detailní analýza je mimo rozsah tohoto tématu (snad se k ní dostaneme v budoucnu v samostaném článku), ale ve stručnosti se dá říct, že <em>libc&#43;&#43;</em> <strong>preferuje vysokou paměťovou efektivitu na úkor časové</strong>. Musí totiž při každém přístupu k uloženému řetězci znaků nejprve zjistit, zda je krátký (do 22 znaků) či dlouhý, a podle toho <strong>odvodit ukazatel na uložené znaky</strong>. To představuje <strong>vyhodnocení podmínky</strong>, a tedy <strong>podmíněný skok</strong> na úrovni strojového kódu. Oproti tomu, u <em>libstdc&#43;&#43;</em> a <em>Microsoft STL</em> má objekt třídy <code>std::string</code> ukazatel na znaky řetězce přímo uložený ve formě <strong>samostatné členské proměnné</strong>. To sice snižuje paměťovou efektivitu, ale díky absenci podmíněného skoku zvyšuje tu časovou.</p>
+<p>Pro pochopení rozdílu mezi implementovanými variantami SSO je nutné podívat se do zdrojového kódu. Detailní analýza je mimo rozsah tohoto tématu (snad se k ní dostaneme v budoucnu v samostaném článku), ale ve stručnosti se dá říct, že <em>libc&#43;&#43;</em> <strong>preferuje vysokou paměťovou efektivitu na úkor té časové</strong>. Musí totiž při každém přístupu k uloženému řetězci znaků nejprve zjistit, zda je krátký (do 22 znaků) či dlouhý, a podle toho <strong>odvodit ukazatel na uložené znaky</strong>. To představuje určitou <strong>časovou řežii</strong>. Oproti tomu, u <em>libstdc&#43;&#43;</em> a <em>Microsoft STL</em> má objekt třídy <code>std::string</code> ukazatel na znaky řetězce přímo uložený ve formě <strong>samostatné členské proměnné</strong>. To sice snižuje paměťovou efektivitu, ale zase zvyšuje tu časovou.</p>
 </div>
 <div class="paragraph">
-<p>Jiným příkladem pro studium zdrojového kódu implementací standardní knihovny C&#43;&#43; může být následující zdrojový kód (tento příklad je spíše <strong>pro pokročilé</strong>&#8201;&#8212;&#8201;pokud mu neporozumíte, nedělejte si s tím hlavu a prostě ho přeskočte):</p>
+<p>Jiným příkladem pro studium zdrojového kódu implementací standardní knihovny C&#43;&#43; může být následující problém (tento příklad je spíše <strong>pro pokročilé</strong>&#8201;&#8212;&#8201;pokud mu neporozumíte, nedělejte si s tím hlavu a prostě ho přeskočte):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -157,7 +157,7 @@ int main()
 <p>Přesouvací konstruktory vyhazující výjimky jsou obecně <strong>problematické</strong>. V případě „realokační“ členské funkce <code>reserve</code> u vektoru může takové vyhození výjimky způsobit, že obsah vektoru bude po volání funkce <strong>jiný</strong> než jaký byl před tímto voláním (nebude splněna tzv. <em>strong exception guarantee</em>). Standard C&#43;&#43; proto předepisuje, že členská funkce <code>reserve</code> má v takovém případě <strong>dát přednost kopírovacímu konstruktoru</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Posledním kousem skládačky je fakt, že objekty třídy <code>std::thread</code> jsou <strong>nekopírovatelné</strong>. To samozřejmě znamená, že nelze zkopírovat ani obsah libovolného kontejneru, který objekty této třídy obsahuje. V našem případě je to mapa <code>std::map&lt;int, std::thread&gt;</code>. U <em>Microsoft STL</em> tedy členská funkce vektoru <code>reserve</code> obasahuje volání kopírovacího konstruktoru této mapy, což při překladu selže na nemožnosti kopírování uložených objektů typu <code>std::thread</code>.</p>
+<p>Posledním kousem skládačky je fakt, že objekty třídy <code>std::thread</code> jsou <strong>nekopírovatelné</strong>. To samozřejmě znamená, že nelze zkopírovat ani obsah libovolného kontejneru, který objekty této třídy obsahuje. V našem případě je to mapa <code>std::map&lt;int, std::thread&gt;</code>. U <em>Microsoft STL</em> se tedy členská funkce vektoru <code>reserve</code> snaží volat kopírovací konstruktor této mapy, což při překladu selže na nemožnosti kopírování uložených objektů typu <code>std::thread</code>.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
