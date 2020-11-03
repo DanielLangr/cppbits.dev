@@ -19,11 +19,11 @@ ____
 
 Jak již bylo řečeno, standard {cpp} definuje jak se má program chovat na abstraktním počítači na základě zdrojového kódu, ze kterého byl vygenerován. Implementace {cpp} poté zajistí, aby stejné pozorovatelné chování měl i program na konkrétním počítačovém systému.
 
-Standard {cpp} ale nedfinuje chování programu *za všech okolností*. Definuje ho pouze v případě, že jsou *dodržena v něm obsažená pravidla*. Pokud tomu tak není, chování programu standard nedefinuje. Takový případ se označuje pojmem *nedefinované chování* _(undefined behavior_ -- zkráceně _UB)_. 
+Standard {cpp} ale nedefinuje chování programu *za všech okolností*. Definuje ho pouze v případě, že jsou *dodržena v něm obsažená pravidla*. Pokud tomu tak není, chování programu standard nedefinuje. Takový případ se označuje pojmem *nedefinované chování* _(undefined behavior_ -- zkráceně _UB)_. 
 
 Nedefinované chování se netýká jen *doby běhu programu* _(runtime)_. Pokud nejsou dodržena pravidla standardu, které se týkají *překladu zdrojového kódu*, standard nedefinuje chování implementace ani v *době překladu* _(compile time)_. Obecně se tedy dá říct, že při nedefinovaném chování, tj. nedodržení pravidel standardu {cpp}, se implementace {cpp} může *chovat libovolným způsobem*. A to v době překladu zdrojového kódu i v době běhu vygenerovaného programu (v případě, že byl vůbec vygenerován).
 
-Příkladem konkrétního pravidla standardu je, že u *celočíselných typů se znaménkem* _(signed)_ nesmí dojít k *přetečení* _(overflow)_. Z takového přeteční tedy vyplývá nedefinované chování:
+Příkladem konkrétního pravidla standardu je, že u *celočíselných typů se znaménkem* _(signed)_ nesmí dojít k *přetečení* _(overflow)_. Z takového přetečení tedy vyplývá nedefinované chování:
 
 .main.cpp
 [source]
@@ -54,9 +54,9 @@ int main()
 }
 ----
 
-způsobí přetečení a tedy nedefinované chování pouze pokud je ze standardního vstupu přečtena maximální hodnota typu `int`. Porušení pravidel stadndardu zde tedy nemůže nastat dříve než *v čase běhu programu*.
+způsobí přetečení a tedy nedefinované chování pouze pokud je ze standardního vstupu přečtena maximální hodnota typu `int`. Porušení pravidel standardu zde tedy nemůže nastat dříve než *v čase běhu programu*.
 
-Velmi často kladenou otázkou je, *co se ve skutečnosti stane*, pokud chování není definované. Vraťmě se ke zdrojovému kódu `main.cpp`. V mém případě jeho překlad pomocí `g++ -O2 main.cpp` vygeneroval následující instrukce strojového kódu:
+Velmi často kladenou otázkou je, *co se ve skutečnosti stane*, pokud chování není definované. Vraťme se ke zdrojovému kódu `main.cpp`. V mém případě jeho překlad pomocí `g++ -O2 main.cpp` vygeneroval následující instrukce strojového kódu:
 
 [source,x86asm]
 ----
@@ -68,7 +68,7 @@ Je chování tohoto programu *na úrovni strojového kódu* nedefinované? V ž�
 
 .Nedefinované chování a přenositelnost
 ****
-Z nedefinovaného chování na úrovni standardu {cpp} vyplývá *nepřenositelnost příslušného zdrojového kódu*. Chování programu sice může dodatečně definovat implemtnace {cpp}, ale není předepsáno standardem jaké by to chování mělo být. Různé implementace tudíž mohou vygenerovat program se *zcela odlišným chováním*.
+Z nedefinovaného chování na úrovni standardu {cpp} vyplývá *nepřenositelnost příslušného zdrojového kódu*. Chování programu sice může dodatečně definovat implementace {cpp}, ale není předepsáno standardem jaké by to chování mělo být. Různé implementace tudíž mohou vygenerovat program se *zcela odlišným chováním*.
 ****
 
 Podívejme se na jiný příklad:
@@ -94,11 +94,11 @@ xor eax, eax
 ret
 ----
 
-Jeho chování je samozřejmě opět zcela přesně definované (normální ukončení programu s návartovým statusem 0).
+Jeho chování je samozřejmě opět zcela přesně definované (normální ukončení programu s návratovým statusem 0).
 
 Otázkou zůstává, zda je zde *zaručeno*, že se vygenerovaný program bude chovat tímto způsobem. Standard {cpp} to samozřejmě nezaručuje. Implementace to zaručovat *může, ale také nemusí*, a přesnou odpověď může být velmi komplikované až takřka nemožné zjistit. Dobrou zprávou je, že se implementace většinou (ne-li vždy) chovají *deterministicky*. Je tedy velmi pravděpodobné, že v našem případě vygeneruje překladač `g++` spustitelný soubor s uvedeným chováním vždy při dodržení stejné konfigurace překladu.
 
-V některých případech dokonce implemantace {cpp} *explicitně* definuje chování programu, které by podle standrdu samotného bylo nedefinované. Příkladem může být stejný problém -- náhled na bitovou reprezentaci objektu jednoho typu přes objekt jiného typu -- ale tentokrát řešený pomocí třídního typu `union`. Ten na rozdíl od třídních typů `class` a `struct` ukládá své členské proměnné v paměti *nikoliv za sebou, ale přes sebe*. Alternativní řešení problému z kódu `main2.cpp` by tedy mohlo vypadat následovně:
+V některých případech dokonce implementace {cpp} *explicitně* definuje chování programu, které by podle standardu samotného bylo nedefinované. Příkladem může být stejný problém -- náhled na bitovou reprezentaci objektu jednoho typu přes objekt jiného typu -- ale tentokrát řešený pomocí třídního typu `union`. Ten na rozdíl od třídních typů `class` a `struct` ukládá své členské proměnné v paměti *nikoliv za sebou, ale přes sebe*. Alternativní řešení problému z kódu `main2.cpp` by tedy mohlo vypadat následovně:
 
 .main3.cpp
 [source]
@@ -129,9 +129,9 @@ xor eax, eax
 ret
 ----
 
-V tomto případě bylo ale chování vygenerovaného programu *explicitně zaručeno implementací*. GCC totiž ve své dokumentaci deklaruje, že definuje chování i při *čtení neaktinvní členské proměnné* objektu typu `union` (viz např. link:https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning[]). Jedná se tedy o *„nadstandardní“ rozšíření jazyka {cpp}*.
+V tomto případě bylo ale chování vygenerovaného programu *explicitně zaručeno implementací*. GCC totiž ve své dokumentaci deklaruje, že definuje chování i při *čtení neaktivní členské proměnné* objektu typu `union` (viz např. link:https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning[]). Jedná se tedy o *„nadstandardní“ rozšíření jazyka {cpp}*.
 
-Jako jiným případ nedefinovaného chování, které je *„tolerováno“ v praxi*, může sloužit snaha o implementaci kontejneru `std::vector<T>` ze standardní knihovny {cpp} (tento případ je spíše pro pokorčilé). Vektor představuje dynamické pole prvků typu `T`. Z důvodu efektivity má objekt vektoru *alokovanou paměť pro určité množství prvků*, ale počet aktuálně uložených prvků může být i menší. (Tento koncept zaručuje *amortizovanou konstantní složitost* často používané operace *přidání prvku na konec vektoru*.)
+Jako jiným případ nedefinovaného chování, které je *„tolerováno“ v praxi*, může sloužit snaha o implementaci kontejneru `std::vector<T>` ze standardní knihovny {cpp} (tento případ je spíše pro pokročilé). Vektor představuje dynamické pole prvků typu `T`. Z důvodu efektivity má objekt vektoru *alokovanou paměť pro určité množství prvků*, ale počet aktuálně uložených prvků může být i menší. (Tento koncept zaručuje *amortizovanou konstantní složitost* často používané operace *přidání prvku na konec vektoru*.)
 
 Předpokládejme, že na alokovanou paměť ukazuje členská proměnná vektoru `data_` typu `T*`. Alokace paměti pro uložení `n` prvků by pak mohla vypadat následovně:
 
@@ -154,7 +154,7 @@ V alokovaném bloku paměti, na který ukazuje ukazatel `data_`, jsou následně
 T& operator[](size_type n) { return data_ + n; }
 ----
 
-A zde nastává problém. Tento oprátor totiž obashuje *aritmetickou operaci nad ukazatelem* _(pointer arithmetic)_ typu `T*`. Takovou operaci standard {cpp} povoluje nad *polem objektů typu `T`*. My ale máme *blok neinicializované paměti*, ve které byly následně *na jistých místech vytvořeny objekty typu `T`*. A to podle standardu *není pole typu `T`*. Aritmetika s ukazatelem v takovém případě vede na nedefinované chování.
+A zde nastává problém. Tento operátor totiž obsahuje *aritmetickou operaci nad ukazatelem* _(pointer arithmetic)_ typu `T*`. Takovou operaci standard {cpp} povoluje nad *polem objektů typu `T`*. My ale máme *blok neinicializované paměti*, ve které byly následně *na jistých místech vytvořeny objekty typu `T`*. A to podle standardu *není pole typu `T`*. Aritmetika s ukazatelem v takovém případě vede na nedefinované chování.
 
 .Je `std::vector` implementovatelný?
 ****
@@ -168,8 +168,8 @@ Uvedenou problematiku adresuje _proposal_ dokumentu P0593R6, dostupný napříkl
 - K nedefinovanému chování vede *nedodržení pravidel standardu {cpp}*.
 - Při nedefinovaném chování standard *nepředepisuje*, jak se má implementace {cpp} pro daný zdrojový kód chovat. Ta se poté může chovat *libovolným způsobem*, a to v *čase překladu* i v *čase běhu programu*.
 - Implementace se v takových případech obecně *chovají deterministicky*. Obvykle vygenerují program, jehož chování je *definované jeho strojovým kódem*.
-- Nedefinované chování obecně vede na *nepřenositlený zdrojový kód* -- ve smyslu, že se pro něj *různé implementace* mohou chovat *odlišným způsobem*.
-- V některých případech implemnetace {cpp} *explicitně definuje chování* i v případě, že podle standardu definované není.
+- Nedefinované chování obecně vede na *nepřenositelný zdrojový kód* -- ve smyslu, že se pro něj *různé implementace* mohou chovat *odlišným způsobem*.
+- V některých případech implementace {cpp} *explicitně definuje chování* i v případě, že podle standardu definované není.
 ****
 
 include::{rootdir}/include/disqus.adoc[]

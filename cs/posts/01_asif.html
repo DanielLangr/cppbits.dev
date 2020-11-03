@@ -82,7 +82,7 @@ ret</code></pre>
 <p>Strojový kód ve skutečnosti představují prakticky nečitelná <strong>binární data</strong>. Pro jeho zkoumání se proto většinou převádí do příslušných <strong>instrukcí assembleru</strong>, k čemuž slouží nástroj zvaný <em>disassembler</em>. Příkladem takového nástroje je program <code>objdump</code> spuštěný s přepínačem <code>-d</code>/<code>--disassemble</code>.</p>
 </div>
 <div class="paragraph">
-<p>Neocenitelným pomocníkem při zkoumání strojového kódu vygenerovaného pro určitý zdrojový kód je <strong>online</strong> C&#43;&#43; překladač a <em>disassembler</em> <a href="https://godbolt.org/">Compiler Explorer</a>. Je v něm na výběr velké množství <strong>překldačů C&#43;&#43;</strong> od různých poskytovatelů a rovněž několik cílových <strong>architektur procesoru</strong>.</p>
+<p>Neocenitelným pomocníkem při zkoumání strojového kódu vygenerovaného pro určitý zdrojový kód je <strong>online</strong> C&#43;&#43; překladač a <em>disassembler</em> <a href="https://godbolt.org/">Compiler Explorer</a>. Je v něm na výběr velké množství <strong>překladačů C&#43;&#43;</strong> od různých poskytovatelů a rovněž několik cílových <strong>architektur procesoru</strong>.</p>
 </div>
 </div>
 </div>
@@ -90,10 +90,10 @@ ret</code></pre>
 <p>Chování programu definuje podle jeho zdrojového kódu <strong>standard C&#43;&#43;</strong>. Otázkou je, co si vlastně pod pojmem <strong>chováním programu</strong> představit. Jednoduše řečeno je to <strong>pozorovatelný efekt programu</strong> z pohledu jeho okolí.</p>
 </div>
 <div class="paragraph">
-<p>Co o chování našeho programu říká standard C&#43;&#43;? Od C&#43;&#43;11 je opuštění funkce <code>main</code> mimo příkaz <code>return</code> ekvivaletní spuštění příkazu <code>return 0;</code>. Ten způsobí <strong>normální ukončení programu s návratovým statusem 0</strong>, což představuje jediný pozorovatelný efekt tohoto programu.</p>
+<p>Co o chování našeho programu říká standard C&#43;&#43;? Od C&#43;&#43;11 je opuštění funkce <code>main</code> mimo příkaz <code>return</code> ekvivalentní spuštění příkazu <code>return 0;</code>. Ten způsobí <strong>normální ukončení programu s návratovým statusem 0</strong>, což představuje jediný pozorovatelný efekt tohoto programu.</p>
 </div>
 <div class="paragraph">
-<p>C&#43;&#43; standard definuje chování programu na <strong>abstraktním počítači</strong>. Na <strong>konkrétním počítačovém systému</strong> toto chování zajišťuje tzv. <strong>implementace C&#43;&#43;</strong> (například v našem případě reprezentovaná překladačem <code>g++</code>). Jedním z nejdůležitějších konceptů C&#43;&#43; je tzv. <strong><em>as-if</em> pravidlo</strong> <em>(as-if rule)</em>. To říká, že C&#43;&#43; implementace musí zajisit pouze pozorovatelné chování programu definované pro jeho zdrojový kód, ale <strong>jak</strong> tohoto chování docílí nechává zcela na ní. Implemetnace se poté v rámci optimalizací snaží zajistit pozorovatelné chování programu s ohledem na co <strong>nejvyšší výkon a efektivitu</strong>.</p>
+<p>C&#43;&#43; standard definuje chování programu na <strong>abstraktním počítači</strong>. Na <strong>konkrétním počítačovém systému</strong> toto chování zajišťuje tzv. <strong>implementace C&#43;&#43;</strong> (například v našem případě reprezentovaná překladačem <code>g++</code>). Jedním z nejdůležitějších konceptů C&#43;&#43; je tzv. <strong><em>as-if</em> pravidlo</strong> <em>(as-if rule)</em>. To říká, že C&#43;&#43; implementace musí zajistit pouze pozorovatelné chování programu definované pro jeho zdrojový kód, ale <strong>jak</strong> tohoto chování docílí nechává zcela na ní. Implementace se poté v rámci optimalizací snaží zajistit pozorovatelné chování programu s ohledem na co <strong>nejvyšší výkon a efektivitu</strong>.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -104,7 +104,7 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Výše ukázaný překlad proběhl s <strong>vypnutými optimalizacemi</strong>. Proto se ve vygenerovaném strojovém kódu objevily instrukce, které pozorovatelnému efektu programu nijak nepřispívají. Konkréntě to jsou instrukce pracující s registry zásobníku <code>rbp</code> a <code>rsp</code>. V případě překladu se <strong>zapnutými optimalizacemi</strong>:</p>
+<p>Výše ukázaný překlad proběhl s <strong>vypnutými optimalizacemi</strong>. Proto se ve vygenerovaném strojovém kódu objevily instrukce, které pozorovatelnému efektu programu nijak nepřispívají. Konkrétně to jsou instrukce pracující s registry zásobníku <code>rbp</code> a <code>rsp</code>. V případě překladu se <strong>zapnutými optimalizacemi</strong>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -127,7 +127,7 @@ ret</code></pre>
 <div class="content">
 <div class="title">Proč je instrukce <code>xor eax, eax</code> efektivnější než <code>mov eax, 0</code>?</div>
 <div class="paragraph">
-<p>Binární podoba strojového kódu&#8201;&#8212;&#8201;tzv. operační kód <em>(opcode)</em>&#8201;&#8212;&#8201;instrukcí <code>mov eax, 0</code> a <code>xor eax, eax</code> je totiž <code>b8 00 00 00 00</code> a <code>32 c0</code>, v uvedeném pořadí. U druhé instrukce je tedy výrazně <strong>kratší</strong>. To v praxi šetří množství přenesených dat mezi oprační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.</p>
+<p>Binární podoba strojového kódu&#8201;&#8212;&#8201;tzv. operační kód <em>(opcode)</em>&#8201;&#8212;&#8201;instrukcí <code>mov eax, 0</code> a <code>xor eax, eax</code> je totiž <code>b8 00 00 00 00</code> a <code>32 c0</code>, v uvedeném pořadí. U druhé instrukce je tedy výrazně <strong>kratší</strong>. To v praxi šetří množství přenesených dat mezi operační pamětí a procesorem a zvyšuje efektivitu práce s instrukční cache pamětí.</p>
 </div>
 </div>
 </div>
@@ -189,7 +189,7 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>Pozorovatelné chování programu které standard předepisuje pro všechny tři zdrojové soubory <code>main1.cpp</code>, <code>main2.cpp</code> i <code>main3.cpp</code> je totiž <strong>totožné</strong>. To má mimo jiné důsledek, že obecně z přeloženého strojového kódu samotného <strong>nelze zjistit</strong>, z jakého zdrojového kódu byl vytvořen. Dokonce se zapnutými optimalizacemi ani neexistuje přímá korespondece mezi konkrétními příkazy zdrojového kódu a vygenerovanými instrukcemi (pro takové účely je nutné vypnout optimalizace a přidat ladící informace).</p>
+<p>Pozorovatelné chování programu které standard předepisuje pro všechny tři zdrojové soubory <code>main1.cpp</code>, <code>main2.cpp</code> i <code>main3.cpp</code> je totiž <strong>totožné</strong>. To má mimo jiné důsledek, že obecně z přeloženého strojového kódu samotného <strong>nelze zjistit</strong>, z jakého zdrojového kódu byl vytvořen. Dokonce se zapnutými optimalizacemi ani neexistuje přímá korespondence mezi konkrétními příkazy zdrojového kódu a vygenerovanými instrukcemi (pro takové účely je nutné vypnout optimalizace a přidat ladící informace).</p>
 </div>
 <div class="paragraph">
 <p>Co přesně tvoří pozorovatelný efekt programu <strong>nemusí být vždy úplně jasné</strong>. Vezměme v úvahu následující zdrojový kód:</p>
@@ -204,13 +204,13 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Zdánlivě</strong> má tento program stejné pozorovatelné chování jako <code>main.cpp</code>, tedy pouze ukončení programu s návratovým statusem 0. Na druhou stranu zde dochází k dynamické alokaci paměti a ta může být z okolí programu rovněž <strong>pozorovatelná</strong>, např. pomocí profilovacích nástorjů haldy jako jsou <em>Valgrind</em> nebo <em>Heaptrack</em>. O tom, zda mohou být dynamické alokace eliminovány v rámci optimalizací se vedly a vedou diskuze. Novější implementace tuto eliminaci umožňují&#8201;&#8212;&#8201;například <code>g++</code> se tímto způsobem v mých experimentech chovalo od verze 10. Starší verze vygenerovaly strojový kód s volání funckí pro alokaci a dealokaci paměti.</p>
+<p><strong>Zdánlivě</strong> má tento program stejné pozorovatelné chování jako <code>main.cpp</code>, tedy pouze ukončení programu s návratovým statusem 0. Na druhou stranu zde dochází k dynamické alokaci paměti a ta může být z okolí programu rovněž <strong>pozorovatelná</strong>, např. pomocí profilovacích nástorjů haldy jako jsou <em>Valgrind</em> nebo <em>Heaptrack</em>. O tom, zda mohou být dynamické alokace eliminovány v rámci optimalizací se vedly a vedou diskuze. Novější implementace tuto eliminaci umožňují&#8201;&#8212;&#8201;například <code>g++</code> se tímto způsobem v mých experimentech chovalo od verze 10. Starší verze vygenerovaly strojový kód s volání funkcí pro alokaci a dealokaci paměti.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">Benchmarky</div>
 <div class="paragraph">
-<p><em>As-if</em> pravidlo je důležité pro psaní <strong><em>benchmarků</em></strong>, tj. programů, kde se snažíme <strong>změřit dobu běhu nějaké operace</strong>. V takovém případě je nutné zajistit, aby tato opearce měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat irelevantní výsledky. Například ve frameworku <em>Google/Benchmark</em> je tento problém adresován funkcí <code>benchmark::DoNotOptimize</code>.</p>
+<p><em>As-if</em> pravidlo je důležité pro psaní <strong><em>benchmarků</em></strong>, tj. programů, kde se snažíme <strong>změřit dobu běhu nějaké operace</strong>. V takovém případě je nutné zajistit, aby tato operace měla pozorovatelný efekt, jinak ji překladač může v rámci optimalizací eliminovat a benchmark poté bude dávat irelevantní výsledky. Například ve frameworku <em>Google/Benchmark</em> je tento problém adresován funkcí <code>benchmark::DoNotOptimize</code>.</p>
 </div>
 </div>
 </div>
@@ -223,10 +223,10 @@ int main()
 <p>C&#43;&#43; funguje na základě <strong>překladu zdrojového kódu na strojový kód procesoru</strong>.</p>
 </li>
 <li>
-<p>Implementace C&#43;&#43; zajišťuje, aby vygenerovaný strojový kód na daném počítači měl <strong>stejné pozorovatelné chování</strong>, které mu podle zdrojového kódu předepisuje Stadnard C&#43;&#43;.</p>
+<p>Implementace C&#43;&#43; zajišťuje, aby vygenerovaný strojový kód na daném počítači měl <strong>stejné pozorovatelné chování</strong>, které mu podle zdrojového kódu předepisuje standard C&#43;&#43;.</p>
 </li>
 <li>
-<p>Překladače se v rámci optimalizací snaží vygenerovat <strong>co nejefektivnější strojvý kód</strong>, které toto chování zajistí.</p>
+<p>Překladače se v rámci optimalizací snaží vygenerovat <strong>co nejefektivnější strojový kód</strong>, které toto chování zajistí.</p>
 </li>
 </ul>
 </div>

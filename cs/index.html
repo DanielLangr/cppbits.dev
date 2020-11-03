@@ -31,6 +31,13 @@
 </div>
 </div>
 <div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>///<a href="../en/index.html">English version</a> <span class="image"><a class="image" href="../en/index.html"><img src="https://www.countryflags.io/gb/shiny/24.png" alt="English"></a></span></p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_nejnovější_příspěvky">Nejnovější příspěvky</h2>
 <div class="sectionbody">
@@ -51,7 +58,7 @@
 <p>Důvodem programování v C&#43;&#43; je především požadavek na <strong>vysoký výkon a efektivitu programů</strong>. Tím je myšleno, že programy běží co nejrychleji a spotřebovávají minimální množství systémových prostředků, jako je čas procesoru či množství alokované paměti. Pro dosažení tohoto cíle ale často nestačí znát C&#43;&#43; jen na úrovni <strong>zdrojového kódu</strong>. Občas je potřeba se i podívat, co se děje „uvnitř“ na úrovni <strong>strojového kódu</strong>, který je zdrojového kódu vygeneruje překladač.</p>
 </div>
 <div class="paragraph">
-<p>Jednoduchý příklad&#8201;&#8212;&#8201;v každé učebnici C&#43;&#43; pro začátečníky se dočteme, jak ve funcki vytvořit <strong>lokální proměnnou</strong> (přesněji řečeno proměnnou s automatickou životností). Běžná představa je, že takováto proměnná bude při behu programu uložena <strong>na zásobníku</strong>. Je to ale pravda? Může místo toho být proměnná uložena v <strong>registru procesoru</strong>? Musí tato proměnná za běhu programu <strong>vůbec existovat</strong>? Jaké faktory o tom rozhodují? A co když je to proměnná <strong>třídního typu</strong>? Co vůbec znamená vytvoření proměnné třídního typu pomocí <strong>konstruktoru</strong>? Zdánlivě triviální problematika na úrovni zdrojového kódu v sobě skrývá poměrně rozsáhlou a složitou problematiku na úrovni strojového kódu, který procesor vykonává v době běhu programu.</p>
+<p>Jednoduchý příklad&#8201;&#8212;&#8201;v každé učebnici C&#43;&#43; pro začátečníky se dočteme, jak ve funkci vytvořit <strong>lokální proměnnou</strong> (přesněji řečeno proměnnou s automatickou životností). Běžná představa je, že takováto proměnná bude při běhu programu uložena <strong>na zásobníku</strong>. Je to ale pravda? Může místo toho být proměnná uložena v <strong>registru procesoru</strong>? Musí tato proměnná za běhu programu <strong>vůbec existovat</strong>? Jaké faktory o tom rozhodují? A co když je to proměnná <strong>třídního typu</strong>? Co vůbec znamená vytvoření proměnné třídního typu pomocí <strong>konstruktoru</strong>? Zdánlivě triviální problematika na úrovni zdrojového kódu v sobě skrývá poměrně rozsáhlou a složitou problematiku na úrovni strojového kódu, který procesor vykonává v době běhu programu.</p>
 </div>
 <div class="paragraph">
 <p>Zde jsou příklady dalších témat, která nejsou zcela běžně prezentována v souvislosti s výukou C&#43;&#43;, a přesto může být podstatné jim rozumět:</p>
@@ -64,13 +71,13 @@
 <p>Co je to <strong>implementace C&#43;&#43;</strong>? Jak se od sebe jednotlivé implementace liší?</p>
 </li>
 <li>
-<p>Co je to <strong>nedefinované chování</strong>? Pokud má program nedefinované chování podle Standardu C&#43;&#43;, má nedefinované chování i vygenerovaný strojový kód?</p>
+<p>Co je to <strong>nedefinované chování</strong>? Pokud má program nedefinované chování podle standardu C&#43;&#43;, má nedefinované chování i vygenerovaný strojový kód?</p>
 </li>
 <li>
 <p>Jaký je rozdíl mezi velikostí objektu z hlediska <strong>obsahu</strong> a velikostí jeho <strong>bitové reprezentace</strong>?</p>
 </li>
 <li>
-<p>Proč existuje <strong><em>padding</em></strong> a jak souvisí se <strong>zarovnáním</strong> bitové reprezetnace objektů v paměti?</p>
+<p>Proč existuje <strong><em>padding</em></strong> a jak souvisí se <strong>zarovnáním</strong> bitové reprezentace objektů v paměti?</p>
 </li>
 <li>
 <p>Proč nelze oddělit <strong>API</strong> (rozhraní) třídy od všech jejích <strong>implementačních detailů</strong>?</p>
@@ -88,7 +95,7 @@
 <p>Proč specifikátor <code>inline</code> <strong>nesouvisí</strong> s optimalizací zvanou <em>inlining</em>?</p>
 </li>
 <li>
-<p>Proč nelze z vygenrovaného strojového kódu programu <strong>zpětně zjistit jeho zdrojový kód</strong>?</p>
+<p>Proč nelze z vygenerovaného strojového kódu programu <strong>zpětně zjistit jeho zdrojový kód</strong>?</p>
 </li>
 <li>
 <p>Proč v paměti nelze <strong>přesunout objekt</strong> z jednoho místa na druhé?</p>
@@ -98,10 +105,10 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Účelem tohoto tutoriálu je <strong>takováto témata rozebírat a vysvětlovat</strong>. Vycházím zde především z dlouhobé zkušenosti s aktivním působením na <a href="https://stackoverflow.com/">Stack Overflow</a> ohledně dotazů týkajících se C&#43;&#43; a také s výukou programování v C&#43;&#43; na Fakultě informačních technologií ČVUT. V neposlední řadě používám C&#43;&#43; i v praxi&#8201;&#8212;&#8201;konkrétně se podílím na vývoji programů určených pro největší světové superpočítače, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při běhu programu na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefiktivity může projevit jako úzké hrdlo běhu programu.</p>
+<p>Účelem tohoto tutoriálu je <strong>takováto témata rozebírat a vysvětlovat</strong>. Vycházím zde především z dlouhodobé zkušenosti s aktivním působením na <a href="https://stackoverflow.com/">Stack Overflow</a> ohledně dotazů týkajících se C&#43;&#43; a také s výukou programování v C&#43;&#43; na Fakultě informačních technologií ČVUT. V neposlední řadě používám C&#43;&#43; i v praxi&#8201;&#8212;&#8201;konkrétně se podílím na vývoji programů určených pro největší světové superpočítače, jejichž procesorový čas je nesmírně drahý a vzácný. Výkon a efektivita zde hrají primární roli, protože při běhu programu na několika stech tisících procesorových jádrech se i zdánlivě zanedbatelný zdroj neefektivity může projevit jako úzké hrdlo běhu programu.</p>
 </div>
 <div class="paragraph">
-<p>Rohodně se ale nepovažuji za „všeználka“. Současný draft stadnardu C&#43;&#43; (N4868) má <strong>1849 stránek</strong> a asi na světě neexistuje jedinec, který by o C&#43;&#43; věděl vše. Může se tedy stát, že prezentovaný text bude na některých místech nepřesný nebo i mylný. Velmi proto uvítám <strong>zpětnou vazbu</strong> v podobě <strong>komentářů</strong> dostupných na konci každé stránky, především těch konstruktivních. V mnoha případech bude výklad rovněž více či méně <strong>zjednodušený</strong>, především z důvodu čitelnost a stručnosti. Rozebírat každý problém až na úroveň pravidel standardu C&#43;&#43; by totiž bylo neúměrně obsáhlé a nezábavné.</p>
+<p>Rohodně se ale nepovažuji za „všeználka“. Současný draft standardu C&#43;&#43; (N4868) má <strong>1849 stránek</strong> a asi na světě neexistuje jedinec, který by o C&#43;&#43; věděl vše. Může se tedy stát, že prezentovaný text bude na některých místech nepřesný nebo i mylný. Velmi proto uvítám <strong>zpětnou vazbu</strong> v podobě <strong>komentářů</strong> dostupných na konci každé stránky, především těch konstruktivních. V mnoha případech bude výklad rovněž více či méně <strong>zjednodušený</strong>, především z důvodu čitelnost a stručnosti. Rozebírat každý problém až na úroveň pravidel standardu C&#43;&#43; by totiž bylo neúměrně obsáhlé a nezábavné.</p>
 </div>
 </div>
 </div>
@@ -109,7 +116,7 @@
 <h2 id="_pro_koho_je_tutoriál_určen">Pro koho je tutoriál určen?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Tento tutoriál <strong>sám o sobě</strong> není určen pro úplné začátečníky. Nemá smyls zde řešit základy C&#43;&#43;&#8201;&#8212;&#8201;těch jsou plné knihovny i internet. Přesto tento tutoriál není určený jen pro programátory, kteří si základy C&#43;&#43; již dobře osvojili. Stejně dobře může posloužit jako <strong>doplňkový výukový materiál pro začátečníky</strong>, kteří se základy C&#43;&#43; teprve učí. V takovém případě nabídne na získávané znalosti odlišnou a doufám i <strong>atraktivní a užitečnou perspektivu</strong>.</p>
+<p>Tento tutoriál <strong>sám o sobě</strong> není určen pro úplné začátečníky. Nemá smysl zde řešit základy C&#43;&#43;&#8201;&#8212;&#8201;těch jsou plné knihovny i internet. Přesto tento tutoriál není určený jen pro programátory, kteří si základy C&#43;&#43; již dobře osvojili. Stejně dobře může posloužit jako <strong>doplňkový výukový materiál pro začátečníky</strong>, kteří se základy C&#43;&#43; teprve učí. V takovém případě nabídne na získávané znalosti odlišnou a doufám i <strong>atraktivní a užitečnou perspektivu</strong>.</p>
 </div>
 </div>
 </div>
@@ -128,7 +135,7 @@
 <h2 id="_o_autorovi">O autorovi</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Působím jako akademický pracovník na Fakultě informačních technologií ČVUT, kde se věnuji převážně vědecko-výzkumné práci a výuce studentů magisterského bloku. C&#43;&#43; provází můj život tedy již více než 25 let. Z počátku to bylo díky implementaci Borland C&#43;&#43;, která existovala ještě před první standradizací C&#43;&#43;98. Za těch 25 let se C&#43;&#43; stalo mou prací i mým koníčkem. V aplikační rovině ho používám především pro vývoj paralelních programů určených pro velké superpočítače. Spolupracuji například s teoretickými jadernými fyziky na řešení Schrödingerovy rovnice pro atomová jádra pomocí <em>ab-inito no-core shell</em> modelu.</p>
+<p>Působím jako akademický pracovník na Fakultě informačních technologií ČVUT, kde se věnuji převážně vědecko-výzkumné práci a výuce studentů magisterského bloku. C&#43;&#43; provází můj život tedy již více než 25 let. Z počátku to bylo díky implementaci Borland C&#43;&#43;, která existovala ještě před první standardizací C&#43;&#43;98. Za těch 25 let se C&#43;&#43; stalo mou prací i mým koníčkem. V aplikační rovině ho používám především pro vývoj paralelních programů určených pro velké superpočítače. Spolupracuji například s teoretickými jadernými fyziky na řešení Schrödingerovy rovnice pro atomová jádra pomocí <em>ab-inito no-core shell</em> modelu.</p>
 </div>
 </div>
 </div>

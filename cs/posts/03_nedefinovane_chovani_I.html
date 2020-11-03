@@ -50,13 +50,13 @@
 <p>Jak již bylo řečeno, standard C&#43;&#43; definuje jak se má program chovat na abstraktním počítači na základě zdrojového kódu, ze kterého byl vygenerován. Implementace C&#43;&#43; poté zajistí, aby stejné pozorovatelné chování měl i program na konkrétním počítačovém systému.</p>
 </div>
 <div class="paragraph">
-<p>Standard C&#43;&#43; ale nedfinuje chování programu <strong>za všech okolností</strong>. Definuje ho pouze v případě, že jsou <strong>dodržena v něm obsažená pravidla</strong>. Pokud tomu tak není, chování programu standard nedefinuje. Takový případ se označuje pojmem <strong>nedefinované chování</strong> <em>(undefined behavior</em>&#8201;&#8212;&#8201;zkráceně <em>UB)</em>.</p>
+<p>Standard C&#43;&#43; ale nedefinuje chování programu <strong>za všech okolností</strong>. Definuje ho pouze v případě, že jsou <strong>dodržena v něm obsažená pravidla</strong>. Pokud tomu tak není, chování programu standard nedefinuje. Takový případ se označuje pojmem <strong>nedefinované chování</strong> <em>(undefined behavior</em>&#8201;&#8212;&#8201;zkráceně <em>UB)</em>.</p>
 </div>
 <div class="paragraph">
 <p>Nedefinované chování se netýká jen <strong>doby běhu programu</strong> <em>(runtime)</em>. Pokud nejsou dodržena pravidla standardu, které se týkají <strong>překladu zdrojového kódu</strong>, standard nedefinuje chování implementace ani v <strong>době překladu</strong> <em>(compile time)</em>. Obecně se tedy dá říct, že při nedefinovaném chování, tj. nedodržení pravidel standardu C&#43;&#43;, se implementace C&#43;&#43; může <strong>chovat libovolným způsobem</strong>. A to v době překladu zdrojového kódu i v době běhu vygenerovaného programu (v případě, že byl vůbec vygenerován).</p>
 </div>
 <div class="paragraph">
-<p>Příkladem konkrétního pravidla standardu je, že u <strong>celočíselných typů se znaménkem</strong> <em>(signed)</em> nesmí dojít k <strong>přetečení</strong> <em>(overflow)</em>. Z takového přeteční tedy vyplývá nedefinované chování:</p>
+<p>Příkladem konkrétního pravidla standardu je, že u <strong>celočíselných typů se znaménkem</strong> <em>(signed)</em> nesmí dojít k <strong>přetečení</strong> <em>(overflow)</em>. Z takového přetečení tedy vyplývá nedefinované chování:</p>
 </div>
 <div class="listingblock">
 <div class="title">main.cpp</div>
@@ -89,10 +89,10 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>způsobí přetečení a tedy nedefinované chování pouze pokud je ze standardního vstupu přečtena maximální hodnota typu <code>int</code>. Porušení pravidel stadndardu zde tedy nemůže nastat dříve než <strong>v čase běhu programu</strong>.</p>
+<p>způsobí přetečení a tedy nedefinované chování pouze pokud je ze standardního vstupu přečtena maximální hodnota typu <code>int</code>. Porušení pravidel standardu zde tedy nemůže nastat dříve než <strong>v čase běhu programu</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Velmi často kladenou otázkou je, <strong>co se ve skutečnosti stane</strong>, pokud chování není definované. Vraťmě se ke zdrojovému kódu <code>main.cpp</code>. V mém případě jeho překlad pomocí <code>g++ -O2 main.cpp</code> vygeneroval následující instrukce strojového kódu:</p>
+<p>Velmi často kladenou otázkou je, <strong>co se ve skutečnosti stane</strong>, pokud chování není definované. Vraťme se ke zdrojovému kódu <code>main.cpp</code>. V mém případě jeho překlad pomocí <code>g++ -O2 main.cpp</code> vygeneroval následující instrukce strojového kódu:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -107,7 +107,7 @@ ret</code></pre>
 <div class="content">
 <div class="title">Nedefinované chování a přenositelnost</div>
 <div class="paragraph">
-<p>Z nedefinovaného chování na úrovni standardu C&#43;&#43; vyplývá <strong>nepřenositelnost příslušného zdrojového kódu</strong>. Chování programu sice může dodatečně definovat implemtnace C&#43;&#43;, ale není předepsáno standardem jaké by to chování mělo být. Různé implementace tudíž mohou vygenerovat program se <strong>zcela odlišným chováním</strong>.</p>
+<p>Z nedefinovaného chování na úrovni standardu C&#43;&#43; vyplývá <strong>nepřenositelnost příslušného zdrojového kódu</strong>. Chování programu sice může dodatečně definovat implementace C&#43;&#43;, ale není předepsáno standardem jaké by to chování mělo být. Různé implementace tudíž mohou vygenerovat program se <strong>zcela odlišným chováním</strong>.</p>
 </div>
 </div>
 </div>
@@ -138,13 +138,13 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Jeho chování je samozřejmě opět zcela přesně definované (normální ukončení programu s návartovým statusem 0).</p>
+<p>Jeho chování je samozřejmě opět zcela přesně definované (normální ukončení programu s návratovým statusem 0).</p>
 </div>
 <div class="paragraph">
 <p>Otázkou zůstává, zda je zde <strong>zaručeno</strong>, že se vygenerovaný program bude chovat tímto způsobem. Standard C&#43;&#43; to samozřejmě nezaručuje. Implementace to zaručovat <strong>může, ale také nemusí</strong>, a přesnou odpověď může být velmi komplikované až takřka nemožné zjistit. Dobrou zprávou je, že se implementace většinou (ne-li vždy) chovají <strong>deterministicky</strong>. Je tedy velmi pravděpodobné, že v našem případě vygeneruje překladač <code>g++</code> spustitelný soubor s uvedeným chováním vždy při dodržení stejné konfigurace překladu.</p>
 </div>
 <div class="paragraph">
-<p>V některých případech dokonce implemantace C&#43;&#43; <strong>explicitně</strong> definuje chování programu, které by podle standrdu samotného bylo nedefinované. Příkladem může být stejný problém&#8201;&#8212;&#8201;náhled na bitovou reprezentaci objektu jednoho typu přes objekt jiného typu&#8201;&#8212;&#8201;ale tentokrát řešený pomocí třídního typu <code>union</code>. Ten na rozdíl od třídních typů <code>class</code> a <code>struct</code> ukládá své členské proměnné v paměti <strong>nikoliv za sebou, ale přes sebe</strong>. Alternativní řešení problému z kódu <code>main2.cpp</code> by tedy mohlo vypadat následovně:</p>
+<p>V některých případech dokonce implementace C&#43;&#43; <strong>explicitně</strong> definuje chování programu, které by podle standardu samotného bylo nedefinované. Příkladem může být stejný problém&#8201;&#8212;&#8201;náhled na bitovou reprezentaci objektu jednoho typu přes objekt jiného typu&#8201;&#8212;&#8201;ale tentokrát řešený pomocí třídního typu <code>union</code>. Ten na rozdíl od třídních typů <code>class</code> a <code>struct</code> ukládá své členské proměnné v paměti <strong>nikoliv za sebou, ale přes sebe</strong>. Alternativní řešení problému z kódu <code>main2.cpp</code> by tedy mohlo vypadat následovně:</p>
 </div>
 <div class="listingblock">
 <div class="title">main3.cpp</div>
@@ -179,10 +179,10 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>V tomto případě bylo ale chování vygenerovaného programu <strong>explicitně zaručeno implementací</strong>. GCC totiž ve své dokumentaci deklaruje, že definuje chování i při <strong>čtení neaktinvní členské proměnné</strong> objektu typu <code>union</code> (viz např. <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning" class="bare">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning</a>). Jedná se tedy o <strong>„nadstandardní“ rozšíření jazyka C&#43;&#43;</strong>.</p>
+<p>V tomto případě bylo ale chování vygenerovaného programu <strong>explicitně zaručeno implementací</strong>. GCC totiž ve své dokumentaci deklaruje, že definuje chování i při <strong>čtení neaktivní členské proměnné</strong> objektu typu <code>union</code> (viz např. <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning" class="bare">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning</a>). Jedná se tedy o <strong>„nadstandardní“ rozšíření jazyka C&#43;&#43;</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Jako jiným případ nedefinovaného chování, které je <strong>„tolerováno“ v praxi</strong>, může sloužit snaha o implementaci kontejneru <code>std::vector&lt;T&gt;</code> ze standardní knihovny C&#43;&#43; (tento případ je spíše pro pokorčilé). Vektor představuje dynamické pole prvků typu <code>T</code>. Z důvodu efektivity má objekt vektoru <strong>alokovanou paměť pro určité množství prvků</strong>, ale počet aktuálně uložených prvků může být i menší. (Tento koncept zaručuje <strong>amortizovanou konstantní složitost</strong> často používané operace <strong>přidání prvku na konec vektoru</strong>.)</p>
+<p>Jako jiným případ nedefinovaného chování, které je <strong>„tolerováno“ v praxi</strong>, může sloužit snaha o implementaci kontejneru <code>std::vector&lt;T&gt;</code> ze standardní knihovny C&#43;&#43; (tento případ je spíše pro pokročilé). Vektor představuje dynamické pole prvků typu <code>T</code>. Z důvodu efektivity má objekt vektoru <strong>alokovanou paměť pro určité množství prvků</strong>, ale počet aktuálně uložených prvků může být i menší. (Tento koncept zaručuje <strong>amortizovanou konstantní složitost</strong> často používané operace <strong>přidání prvku na konec vektoru</strong>.)</p>
 </div>
 <div class="paragraph">
 <p>Předpokládejme, že na alokovanou paměť ukazuje členská proměnná vektoru <code>data_</code> typu <code>T*</code>. Alokace paměti pro uložení <code>n</code> prvků by pak mohla vypadat následovně:</p>
@@ -212,7 +212,7 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>A zde nastává problém. Tento oprátor totiž obashuje <strong>aritmetickou operaci nad ukazatelem</strong> <em>(pointer arithmetic)</em> typu <code>T*</code>. Takovou operaci standard C&#43;&#43; povoluje nad <strong>polem objektů typu <code>T</code></strong>. My ale máme <strong>blok neinicializované paměti</strong>, ve které byly následně <strong>na jistých místech vytvořeny objekty typu <code>T</code></strong>. A to podle standardu <strong>není pole typu <code>T</code></strong>. Aritmetika s ukazatelem v takovém případě vede na nedefinované chování.</p>
+<p>A zde nastává problém. Tento operátor totiž obsahuje <strong>aritmetickou operaci nad ukazatelem</strong> <em>(pointer arithmetic)</em> typu <code>T*</code>. Takovou operaci standard C&#43;&#43; povoluje nad <strong>polem objektů typu <code>T</code></strong>. My ale máme <strong>blok neinicializované paměti</strong>, ve které byly následně <strong>na jistých místech vytvořeny objekty typu <code>T</code></strong>. A to podle standardu <strong>není pole typu <code>T</code></strong>. Aritmetika s ukazatelem v takovém případě vede na nedefinované chování.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -240,10 +240,10 @@ ret</code></pre>
 <p>Implementace se v takových případech obecně <strong>chovají deterministicky</strong>. Obvykle vygenerují program, jehož chování je <strong>definované jeho strojovým kódem</strong>.</p>
 </li>
 <li>
-<p>Nedefinované chování obecně vede na <strong>nepřenositlený zdrojový kód</strong>&#8201;&#8212;&#8201;ve smyslu, že se pro něj <strong>různé implementace</strong> mohou chovat <strong>odlišným způsobem</strong>.</p>
+<p>Nedefinované chování obecně vede na <strong>nepřenositelný zdrojový kód</strong>&#8201;&#8212;&#8201;ve smyslu, že se pro něj <strong>různé implementace</strong> mohou chovat <strong>odlišným způsobem</strong>.</p>
 </li>
 <li>
-<p>V některých případech implemnetace C&#43;&#43; <strong>explicitně definuje chování</strong> i v případě, že podle standardu definované není.</p>
+<p>V některých případech implementace C&#43;&#43; <strong>explicitně definuje chování</strong> i v případě, že podle standardu definované není.</p>
 </li>
 </ul>
 </div>

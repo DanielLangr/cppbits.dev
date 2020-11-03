@@ -17,7 +17,7 @@ ____
 Writing in C or {cpp} is like running a chain saw with all the safety guards removed.
 ____
 
-Nedefinované chování je velmi nebeznečné, především z důvodu, že program vygenerovaný z příslušného zdrojového kódu se často *chová zdánlivě „očkávaným“ způsobem*. Typickým argumentem v diskuzích je, že „když se program chová dle očekávání, tak jeho zdrojový kód přece musí být v pořádku“. Nic nemůže být vzdálenější skutenčosti.
+Nedefinované chování je velmi nebezpečné, především z důvodu, že program vygenerovaný z příslušného zdrojového kódu se často *chová zdánlivě „očekávaným“ způsobem*. Typickým argumentem v diskuzích je, že „když se program chová dle očekávání, tak jeho zdrojový kód přece musí být v pořádku“. Nic nemůže být vzdálenější skutečnosti.
 
 Prvním problémem je, že pod očekávaným chováním si *každý může představit něco jiného*. Jednoduchý příklad:
 
@@ -31,7 +31,7 @@ int main()
 }
 ----
 
-Podle standradu {cpp} má proměnná `i` díky absenci inicializace *neurčitou hodnotu*. Její *vyhodnocení* v rámci `return i;` poté vede na nedefinované chování. Pokud však budeme předpokládát, že implmentace {cpp} zdrojový kód přeloží a vygeneruje spustitelný program, jaké bude jeho *očekávané chování*? Jsou zde *dvě základní možnosti*:
+Podle standardu {cpp} má proměnná `i` díky absenci inicializace *neurčitou hodnotu*. Její *vyhodnocení* v rámci `return i;` poté vede na nedefinované chování. Pokud však budeme předpokládat, že implementace {cpp} zdrojový kód přeloží a vygeneruje spustitelný program, jaké bude jeho *očekávané chování*? Jsou zde *dvě základní možnosti*:
 
 . Dojde k normálnímu ukončení programu s *návratovým statusem 0*.
 . Dojde k normálnímu ukončení programu s *návratovým statusem libovolné hodnoty, která může být nulová i nenulová*.
@@ -55,7 +55,7 @@ Chování programu je tedy definované jako jeho normální ukončení s návrat
 ret
 ----
 
-Ta definuje chování programu jako jeho normální ukončení s návratovým statusem, jehož hodnota je určená obsahem registru `eax` před voláním funkce `main`. A to odpovídá *druhé možnsoti očekávaného chování*. Já jsem například při prvním spuštění dostal návratový status 32, při následných spuštěních pak i jiné hodnoty. Problém by mohl nastat, pokud by programátor při testovacím spuštění obdržel návratový status 0. Mohl by pak *mylně očekávat*, že ho program vrátí vždy. 
+Ta definuje chování programu jako jeho normální ukončení s návratovým statusem, jehož hodnota je určená obsahem registru `eax` před voláním funkce `main`. A to odpovídá *druhé možnosti očekávaného chování*. Já jsem například při prvním spuštění dostal návratový status 32, při následných spuštěních pak i jiné hodnoty. Problém by mohl nastat, pokud by programátor při testovacím spuštění obdržel návratový status 0. Mohl by pak *mylně očekávat*, že ho program vrátí vždy. 
 
 Na tomto akademickém příkladu je vidět záludnost nedefinovaného chování. Obecně se může stát, že program, který podle zdrojového kódu vede na nedefinované chování, bude *v praxi fungovat dle očekávání*. Může například úspěšně projít rozsáhlým systémem testování a následně být nasazen do provozu. Zde ale, po nějaké době bezproblémového fungování, *zdánlivě bez jakékoliv příčiny* dojde k problému (způsobeného například tím, že, jako v našem případě, nějaká funkce vrátí najednou jinou hodnotu než bylo očekáváno). 
 
@@ -63,10 +63,10 @@ Tyto problémy navíc mohou být *velmi obtížně zjistitelné*. *V lepším p�
 
 Nabízí se tedy dvě otázky?
 
-. Proč nedefinové chování vůbec *existuje*?
+. Proč nedefinované chování vůbec *existuje*?
 . A zda ho lze *odhalit*?
 
-Formulace první otázky je ve skutečnosti *zavádějící*. Podle definice nedefinovaného chování bychom se totiž správně měli ptát, proč stadndard {cpp} definuje chování program *pouze pokud jsou splněna určitá pravidla*. Jinak řečeno, proč nedefinuje chování programu *za všech okolností*.
+Formulace první otázky je ve skutečnosti *zavádějící*. Podle definice nedefinovaného chování bychom se totiž správně měli ptát, proč standard {cpp} definuje chování program *pouze pokud jsou splněna určitá pravidla*. Jinak řečeno, proč nedefinuje chování programu *za všech okolností*.
 
 Odpověď na tuto otázku je, že i kdyby to teoreticky bylo možné, tak by to mělo *obrovský negativní dopad na výkon a efektivitu programů*. Opět si uvedeme příklad. Uvažujme následující zdrojový soubor:
 
@@ -93,9 +93,9 @@ To představuje *optimální strojový kód* -- je přečtena hodnota z paměti 
 
 Ze všeho nejhorší by ale bylo, že by musel existovat mechanizmus, který by při *ukončení životnosti* libovolného objektu o této skutečnosti *informoval všechny na něj navázané ukazatele (a reference)*. Jedině tak by se totiž ukazatel „dozvěděl“ o svém zneplatnění. Paměťová a časové režie takovéhoto mechanizmu by byla devastující.
 
-Jinými slovy se dá říct, že koncept nedefinovaného chování *umožňuje implementaci zaměřit se na co nejvyšší výkon a efektivitu*. K dosažení tohto cíle ale musí mít možnost předpokládat, že *jsou splněna pravidla* obsažená ve standardu {cpp}, a ostatní situace neřešit.
+Jinými slovy se dá říct, že koncept nedefinovaného chování *umožňuje implementaci zaměřit se na co nejvyšší výkon a efektivitu*. K dosažení tohoto cíle ale musí mít možnost předpokládat, že *jsou splněna pravidla* obsažená ve standardu {cpp}, a ostatní situace neřešit.
 
-Nyní nám zbývá druhá otázka, a sice, zda lze nedefinované chování *odhalit*. Obecně to bohužel *monžné není*. Pro příklad předpokládejme, že kromě výše ukázaného zdrojového souboru `lib.cpp` máme ještě následující druhý zdrojový soubor:
+Nyní nám zbývá druhá otázka, a sice, zda lze nedefinované chování *odhalit*. Obecně to bohužel *možné není*. Pro příklad předpokládejme, že kromě výše ukázaného zdrojového souboru `lib.cpp` máme ještě následující druhý zdrojový soubor:
 
 .prog.cpp
 [source]
@@ -134,9 +134,9 @@ g++ -O2 -c prog.cpp
 ld lib.o prog.o
 ----
 
-_Poznámka:_ Poslední dva kroky lze efektivně spojit do jednoho příkazu `g++ -O2 prog.cpp lib.o`. Na funkcionalitu překaldu a spojení to nemá žádný vliv.
+_Poznámka:_ Poslední dva kroky lze efektivně spojit do jednoho příkazu `g++ -O2 prog.cpp lib.o`. Na funkcionalitu překladu a spojení to nemá žádný vliv.
 
-Otázkou nyní je, zda impelemtnace vůbec může odhalit nedefinované chování způsobené dereferencí neplatného ukazatele (ukazatele na již neexistující objekt). Rozeberme si to v souvislosti s výše definovanými kroky:
+Otázkou nyní je, zda implementace vůbec může odhalit nedefinované chování způsobené dereferencí neplatného ukazatele (ukazatele na již neexistující objekt). Rozeberme si to v souvislosti s výše definovanými kroky:
 
 - Při překladu souboru `lib.cpp` *není možné porušení pravidel {cpp} zjistit*. Z důvodu efektivity totiž ukazatel informaci o své (ne)platnosti neobsahuje.
 

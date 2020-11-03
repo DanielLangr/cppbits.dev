@@ -47,7 +47,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Nedefinované chování je velmi nebeznečné, především z důvodu, že program vygenerovaný z příslušného zdrojového kódu se často <strong>chová zdánlivě „očkávaným“ způsobem</strong>. Typickým argumentem v diskuzích je, že „když se program chová dle očekávání, tak jeho zdrojový kód přece musí být v pořádku“. Nic nemůže být vzdálenější skutenčosti.</p>
+<p>Nedefinované chování je velmi nebezpečné, především z důvodu, že program vygenerovaný z příslušného zdrojového kódu se často <strong>chová zdánlivě „očekávaným“ způsobem</strong>. Typickým argumentem v diskuzích je, že „když se program chová dle očekávání, tak jeho zdrojový kód přece musí být v pořádku“. Nic nemůže být vzdálenější skutečnosti.</p>
 </div>
 <div class="paragraph">
 <p>Prvním problémem je, že pod očekávaným chováním si <strong>každý může představit něco jiného</strong>. Jednoduchý příklad:</p>
@@ -63,7 +63,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Podle standradu C&#43;&#43; má proměnná <code>i</code> díky absenci inicializace <strong>neurčitou hodnotu</strong>. Její <strong>vyhodnocení</strong> v rámci <code>return i;</code> poté vede na nedefinované chování. Pokud však budeme předpokládát, že implmentace C&#43;&#43; zdrojový kód přeloží a vygeneruje spustitelný program, jaké bude jeho <strong>očekávané chování</strong>? Jsou zde <strong>dvě základní možnosti</strong>:</p>
+<p>Podle standardu C&#43;&#43; má proměnná <code>i</code> díky absenci inicializace <strong>neurčitou hodnotu</strong>. Její <strong>vyhodnocení</strong> v rámci <code>return i;</code> poté vede na nedefinované chování. Pokud však budeme předpokládat, že implementace C&#43;&#43; zdrojový kód přeloží a vygeneruje spustitelný program, jaké bude jeho <strong>očekávané chování</strong>? Jsou zde <strong>dvě základní možnosti</strong>:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -98,7 +98,7 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Ta definuje chování programu jako jeho normální ukončení s návratovým statusem, jehož hodnota je určená obsahem registru <code>eax</code> před voláním funkce <code>main</code>. A to odpovídá <strong>druhé možnsoti očekávaného chování</strong>. Já jsem například při prvním spuštění dostal návratový status 32, při následných spuštěních pak i jiné hodnoty. Problém by mohl nastat, pokud by programátor při testovacím spuštění obdržel návratový status 0. Mohl by pak <strong>mylně očekávat</strong>, že ho program vrátí vždy.</p>
+<p>Ta definuje chování programu jako jeho normální ukončení s návratovým statusem, jehož hodnota je určená obsahem registru <code>eax</code> před voláním funkce <code>main</code>. A to odpovídá <strong>druhé možnosti očekávaného chování</strong>. Já jsem například při prvním spuštění dostal návratový status 32, při následných spuštěních pak i jiné hodnoty. Problém by mohl nastat, pokud by programátor při testovacím spuštění obdržel návratový status 0. Mohl by pak <strong>mylně očekávat</strong>, že ho program vrátí vždy.</p>
 </div>
 <div class="paragraph">
 <p>Na tomto akademickém příkladu je vidět záludnost nedefinovaného chování. Obecně se může stát, že program, který podle zdrojového kódu vede na nedefinované chování, bude <strong>v praxi fungovat dle očekávání</strong>. Může například úspěšně projít rozsáhlým systémem testování a následně být nasazen do provozu. Zde ale, po nějaké době bezproblémového fungování, <strong>zdánlivě bez jakékoliv příčiny</strong> dojde k problému (způsobeného například tím, že, jako v našem případě, nějaká funkce vrátí najednou jinou hodnotu než bylo očekáváno).</p>
@@ -112,7 +112,7 @@ ret</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Proč nedefinové chování vůbec <strong>existuje</strong>?</p>
+<p>Proč nedefinované chování vůbec <strong>existuje</strong>?</p>
 </li>
 <li>
 <p>A zda ho lze <strong>odhalit</strong>?</p>
@@ -120,7 +120,7 @@ ret</code></pre>
 </ol>
 </div>
 <div class="paragraph">
-<p>Formulace první otázky je ve skutečnosti <strong>zavádějící</strong>. Podle definice nedefinovaného chování bychom se totiž správně měli ptát, proč stadndard C&#43;&#43; definuje chování program <strong>pouze pokud jsou splněna určitá pravidla</strong>. Jinak řečeno, proč nedefinuje chování programu <strong>za všech okolností</strong>.</p>
+<p>Formulace první otázky je ve skutečnosti <strong>zavádějící</strong>. Podle definice nedefinovaného chování bychom se totiž správně měli ptát, proč standard C&#43;&#43; definuje chování program <strong>pouze pokud jsou splněna určitá pravidla</strong>. Jinak řečeno, proč nedefinuje chování programu <strong>za všech okolností</strong>.</p>
 </div>
 <div class="paragraph">
 <p>Odpověď na tuto otázku je, že i kdyby to teoreticky bylo možné, tak by to mělo <strong>obrovský negativní dopad na výkon a efektivitu programů</strong>. Opět si uvedeme příklad. Uvažujme následující zdrojový soubor:</p>
@@ -153,10 +153,10 @@ ret</code></pre>
 <p>Ze všeho nejhorší by ale bylo, že by musel existovat mechanizmus, který by při <strong>ukončení životnosti</strong> libovolného objektu o této skutečnosti <strong>informoval všechny na něj navázané ukazatele (a reference)</strong>. Jedině tak by se totiž ukazatel „dozvěděl“ o svém zneplatnění. Paměťová a časové režie takovéhoto mechanizmu by byla devastující.</p>
 </div>
 <div class="paragraph">
-<p>Jinými slovy se dá říct, že koncept nedefinovaného chování <strong>umožňuje implementaci zaměřit se na co nejvyšší výkon a efektivitu</strong>. K dosažení tohto cíle ale musí mít možnost předpokládat, že <strong>jsou splněna pravidla</strong> obsažená ve standardu C&#43;&#43;, a ostatní situace neřešit.</p>
+<p>Jinými slovy se dá říct, že koncept nedefinovaného chování <strong>umožňuje implementaci zaměřit se na co nejvyšší výkon a efektivitu</strong>. K dosažení tohoto cíle ale musí mít možnost předpokládat, že <strong>jsou splněna pravidla</strong> obsažená ve standardu C&#43;&#43;, a ostatní situace neřešit.</p>
 </div>
 <div class="paragraph">
-<p>Nyní nám zbývá druhá otázka, a sice, zda lze nedefinované chování <strong>odhalit</strong>. Obecně to bohužel <strong>monžné není</strong>. Pro příklad předpokládejme, že kromě výše ukázaného zdrojového souboru <code>lib.cpp</code> máme ještě následující druhý zdrojový soubor:</p>
+<p>Nyní nám zbývá druhá otázka, a sice, zda lze nedefinované chování <strong>odhalit</strong>. Obecně to bohužel <strong>možné není</strong>. Pro příklad předpokládejme, že kromě výše ukázaného zdrojového souboru <code>lib.cpp</code> máme ještě následující druhý zdrojový soubor:</p>
 </div>
 <div class="listingblock">
 <div class="title">prog.cpp</div>
@@ -199,10 +199,10 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p><em>Poznámka:</em> Poslední dva kroky lze efektivně spojit do jednoho příkazu <code>g++ -O2 prog.cpp lib.o</code>. Na funkcionalitu překaldu a spojení to nemá žádný vliv.</p>
+<p><em>Poznámka:</em> Poslední dva kroky lze efektivně spojit do jednoho příkazu <code>g++ -O2 prog.cpp lib.o</code>. Na funkcionalitu překladu a spojení to nemá žádný vliv.</p>
 </div>
 <div class="paragraph">
-<p>Otázkou nyní je, zda impelemtnace vůbec může odhalit nedefinované chování způsobené dereferencí neplatného ukazatele (ukazatele na již neexistující objekt). Rozeberme si to v souvislosti s výše definovanými kroky:</p>
+<p>Otázkou nyní je, zda implementace vůbec může odhalit nedefinované chování způsobené dereferencí neplatného ukazatele (ukazatele na již neexistující objekt). Rozeberme si to v souvislosti s výše definovanými kroky:</p>
 </div>
 <div class="ulist">
 <ul>
