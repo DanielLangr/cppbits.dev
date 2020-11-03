@@ -6,7 +6,7 @@ include::{rootdir}/include/attributes.adoc[]
 :description: Výukový materiál pro programovací jazyk {cpp} zaměřený na témata, která jsou běžně opomíjená, ale přitom pro pochopení {cpp} a jeho efektivního použití důležitá.
 
 //[.normal]
-///link:../en/index.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../en/index.html"]
+//link:../en/index.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../en/index.html"]
 
 == Nejnovější příspěvky
 

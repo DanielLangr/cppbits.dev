@@ -54,7 +54,7 @@
 <p>The reason for programming in C&#43;&#43; is primarily a need for <strong>high performance and efficiency of programs</strong>. This means that programs run as fast as possible and consume a minimum amount of system resources, such as processor time or the amount of allocated memory. To achieve this, it is often not sufficient to understand C&#43;&#43; only at a level of <strong>source code</strong>. Sometimes, one needs to look at what happens “inside” at a level of <strong>machine code</strong>, which is generated from the source code by a compiler.</p>
 </div>
 <div class="paragraph">
-<p>A simple example&#8201;&#8212;&#8201;in every C&#43;&#43; book for beginners, it is written how to create a <strong>local variable</strong> in a function (more formally, a variable with automatic storage duration). A common understanding is that such a variable will be at runtime stored <strong>on the program stack</strong>. Is that true? May that variable be stored in a <strong>processor register</strong> instead? Does that varialbe need to <strong>exist</strong> at runtime <strong>at all</strong>? Which factors determine this? And, what if that variable is of <strong>class type</strong>? What does it mean to create a variable of a class type with a <strong>constructor</strong>? A seemingly trivial problem at a source code level involves a relatively wide and complex problem at a machine code level, which a processor executes at a program runtime.</p>
+<p>A simple example&#8201;&#8212;&#8201;in every C&#43;&#43; book for beginners, it is written how to create a <strong>local variable</strong> in a function (more formally, a variable with automatic storage duration). A common understanding is that such a variable will be at runtime stored <strong>on the program stack</strong>. Is that true? May that variable be stored in a <strong>processor register</strong> instead? Does that variable need to <strong>exist</strong> at runtime <strong>at all</strong>? Which factors determine this? And, what if that variable is of <strong>class type</strong>? What does it mean to create a variable of a class type with a <strong>constructor</strong>? A seemingly trivial problem at a source code level involves a relatively wide and complex problem at a machine code level, which a processor executes at program runtime.</p>
 </div>
 <div class="paragraph">
 <p>Here are some examples of other topics that are not commonly presented while learning C&#43;&#43;, and yet it can be very substantial to understand them:</p>
@@ -64,7 +64,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>What is a <strong>C&#43;&#43; implementation</strong>? How do various implementaions differ from each other?</p>
+<p>What is a <strong>C&#43;&#43; implementation</strong>? How do various implementations differ from each other?</p>
 </li>
 <li>
 <p>What is <strong>undefined behavior</strong>? If a program has undefined behavior according to the C&#43;&#43; standard, does it imply undefined behavior of generated machine code?</p>
@@ -101,10 +101,10 @@
 </div>
 </div>
 <div class="paragraph">
-<p>The purpose of this tutorial is to <strong>analyse and explain such topics</strong>. It stems from my long-term experience with contributing <a href="https://stackoverflow.com/">Stack Overflow</a> C&#43;&#43; posts and with teaching programming in C&#43;&#43; at the Czech Technical University in Prague. I also use C&#43;&#43; in practice&#8201;&#8212;&#8201;namely, I participate the development of programs that target world-wide most powerful supercomputers, whose computing time is extremely expensive and rare. Performance and efficiency play therefore a vital role, sicne when running on hundreds of thousands of processor cores, a seemingly negligible source of inefficiency can turn into a main program bottleneck.</p>
+<p>The purpose of this tutorial is to <strong>analyse and explain such topics</strong>. It stems from my long-term experience with contributing <a href="https://stackoverflow.com/">Stack Overflow</a> C&#43;&#43; posts and with teaching programming in C&#43;&#43; at the Czech Technical University in Prague. I also use C&#43;&#43; in practice&#8201;&#8212;&#8201;namely, I participate the development of programs that target world-wide most powerful supercomputers, whose computing time is extremely expensive and rare. Performance and efficiency play therefore a vital role, since when running on hundreds of thousands of processor cores, a seemingly negligible source of inefficiency can turn into a main program bottleneck.</p>
 </div>
 <div class="paragraph">
-<p>Nevertheless, I definitely do not consider myself an expert. The actual draft of the C&#43;&#43; standard (N4868) has <strong>1849 pages</strong> and there is hardly anyone who would know about C&#43;&#43; everything. It may happen that the presented text will be at some places inaccurate or wrong. I will therefore welcome any <strong>feedback</strong> in the form of <strong>comments and suggestions</strong>, especially those beign constructive. In many cases, the reading will be more or less <strong>simplified</strong> for the sake of readability and brevity. Analysing of each problem down to the level of C&#43;&#43; standard rules would be too extensive and tedious.</p>
+<p>Nevertheless, I definitely do not consider myself an expert. The actual draft of the C&#43;&#43; standard (N4868) has <strong>1849 pages</strong> and there is hardly anyone who would know about C&#43;&#43; everything. It may happen that the presented text will be at some places inaccurate or wrong. I will therefore welcome any <strong>feedback</strong> in the form of <strong>comments and suggestions</strong>, especially those begin constructive. In many cases, the reading will be more or less <strong>simplified</strong> for the sake of readability and brevity. Analysing of each problem down to the level of C&#43;&#43; standard rules would be too extensive and tedious.</p>
 </div>
 <div class="paragraph">
 <p>Since I am a <strong>non-native English speaker/writer</strong>, please, do not judge the linguistic form of these pages too hard. What matters most is their <strong>content</strong>.</p>
@@ -115,7 +115,7 @@
 <h2 id="_who_is_this_tutorial_for">Who is this tutorial for?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This tutoria <strong>by itself</strong> is not intended for complete beginners. It does not make any sense presenting here very basics of C&#43;&#43;&#8201;&#8212;&#8201;libraries and the internet are full of these. Despite that, this tutorial is not intended just for programmers who have already learnt the basics well. It may very well serve as a <strong>complementary learning material for beginners</strong>, who are acquainting them. In such a case, it can provide at the gathered knowledge different and, I hope, <strong>attractive and useful perspective</strong>.</p>
+<p>This tutorial <strong>by itself</strong> is not intended for complete beginners. It does not make any sense presenting here very basics of C&#43;&#43;&#8201;&#8212;&#8201;libraries and the internet are full of these. Despite that, this tutorial is not intended just for programmers who have already learnt the basics well. It may very well serve as a <strong>complementary learning material for beginners</strong>, who are acquainting them. In such a case, it can provide at the gathered knowledge different and, I hope, <strong>attractive and useful perspective</strong>.</p>
 </div>
 </div>
 </div>
@@ -129,7 +129,7 @@
 <h2 id="_about_author">About author</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>I work as a research assistant professor at the Faculty of Information Technology of the Czech Technical University in Prague, where I mostly participate on reserch projects and teaching undergraduate students. C&#43;&#43; has been with me more than 25 years. At the beginning, that was thanks to the Borland C&#43;&#43; implementation, which existed even before C&#43;&#43; was standardized for the first time. During that 25 years, C&#43;&#43; has become both my work and my hobby. As for its applications, I use it mostly for the development of massivley-parallel programs intended for large supercomputers. For instance, I collaborate with theoretical nuclear physicists on the solution of Schrödinger equation for atomic nuclei by employing ab-initio no-core shell model.</p>
+<p>I work as a research assistant professor at the Faculty of Information Technology of the Czech Technical University in Prague, where I mostly participate on research projects and teaching undergraduate students. C&#43;&#43; has been with me more than 25 years. At the beginning, that was thanks to the Borland C&#43;&#43; implementation, which existed even before C&#43;&#43; was standardized for the first time. During that 25 years, C&#43;&#43; has become both my work and my hobby. As for its applications, I use it mostly for the development of massively-parallel programs intended for large supercomputers. For instance, I collaborate with theoretical nuclear physicists on the solution of Schrödinger equation for atomic nuclei by employing ab-initio no-core shell model.</p>
 </div>
 </div>
 </div>
