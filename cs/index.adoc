@@ -31,7 +31,7 @@ Zde jsou příklady dalších témat, která nejsou zcela běžně prezentována
 - Proč existuje *_padding_* a jak souvisí se *zarovnáním* bitové reprezentace objektů v paměti?
 - Proč nelze oddělit *API* (rozhraní) třídy od všech jejích *implementačních detailů*?
 - Jak je v praxi zajištěno *předávání argumentů a návratových hodnot* do/z funkcí?
-- Co je to *ABI* a jak zajistit *kompatabilitu* na této úrovni?
+- Co je to *ABI* a jak zajistit *kompatibilitu* na této úrovni?
 - Co jsou to *jednotky překladu*? Jak souvisí s problematikou *„spojování“ (_linkage_)*? 
 - Proč specifikátor `inline` *nesouvisí* s optimalizací zvanou _inlining_?
 - Proč nelze z vygenerovaného strojového kódu programu *zpětně zjistit jeho zdrojový kód*?
