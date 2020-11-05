@@ -8,8 +8,8 @@ include::{rootdir}/include/attributes.adoc[]
 :description: Úkolem implementace {cpp} je u programu zajistit pozorovatelné chování, které mu podle zdrojového kódu předepisuje Standard {cpp}.
 
 [.normal]
-link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
-//link:../../en/posts/01_asif.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/01_asif.html"]
+link:../../en/posts/01_asif.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English version, link="../../en/posts/01_asif.html"] +
+link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] 
 
 ''''
 
@@ -56,7 +56,7 @@ Chování programu definuje podle jeho zdrojového kódu *standard {cpp}*. Otáz
 
 Co o chování našeho programu říká standard {cpp}? Od {cpp}11 je opuštění funkce `main` mimo příkaz `return` ekvivalentní spuštění příkazu `return 0;`. Ten způsobí *normální ukončení programu s návratovým statusem 0*, což představuje jediný pozorovatelný efekt tohoto programu. 
 
-{cpp} standard definuje chování programu na *abstraktním počítači*. Na *konkrétním počítačovém systému* toto chování zajišťuje tzv. *implementace {cpp}* (například v našem případě reprezentovaná překladačem `g++`). Jedním z nejdůležitějších konceptů {cpp} je tzv. *_as-if_ pravidlo* _(as-if rule)_. To říká, že {cpp} implementace musí zajistit pouze pozorovatelné chování programu definované pro jeho zdrojový kód, ale *jak* tohoto chování docílí nechává zcela na ní. Implementace se poté v rámci optimalizací snaží zajistit pozorovatelné chování programu s ohledem na co *nejvyšší výkon a efektivitu*.
+{cpp} standard definuje chování programu na *abstraktním počítači*. Na *konkrétním počítačovém systému* toto chování zajišťuje *implementace {cpp}* (například v našem případě reprezentovaná překladačem `g++`). Jedním z nejdůležitějších konceptů {cpp} je tzv. *_as-if_ pravidlo* _(as-if rule)_. To říká, že {cpp} implementace musí zajistit pouze pozorovatelné chování programu definované pro jeho zdrojový kód, ale *jak* tohoto chování docílí nechává zcela na ní. Implementace se poté v rámci optimalizací snaží zajistit pozorovatelné chování programu s ohledem na co *nejvyšší výkon a efektivitu*.
 
 .Efektivní vs efektivní
 ****

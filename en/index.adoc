@@ -6,53 +6,53 @@ include::{rootdir}/include/attributes.adoc[]
 :description: Learning material for the {cpp} programming language focused on topics that are not commonly presented, but yet important for understanding of {cpp} and its efficient use.
 
 [.normal]
-link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[English, link="../cs/index.html"]
+link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../cs/index.html"]
 
 == Recent posts
 
-//link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
+link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_
 
 == Introduction
 
-The goal of this site is to provide *a bit different learning material for programming in {cpp}*. I want to focus on topics that are not commonly presented and yet are, in my opinion, for a *proper understanding of {cpp} essential*.
+The purpose of this site is to provide *a bit different learning material for programming in {cpp}*. I want to focus on topics that are not commonly presented, and yet that are *essential for a proper understanding of {cpp}*.
 
-The reason for programming in {cpp} is primarily a need for *high performance and efficiency of programs*. This means that programs run as fast as possible and consume a minimum amount of system resources, such as processor time or the amount of allocated memory. To achieve this, it is often not sufficient to understand {cpp} only at a level of *source code*. Sometimes, one needs to look at what happens “inside” at a level of *machine code*, which is generated from the source code by a compiler.
+The reason for programming in {cpp} is primarily a need for *high performance and efficiency of programs*. This means that programs run as fast as possible and consume a minimum amount of system resources, such as processor time or the amount of allocated memory. To achieve this, it is often not sufficient to understand {cpp} only at a level of *source code*. Sometimes, one needs to look at what happens “inside” at a level of *machine code* generated from source code by a compiler.
 
-A simple example -- in every {cpp} book for beginners, it is written how to create a *local variable* in a function (more formally, a variable with automatic storage duration). A common understanding is that such a variable will be at runtime stored *on the program stack*. Is that true? May that variable be stored in a *processor register* instead? Does that variable need to *exist* at runtime *at all*? Which factors determine this? And, what if that variable is of *class type*? What does it mean to create a variable of a class type with a *constructor*? A seemingly trivial problem at a source code level involves a relatively wide and complex problem at a machine code level, which a processor executes at program runtime.
+A simple example -- every {cpp} book for beginners explains how to create a *local variable* in a function (more formally, a variable with automatic storage duration). A common understanding is that such a variable will be, at runtime, stored *on the program stack*. Is that true? May that variable be stored in a *processor register* instead? Does that variable need to *exist* at runtime *at all*? Which factors determine this? And, what if that variable is of a *class type*? What does it even mean to create a variable of a class type by a *constructor*? A seemingly trivial problem at a source code level involves a relatively wide and complex problem at a machine code level, which a processor executes at program runtime.
 
-Here are some examples of other topics that are not commonly presented while learning {cpp}, and yet it can be very substantial to understand them:
+Here are some examples of other topics that are not commonly explained by learning {cpp} materials, and yet it can be very important to understand them:
 
 ****
 - What is a *{cpp} implementation*? How do various implementations differ from each other? 
 - What is *undefined behavior*? If a program has undefined behavior according to the {cpp} standard, does it imply undefined behavior of generated machine code?
-- What is the difference between an object size from the perspective of its *contents* and a byte size of its *memory representation*?
-- Why does *padding* exist and how is related to the *alignment* of object memory representation?
-- Why it is not possible to fully separate an *API* (interface) of a class from its *implementation details*?
-- How is, in practice, realized *passing argumetns and return values* to/from functions?
-- What is an *ABI* and how to provide *complatability* at this level?
-- What are *translation units*? How are they related to the problem of *linking/linkage*?
-- Why is a specifier `inline` *not related* to the optimization called *inlining*?
-- Why is it not possible from a given program machine code to *derive source code* it was generated from?
-- Why is it not possible to *move an object* from one place in the memory to the other? 
+- What is the difference between an object size from the perspective of its *contents* and the byte size of its *memory representation*?
+- Why does *padding* exist and how is it related to the *alignment* of object memory representation?
+- Why is it not possible to fully separate an *API* (interface) of a class from its *implementation details*?
+- How is, in practice, realized *passing arguments and return values* to/from functions?
+- What is an *ABI* and how to provide *compatibility* at this level?
+- What are the *translation units*? How are they related to the problem of *linking/linkage*?
+- Why is the `inline` specifier *not related* to the optimization called *inlining*?
+- Why is it not possible from a given program machine code to *derive the source code* it was generated from?
+- Why is it not possible to *move an object* in memory from one place to the other? 
 ****
 
-The purpose of this tutorial is to *analyse and explain such topics*. It stems from my long-term experience with contributing link:https://stackoverflow.com/[Stack Overflow] {cpp} posts and with teaching programming in {cpp} at the Czech Technical University in Prague. I also use {cpp} in practice -- namely, I participate the development of programs that target world-wide most powerful supercomputers, whose computing time is extremely expensive and rare. Performance and efficiency play therefore a vital role, since when running on hundreds of thousands of processor cores, a seemingly negligible source of inefficiency can turn into a main program bottleneck.
+The goal of this tutorial is to *analyze and explain such topics*. It stems from my long-term experience with contributing link:https://stackoverflow.com/[Stack Overflow] {cpp} posts and with teaching programming in {cpp} at the Czech Technical University in Prague. I have also used {cpp} in practice a lot -- actually, I participate in the development of programs that target world-wide most powerful supercomputers, whose computing time is extremely expensive and rare. Performance and efficiency play here a vital role, since when running on hundreds of thousands of processor cores, a seemingly negligible source of inefficiency may turn into a main program bottleneck.
 
-Nevertheless, I definitely do not consider myself an expert. The actual draft of the {cpp} standard (N4868) has *1849 pages* and there is hardly anyone who would know about {cpp} everything. It may happen that the presented text will be at some places inaccurate or wrong. I will therefore welcome any *feedback* in the form of *comments and suggestions*, especially those begin constructive. In many cases, the reading will be more or less *simplified* for the sake of readability and brevity. Analysing of each problem down to the level of {cpp} standard rules would be too extensive and tedious. 
+Nevertheless, I definitely do not consider myself being a {cpp} expert. The actual draft of the {cpp} standard (N4868) has *1849 pages*, and there is hardly anyone who would know about {cpp} everything. It may happen that the presented text will be, at some places, inaccurate or wrong. I will therefore welcome any *feedback* in the form of *comments and suggestions*, especially those being constructive. Please, note that in many cases, the explanation will be more or less *simplified* for the sake of readability and brevity. Analyzing each problem down to the level of {cpp} standard rules would be too extensive and tedious. 
 
 Since I am a *non-native English speaker/writer*, please, do not judge the linguistic form of these pages too hard. What matters most is their *content*.
 
 == Who is this tutorial for?
 
-This tutorial *by itself* is not intended for complete beginners. It does not make any sense presenting here very basics of {cpp} -- libraries and the internet are full of these. Despite that, this tutorial is not intended just for programmers who have already learnt the basics well. It may very well serve as a *complementary learning material for beginners*, who are acquainting them. In such a case, it can provide at the gathered knowledge different and, I hope, *attractive and useful perspective*.
+This tutorial -- *by itself* -- is not intended for complete beginners. It does not make any sense to present here the very basics of {cpp}; libraries and the internet are full of these. Despite that, this tutorial is not intended only for programmers who have already adopted the basics well. It may very well serve as a *complementary learning material for beginners*. In such a case, it can provide to the learned information different and, I hope, an *attractive and useful perspective*.
 
 == Contents
 
-//link:posts/01_asif.html[01: _As-if_ rule] _(Oct 2020)_
+link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_
 
 == About author
 
-I work as a research assistant professor at the Faculty of Information Technology of the Czech Technical University in Prague, where I mostly participate on research projects and teaching undergraduate students. {cpp} has been with me more than 25 years. At the beginning, that was thanks to the Borland {cpp} implementation, which existed even before {cpp} was standardized for the first time. During that 25 years, {cpp} has become both my work and my hobby. As for its applications, I use it mostly for the development of massively-parallel programs intended for large supercomputers. For instance, I collaborate with theoretical nuclear physicists on the solution of Schrödinger equation for atomic nuclei by employing ab-initio no-core shell model.
+I work as a research assistant professor at the Faculty of Information Technology of the Czech Technical University in Prague, where I participate in both research and teaching activities. {cpp} has been with me for more than 25 years. In the beginning, that was thanks to the Borland {cpp} implementation, which existed even before the first {cpp} standard appeared. During those 25 years, {cpp} has become both my work and my hobby. As for its applications, I use it mostly for the development of massively-parallel programs intended to be run on large supercomputers. For instance, I collaborate with theoretical nuclear physicists on the solution of the Schrödinger equation for atomic nuclei by employing the ab-initio no-core shell model.
 
 == Comments
 
