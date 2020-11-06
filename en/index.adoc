@@ -10,6 +10,7 @@ link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/
 
 == Recent posts
 
+link:posts/02_implementation.html[02: {cpp} implementation] _(Nov 2020)_ +
 link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_
 
 == Introduction
@@ -48,7 +49,8 @@ This tutorial -- *by itself* -- is not intended for complete beginners. It does 
 
 == Contents
 
-link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_
+link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_ +
+link:posts/02_implementation.html[02: {cpp} implementation] _(Nov 2020)_
 
 == About author
 

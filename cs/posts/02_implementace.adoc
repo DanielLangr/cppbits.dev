@@ -7,8 +7,8 @@ include::{rootdir}/include/attributes.adoc[]
 :description: 
 
 [.normal]
-link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
-//link:../../en/posts/02_implementation.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/02_implementation.html"]
+link:../../en/posts/02_implementation.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English version, link="../../en/posts/02_implementation.html"] +
+link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] 
 
 ''''
 
