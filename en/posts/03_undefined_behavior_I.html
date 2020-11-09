@@ -48,13 +48,13 @@
 </div>
 </div>
 <div class="paragraph">
-<p>As was already mentioned, the C&#43;&#43; standard defines how a program should behave on an abstract machine according to the source code it has been generated from. A C&#43;&#43; implementation then guarantees the same program observable behavior on a particular computer system.</p>
+<p>As was already mentioned, the C&#43;&#43; standard defines how a program should behave on an abstract machine according to its source code. A C&#43;&#43; implementation then guarantees the same program behavior observable on a particular computer system.</p>
 </div>
 <div class="paragraph">
-<p>However, the C&#43;&#43; standard <strong>does not</strong> define the program behavior <strong>in all circumstances</strong>. It defines the behavior only in cases where <strong>the rules it contains are followed</strong>. If they are violated, the standard does not define the program behavior. Such cases are called <strong>undefined behavior (UB)</strong>.</p>
+<p>However, the C&#43;&#43; standard <strong>does not</strong> define program behavior <strong>in all circumstances</strong>. It defines the behavior only in cases where <strong>the rules it contains are followed</strong>. If these rules are violated, the program behavior is not defined by the standard. Such cases are called <strong>undefined behavior (UB)</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Undefined behavior is not related to the <strong>program runtime</strong> only. In case that the rules that are violated are related to the <strong>source code compilation</strong>, the standard does not define even the behavior of the implementation at <strong>compile time</strong>. Generally, undefined behavior implies that the C&#43;&#43; implementation can <strong>behave in an arbitrary way</strong> at compile time and at runtime.</p>
+<p>Undefined behavior is not related to <strong>program runtime</strong> only. In case that the violated rules are related to the source code <strong>compilation</strong>, the standard does not even define the behavior of implementations at <strong>compile time</strong>. Generally, undefined behavior implies that a C&#43;&#43; implementation can <strong>behave in an arbitrary way</strong> both at compile time and at runtime.</p>
 </div>
 <div class="paragraph">
 <p>An example of a particular standard rule is that operations with <strong>signed integer types</strong> shall not <strong>overflow</strong>. Such overflow, therefore, implies undefined behavior:</p>
@@ -73,7 +73,7 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>This source code can yield undefined behavior <strong>already at compile time</strong>. Under optimizations, the problematic increment may be evaluated by a compiler. On the contrary, the following source code:</p>
+<p>This source code can yield undefined behavior <strong>already at compile time</strong> since, due to optimizations, the problematic increment may be evaluated by a compiler. On the contrary, the following source code:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -90,10 +90,10 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>will cause the overflow and corresponding undefined behavior only if the value obtained from the standard input is the maximum value of <code>int</code> type. The standard rules violation cannot happen here <strong>until runtime</strong>.</p>
+<p>will cause the overflow and corresponding undefined behavior only if the value obtained from the standard input is the maximum value of the <code>int</code> type. The standard rules violation cannot happen here until that value is obtained, which happens <strong>at runtime</strong>.</p>
 </div>
 <div class="paragraph">
-<p>The frequently-asked question is, <strong>what does actually happen</strong> if the behavior is undefined. Let us get back to the <code>main.cpp</code> source code. In my case, its compilation with <code>g++ -O2 main.cpp</code> resulted in the executable program with the following machine code instructions:</p>
+<p>The frequently-asked question is <strong>what does actually happen</strong> if the behavior is undefined. Let us get back to the <code>main.cpp</code> source code. In my case, its compilation with <code>g++ -O2 main.cpp</code> resulted in the executable program with the following machine code instructions:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -127,7 +127,7 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>reinterpret_cast</code> allows us to look at the <strong>memory representation</strong> of an object of some type as it actually was a memory representation of some <strong>other type</strong>. In our case, we want to find out what is the values of an <code>int</code> object that has the <strong>same memory representation</strong> as a <code>float</code> object with zero value.</p>
+<p><code>reinterpret_cast</code> allows us to look at the <strong>memory representation</strong> of an object of some type as if it actually was a memory representation of an object of some <strong>other type</strong>. In our case, we want to find out what is the value of an <code>int</code> object that has the <strong>same memory representation</strong> as a <code>float</code> object with zero value.</p>
 </div>
 <div class="paragraph">
 <p>The problem with this code is that the C&#43;&#43; standard allows <code>reinterpret_cast</code> to be used only in a <strong>very limited and specified number of cases</strong>, and our case <strong>is not</strong> among them. Thanks to that, the behavior for this code is undefined by the standard. However, what about the implementation? By compiling this source code with <code>g++ -O2 main2.cpp</code>, I got the program with the following instructions:</p>
@@ -142,10 +142,10 @@ ret</code></pre>
 <p>It is obvious that its behavior is, again, clearly defined (normal program termination with exit status 0).</p>
 </div>
 <div class="paragraph">
-<p>The question is whether it is guaranteed that the generated program will behave in this way. The C&#43;&#43; standard does not guarantee this, of course. An implementation <strong>may or may not</strong> guarantee that, and to find out the exact answer may be complicated or even almost impossible. The good news is that implementations mostly (if not always) behave <strong>in a deterministic way</strong>. It is therefore highly probable that, in our case, the <code>g++</code> compiler will always generate the executable program with the same described behavior (under the same build configuration).</p>
+<p>The question is whether it is guaranteed that the generated program will behave in this way. Of course, the C&#43;&#43; standard does not guarantee that. An implementation <strong>may or may not</strong> guarantee that, and to find out the exact answer can be complicated or even almost impossible. The good news is that implementations mostly (if not always) behave <strong>in a deterministic way</strong>. It is therefore highly probable that, in our case, <code>g++</code> would always produce the executable program with the same described behavior (under the same build configuration).</p>
 </div>
 <div class="paragraph">
-<p>In some cases, C&#43;&#43; implementations even <strong>explicitly</strong> define program behavior even if it is undefined by the standard. Let us try to solve the same problem&#8201;&#8212;&#8201;inspecting the value of an object of some type with the memory representation of an object of some other type&#8201;&#8212;&#8201;with the help of the <code>union</code> class type. In contrast to <code>class</code> and <code>struct</code>, <code>union</code> stores its member variables <strong>not next to each other, but over each other</strong> instead. An alternative solution to <code>main2.cpp</code> could then look like:</p>
+<p>In some cases, C&#43;&#43; implementations even <strong>explicitly</strong> define program behavior even if it is undefined by the standard. Let us try to solve the same problem&#8201;&#8212;&#8201;inspecting the value of an object of some type through the memory representation of an object of some other type&#8201;&#8212;&#8201;with the help of the <code>union</code> class type. In contrast to <code>class</code> and <code>struct</code>, <code>union</code> stores its member variables <strong>not next to each other, but over each other</strong> instead. An alternative solution to <code>main2.cpp</code> could then look like:</p>
 </div>
 <div class="listingblock">
 <div class="title">main3.cpp</div>
@@ -165,10 +165,7 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>The member variables <code>f</code> and <code>i</code> of <code>u</code> are stored <strong>at the same address</strong>; their memory representations overlap. By writing into one variable and reading the other, we can seemingly solve the problem.</p>
-</div>
-<div class="paragraph">
-<p>However, the C&#43;&#43; standard <strong>does not allow</strong> such use of a <code>union</code> object. It allows only <strong>reading of the so-called <em>active</em> member variable</strong>, which is the one that was <strong>least recently written</strong>. This rule is violated in our case since after writing into <code>u.f</code>, <code>u.i</code> is read.</p>
+<p>The member variables <code>f</code> and <code>i</code> of <code>u</code> are stored <strong>at the same address</strong>&#8201;&#8212;&#8201;their memory representations overlap. By writing one variable and reading the other, we can seemingly solve the problem. However, the C&#43;&#43; standard <strong>does not allow</strong> such use of a <code>union</code> object. It allows only <strong>reading the so-called <em>active</em> member variable</strong>, which is the one that has been <strong>least recently written</strong>. This rule is violated in our case since after writing into <code>u.f</code>, <code>u.i</code> is read.</p>
 </div>
 <div class="paragraph">
 <p>Yet, the compilation with <code>g++ -O2 main3.cpp</code> resulted in a program with defined behavior at a machine code level:</p>
@@ -180,10 +177,10 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In this case, this behavior was even <strong>explicitly guaranteed by the implementation</strong>. GCC defines in its documentation behavior even in case of <strong>reading an inactive member variable</strong> of a <code>union</code> object (see, for example, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning" class="bare">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning</a>). This makes a <strong>“non-standard” extension of the C&#43;&#43; language</strong>.</p>
+<p>In this case, this behavior was even <strong>explicitly guaranteed by the implementation</strong>. The documentation of GCC defines behavior even for cases of <strong>reading an inactive <code>union</code> member variable</strong> (see, for example, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning" class="bare">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning</a>). This represents a <strong>“non-standard” extension of the C&#43;&#43; language</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Another example of undefined behavior that is “tolerated” in practice may be the effort of implementing the <code>std::vector&lt;T&gt;</code> container from the C&#43;&#43; standard library (this example is a bit advanced). A vector represents a dynamic array of elements of type <code>T</code>. For efficiency reasons, a vector has <strong>allocated memory for some number of elements</strong>, but the actual number of stored elements may be lower. (This concept guarantees <strong>amortized constant complexity</strong> of the frequently-used operation of <strong>adding a new element at the end of the vector</strong>).</p>
+<p>Another example of undefined behavior “tolerated” in practice may be the effort of implementing the <code>std::vector&lt;T&gt;</code> container from the C&#43;&#43; standard library (this example is a bit advanced). A vector represents a dynamic array of elements of type <code>T</code>. For efficiency reasons, a vector manages <strong>a memory allocated for some number of elements</strong>, but the actual number of stored elements may be lower. (This concept guarantees the <strong>amortized constant complexity</strong> of the frequently-used operation of <strong>adding a new element at the end of the vector</strong>).</p>
 </div>
 <div class="paragraph">
 <p>Let us suppose that the allocated memory is pointed to by a vector member variable <code>data_</code> of type <code>T*</code>. An allocation for <code>n</code> elements could then look like:</p>
@@ -197,15 +194,15 @@ ret</code></pre>
 <div class="content">
 <div class="title">Allocators and allocation functions</div>
 <div class="paragraph">
-<p><code>std::vector</code> actually performs the allocation by <strong>using an allocator</strong> with the type of vector second template argument. The <strong>default value</strong> of this allocator type for <code>std::vector&lt;T&gt;</code> is <code>std::allocator&lt;T&gt;</code>. An allocation with this type is <strong>effectively equivalent</strong> to the above-shown allocation with <code>operator new</code>.</p>
+<p><code>std::vector</code> actually performs allocations by <strong>using an allocator</strong> with the type of the vector second template argument. The <strong>default value</strong> of this allocator type for <code>std::vector&lt;T&gt;</code> is <code>std::allocator&lt;T&gt;</code>. An allocation with an allocater of this type is <strong>effectively equivalent</strong> to the above-shown allocation with <code>operator new</code>.</p>
 </div>
 <div class="paragraph">
-<p><code>::operator new</code> represents a <strong>C&#43;&#43; allocation function</strong> for a dynamic memory allocation of a block of <strong>uninitialized memory</strong> having a requested amount of bytes. If you are not familiar with this function, for the sake of this article, imagine a <code>malloc</code> function call instead.</p>
+<p><code>::operator new</code> represents a <strong>C&#43;&#43; allocation function</strong> for a dynamic allocation of a block of <strong>uninitialized memory</strong> having a requested amount of bytes. If you are not familiar with this function, for the sake of this article, imagine a <code>malloc</code> function call instead.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>In the allocated memory block, pointed to by the <code>data_</code> pointer, there are then <strong>at some places constructed vector elements</strong>&#8201;&#8212;&#8201;objects of type <code>T</code> (how this is done will be explained in some future article). For <strong>accessing these elements</strong>, there is the <strong>indexing operator</strong> defined, typically in the following way:</p>
+<p>In the allocated memory block, pointed to by the <code>data_</code> pointer, <strong>vector elements are then constructed</strong> (how this is done will be explained in some future article). For <strong>accessing these elements</strong>, there is the <strong>indexing operator</strong> defined, typically in the following way:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -213,7 +210,7 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>And here there is a problem. This operator contains <strong>pointer arithmetic for a pointer of type <code>T*</code></strong>. Such an operation is by the C&#43;&#43; standard allowed being performed over an <strong>array of objects of type <code>T</code></strong>. But what we have is a <strong>block of uninitialized memory</strong> with subsequently <strong>constructed objects of type <code>T</code> at some places</strong>. According to the C&#43;&#43; standard, this <strong>is not an array of type <code>T</code></strong>. The pointer arithmetic then results in undefined behavior.</p>
+<p>And now there is a problem. This operator contains <strong>pointer arithmetic for a pointer of type <code>T*</code></strong>. Such an operation is allowed by the C&#43;&#43; standard when being performed over an <strong>array of objects of type <code>T</code></strong>. But what we have is a <strong>block of uninitialized memory</strong> with subsequently <strong>constructed objects of type <code>T</code></strong>. According to the C&#43;&#43; standard, this <strong>is not an array of type <code>T</code></strong>. The pointer arithmetic then results in undefined behavior.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -244,7 +241,7 @@ ret</code></pre>
 <p>Undefined behavior generally leads to the <strong>non-portable source code</strong>&#8201;&#8212;&#8201;<strong>different implementations</strong> can behave <strong>differently</strong> for it.</p>
 </li>
 <li>
-<p>In some cases, C&#43;&#43; implementation <strong>explicitly define behavior</strong> even if it is undefined by the standard.</p>
+<p>In some cases, C&#43;&#43; implementations <strong>explicitly define behavior</strong> even if it is undefined by the standard.</p>
 </li>
 </ul>
 </div>
