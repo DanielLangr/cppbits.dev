@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="description" content="">
+<meta name="description" content="Nedefinované chování umožňuje generovat efektivní a výkonné programy, a obecně ho nelze detekovat.">
 <meta name="author" content="Daniel Langr">
 <meta name="copyright" content="(C) Daniel Langr 2020">
 <link rel="icon" type="image/png" href="../favicon/favicon.png">
@@ -147,7 +147,7 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>To představuje <strong>optimální strojový kód</strong>&#8201;&#8212;&#8201;je přečtena hodnota z paměti na adrese dané argumentem funkce (obsah registru <code>rdi</code>) a následně je vrácena na místo volání funkce (přes registr <code>rax</code>). Testování platnosti ukazatele by navíc vyžadovalo dodatečné instrukce realizující podmíněný skok a například vyvolání výjimky.</p>
+<p>To představuje <strong>optimální strojový kód</strong>&#8201;&#8212;&#8201;je přečtena hodnota z paměti na adrese dané argumentem funkce (obsah registru <code>rdi</code>) a následně je vrácena na místo volání funkce (přes registr <code>eax</code>). Testování platnosti ukazatele by navíc vyžadovalo dodatečné instrukce realizující podmíněný skok a například vyvolání výjimky.</p>
 </div>
 <div class="paragraph">
 <p>Ze všeho nejhorší by ale bylo, že by musel existovat mechanizmus, který by při <strong>ukončení životnosti</strong> libovolného objektu o této skutečnosti <strong>informoval všechny na něj navázané ukazatele (a reference)</strong>. Jedině tak by se totiž ukazatel „dozvěděl“ o svém zneplatnění. Paměťová a časové režie takovéhoto mechanizmu by byla devastující.</p>

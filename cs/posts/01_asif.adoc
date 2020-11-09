@@ -5,7 +5,7 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revremark: poslední modifikace říjen 2020
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
-:description: Úkolem implementace {cpp} je u programu zajistit pozorovatelné chování, které mu podle zdrojového kódu předepisuje Standard {cpp}.
+:description: Program musí zajistit pouze pozorovatelné chování, které je mu předepsáno podle jeho zdrojového kódu.
 
 [.normal]
 link:../../en/posts/01_asif.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English version, link="../../en/posts/01_asif.html"] +

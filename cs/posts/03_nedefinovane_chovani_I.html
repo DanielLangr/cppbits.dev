@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="description" content="">
+<meta name="description" content="Pokud nejsou dodržena pravidla standardu C&#43;&#43;, chování implementace není definováno.">
 <meta name="author" content="Daniel Langr">
 <meta name="copyright" content="(C) Daniel Langr 2020">
 <link rel="icon" type="image/png" href="../favicon/favicon.png">
@@ -33,7 +33,8 @@
 </div>
 <div id="content">
 <div class="paragraph normal">
-<p><a href="../index.html">Úvodní stránka</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span><br></p>
+<p><a href="../../en/posts/03_undefined_behavior_I.html">English version</a> <span class="image"><a class="image" href="../../en/posts/03_undefined_behavior_I.html"><img src="https://www.countryflags.io/gb/shiny/24.png" alt="English version"></a></span><br>
+<a href="../index.html">Úvodní stránka</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span></p>
 </div>
 <hr>
 <div class="quoteblock">
@@ -167,7 +168,7 @@ int main()
 <p>Členské proměnné <code>f</code> a <code>i</code> objektu <code>u</code> jsou zde uloženy <strong>na stejné adrese</strong>, tj. v paměti se jejich bitové reprezentace <strong>překrývají</strong>. Zápisem hodnoty do jedné proměnné a čtením druhé tedy zdánlivě vyřešíme zadanou úlohu.</p>
 </div>
 <div class="paragraph">
-<p>Standard C&#43;&#43; ale takovéto použití třídního typu <code>union</code> <strong>neumožňuje</strong>. Podle pravidel standardu je totiž u objektu typu <code>union</code> možné <strong>číst jen tu tzv. <em>aktivní</em> členskou proměnnou</strong>, což je ta, která byla <strong>naposledy zapsána</strong>. V našem toto pravidlo splněno není, protože po zápisu do <code>u.f</code> dojde ke čtení neaktivní <code>u.i</code>.</p>
+<p>Standard C&#43;&#43; ale takovéto použití třídního typu <code>union</code> <strong>neumožňuje</strong>. Podle pravidel standardu je totiž u objektu typu <code>union</code> možné <strong>číst jen tu tzv. <em>aktivní</em> členskou proměnnou</strong>, což je ta, která byla <strong>naposledy zapsána</strong>. V našem případě toto pravidlo splněno není, protože po zápisu do <code>u.f</code> dojde ke čtení neaktivní <code>u.i</code>.</p>
 </div>
 <div class="paragraph">
 <p>Přesto překlad pomocí <code>g++ -O2 main3.cpp</code> opět vedl na program s definovaných chováním na úrovni instrukcí procesoru:</p>
@@ -243,7 +244,7 @@ ret</code></pre>
 <p>Nedefinované chování obecně vede na <strong>nepřenositelný zdrojový kód</strong>&#8201;&#8212;&#8201;ve smyslu, že se pro něj <strong>různé implementace</strong> mohou chovat <strong>odlišným způsobem</strong>.</p>
 </li>
 <li>
-<p>V některých případech implementace C&#43;&#43; <strong>explicitně definuje chování</strong> i v případě, že podle standardu definované není.</p>
+<p>V některých případech implementace C&#43;&#43; <strong>explicitně definuje chování</strong>, i když podle standardu definované není.</p>
 </li>
 </ul>
 </div>

@@ -4,7 +4,7 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revremark: poslední modifikace říjen 2020
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
-:description: 
+:description: Úkolem implementace {cpp} je na konkrétním počítačovém systému zajistit pro program pozorovatelné chování, které mu podle zdrojového kódu předepisuje Standard {cpp}.
 
 [.normal]
 link:../../en/posts/02_implementation.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English version, link="../../en/posts/02_implementation.html"] +

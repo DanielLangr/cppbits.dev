@@ -1,10 +1,10 @@
 = 02: {cpp} implementation 
 Daniel Langr <daniel.langr@gmail.com>
-:revdate: říjen 2020
+:revdate: November 2020
 //:revremark: poslední modifikace říjen 2020
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
-:description: 
+:description: The goal of a {cpp} implementation is to provide, on a particular computer system, the observable behavior of a program defined for its source code by the {cpp} standard.
 
 [.normal]
 link:../../cs/posts/02_implementace.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/02_implementace.html"] +

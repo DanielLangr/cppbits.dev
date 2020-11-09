@@ -4,11 +4,11 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revremark: poslední modifikace říjen 2020
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
-:description: 
+:description: Pokud nejsou dodržena pravidla standardu {cpp}, chování implementace není definováno.
 
 [.normal]
-link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
-//link:../../en/posts/03_undefined_behavior.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/03_undefined_behavior.html"]
+link:../../en/posts/03_undefined_behavior_I.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English version, link="../../en/posts/03_undefined_behavior_I.html"] +
+link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] 
 
 ''''
 
@@ -119,7 +119,7 @@ int main()
 
 Členské proměnné `f` a `i` objektu `u` jsou zde uloženy *na stejné adrese*, tj. v paměti se jejich bitové reprezentace *překrývají*. Zápisem hodnoty do jedné proměnné a čtením druhé tedy zdánlivě vyřešíme zadanou úlohu.
 
-Standard {cpp} ale takovéto použití třídního typu `union` *neumožňuje*. Podle pravidel standardu je totiž u objektu typu `union` možné *číst jen tu tzv. _aktivní_ členskou proměnnou*, což je ta, která byla *naposledy zapsána*. V našem toto pravidlo splněno není, protože po zápisu do `u.f` dojde ke čtení neaktivní `u.i`.
+Standard {cpp} ale takovéto použití třídního typu `union` *neumožňuje*. Podle pravidel standardu je totiž u objektu typu `union` možné *číst jen tu tzv. _aktivní_ členskou proměnnou*, což je ta, která byla *naposledy zapsána*. V našem případě toto pravidlo splněno není, protože po zápisu do `u.f` dojde ke čtení neaktivní `u.i`.
 
 Přesto překlad pomocí `g++ -O2 main3.cpp` opět vedl na program s definovaných chováním na úrovni instrukcí procesoru:
 
@@ -169,7 +169,7 @@ Uvedenou problematiku adresuje _proposal_ dokumentu P0593R6, dostupný napříkl
 - Při nedefinovaném chování standard *nepředepisuje*, jak se má implementace {cpp} pro daný zdrojový kód chovat. Ta se poté může chovat *libovolným způsobem*, a to v *čase překladu* i v *čase běhu programu*.
 - Implementace se v takových případech obecně *chovají deterministicky*. Obvykle vygenerují program, jehož chování je *definované jeho strojovým kódem*.
 - Nedefinované chování obecně vede na *nepřenositelný zdrojový kód* -- ve smyslu, že se pro něj *různé implementace* mohou chovat *odlišným způsobem*.
-- V některých případech implementace {cpp} *explicitně definuje chování* i v případě, že podle standardu definované není.
+- V některých případech implementace {cpp} *explicitně definuje chování*, i když podle standardu definované není.
 ****
 
 include::{rootdir}/include/disqus.adoc[]

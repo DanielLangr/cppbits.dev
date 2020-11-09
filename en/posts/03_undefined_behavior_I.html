@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="description" content="If the rules of the C&#43;&#43; standard are violated, the behavior of the C&#43;&#43; implementation is not defined.">
+<meta name="author" content="Daniel Langr">
+<meta name="copyright" content="(C) Daniel Langr 2020">
+<link rel="icon" type="image/png" href="../favicon/favicon.png">
+<title>03: Undefined behavior I</title>
+<link rel="stylesheet" href="../../stylesheets/ubuntu-custom.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180949618-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-180949618-1');
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>03: Undefined behavior I</h1>
+<div class="details">
+<span id="author" class="author">Daniel Langr</span><br>
+<span id="email" class="email"><a href="mailto:daniel.langr@gmail.com">daniel.langr@gmail.com</a></span><br>
+<span id="revdate">November 2020</span>
+</div>
+</div>
+<div id="content">
+<div class="paragraph normal">
+<p><a href="../../cs/posts/03_nedefinovane_chovani_I.html">Česká verze</a> <span class="image"><a class="image" href="../../cs/posts/03_nedefinovane_chovani_I.html"><img src="https://www.countryflags.io/cz/shiny/24.png" alt="Česká verze"></a></span><br>
+<a href="../index.html">Homepage</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span></p>
+</div>
+<hr>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Writing in C or C&#43;&#43; is like running a chain saw with all the safety guards removed.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; Bob Gray
+</div>
+</div>
+<div class="paragraph">
+<p>As was already mentioned, the C&#43;&#43; standard defines how a program should behave on an abstract machine according to the source code it has been generated from. A C&#43;&#43; implementation then guarantees the same program observable behavior on a particular computer system.</p>
+</div>
+<div class="paragraph">
+<p>However, the C&#43;&#43; standard <strong>does not</strong> define the program behavior <strong>in all circumstances</strong>. It defines the behavior only in cases where <strong>the rules it contains are followed</strong>. If they are violated, the standard does not define the program behavior. Such cases are called <strong>undefined behavior (UB)</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Undefined behavior is not related to the <strong>program runtime</strong> only. In case that the rules that are violated are related to the <strong>source code compilation</strong>, the standard does not define even the behavior of the implementation at <strong>compile time</strong>. Generally, undefined behavior implies that the C&#43;&#43; implementation can <strong>behave in an arbitrary way</strong> at compile time and at runtime.</p>
+</div>
+<div class="paragraph">
+<p>An example of a particular standard rule is that operations with <strong>signed integer types</strong> shall not <strong>overflow</strong>. Such overflow, therefore, implies undefined behavior:</p>
+</div>
+<div class="listingblock">
+<div class="title">main.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">#include &lt;limits&gt;
+
+int main()
+{
+  int i = std::numeric_limits&lt;int&gt;::max();
+  i++;
+  return i;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This source code can yield undefined behavior <strong>already at compile time</strong>. Under optimizations, the problematic increment may be evaluated by a compiler. On the contrary, the following source code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">#include &lt;iostream&gt;
+#include &lt;limits&gt;
+
+int main()
+{
+  int i;
+  std::cin &gt;&gt; i;
+  i++;
+  return i;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>will cause the overflow and corresponding undefined behavior only if the value obtained from the standard input is the maximum value of <code>int</code> type. The standard rules violation cannot happen here <strong>until runtime</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The frequently-asked question is, <strong>what does actually happen</strong> if the behavior is undefined. Let us get back to the <code>main.cpp</code> source code. In my case, its compilation with <code>g++ -O2 main.cpp</code> resulted in the executable program with the following machine code instructions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">mov eax, -2147483648
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Is the behavior of this program <strong>at a machine code level</strong> undefined? Not at all. The instructions clearly <strong>do define its behavior</strong>&#8201;&#8212;&#8201;a normal program termination with exit status -2147483648. The program thus has defined behavior, but in this case, it was <strong>defined by the implementation</strong>. From the perspective of the C&#43;&#43; standard, its behavior remains undefined.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Undefined behavior and portability</div>
+<div class="paragraph">
+<p>Undefined behavior at a level of the C&#43;&#43; standard implies the <strong>non-portability of the corresponding source code</strong>. Indeed, the program behavior may be defined by the C&#43;&#43; implementation, but the standard does not say which behavior it should be. Different implementations can then generate programs <strong>with very different behavior</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Let us look at another example:</p>
+</div>
+<div class="listingblock">
+<div class="title">main2.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
+{
+  float f = 0.0f;
+  int* pi = reinterpret_cast&lt;int*&gt;(&amp;f);
+  return *pi;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>reinterpret_cast</code> allows us to look at the <strong>memory representation</strong> of an object of some type as it actually was a memory representation of some <strong>other type</strong>. In our case, we want to find out what is the values of an <code>int</code> object that has the <strong>same memory representation</strong> as a <code>float</code> object with zero value.</p>
+</div>
+<div class="paragraph">
+<p>The problem with this code is that the C&#43;&#43; standard allows <code>reinterpret_cast</code> to be used only in a <strong>very limited and specified number of cases</strong>, and our case <strong>is not</strong> among them. Thanks to that, the behavior for this code is undefined by the standard. However, what about the implementation? By compiling this source code with <code>g++ -O2 main2.cpp</code>, I got the program with the following instructions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">xor eax, eax
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is obvious that its behavior is, again, clearly defined (normal program termination with exit status 0).</p>
+</div>
+<div class="paragraph">
+<p>The question is whether it is guaranteed that the generated program will behave in this way. The C&#43;&#43; standard does not guarantee this, of course. An implementation <strong>may or may not</strong> guarantee that, and to find out the exact answer may be complicated or even almost impossible. The good news is that implementations mostly (if not always) behave <strong>in a deterministic way</strong>. It is therefore highly probable that, in our case, the <code>g++</code> compiler will always generate the executable program with the same described behavior (under the same build configuration).</p>
+</div>
+<div class="paragraph">
+<p>In some cases, C&#43;&#43; implementations even <strong>explicitly</strong> define program behavior even if it is undefined by the standard. Let us try to solve the same problem&#8201;&#8212;&#8201;inspecting the value of an object of some type with the memory representation of an object of some other type&#8201;&#8212;&#8201;with the help of the <code>union</code> class type. In contrast to <code>class</code> and <code>struct</code>, <code>union</code> stores its member variables <strong>not next to each other, but over each other</strong> instead. An alternative solution to <code>main2.cpp</code> could then look like:</p>
+</div>
+<div class="listingblock">
+<div class="title">main3.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">union U
+{
+  float f;
+  int i;
+};
+
+int main()
+{
+  U u;
+  u.f = 0.0f;
+  return u.i;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The member variables <code>f</code> and <code>i</code> of <code>u</code> are stored <strong>at the same address</strong>; their memory representations overlap. By writing into one variable and reading the other, we can seemingly solve the problem.</p>
+</div>
+<div class="paragraph">
+<p>However, the C&#43;&#43; standard <strong>does not allow</strong> such use of a <code>union</code> object. It allows only <strong>reading of the so-called <em>active</em> member variable</strong>, which is the one that was <strong>least recently written</strong>. This rule is violated in our case since after writing into <code>u.f</code>, <code>u.i</code> is read.</p>
+</div>
+<div class="paragraph">
+<p>Yet, the compilation with <code>g++ -O2 main3.cpp</code> resulted in a program with defined behavior at a machine code level:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">xor eax, eax
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case, this behavior was even <strong>explicitly guaranteed by the implementation</strong>. GCC defines in its documentation behavior even in case of <strong>reading an inactive member variable</strong> of a <code>union</code> object (see, for example, <a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning" class="bare">https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Type-punning</a>). This makes a <strong>“non-standard” extension of the C&#43;&#43; language</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Another example of undefined behavior that is “tolerated” in practice may be the effort of implementing the <code>std::vector&lt;T&gt;</code> container from the C&#43;&#43; standard library (this example is a bit advanced). A vector represents a dynamic array of elements of type <code>T</code>. For efficiency reasons, a vector has <strong>allocated memory for some number of elements</strong>, but the actual number of stored elements may be lower. (This concept guarantees <strong>amortized constant complexity</strong> of the frequently-used operation of <strong>adding a new element at the end of the vector</strong>).</p>
+</div>
+<div class="paragraph">
+<p>Let us suppose that the allocated memory is pointed to by a vector member variable <code>data_</code> of type <code>T*</code>. An allocation for <code>n</code> elements could then look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">data_ = (T*)::operator new(n * sizeof(T));</code></pre>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Allocators and allocation functions</div>
+<div class="paragraph">
+<p><code>std::vector</code> actually performs the allocation by <strong>using an allocator</strong> with the type of vector second template argument. The <strong>default value</strong> of this allocator type for <code>std::vector&lt;T&gt;</code> is <code>std::allocator&lt;T&gt;</code>. An allocation with this type is <strong>effectively equivalent</strong> to the above-shown allocation with <code>operator new</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>::operator new</code> represents a <strong>C&#43;&#43; allocation function</strong> for a dynamic memory allocation of a block of <strong>uninitialized memory</strong> having a requested amount of bytes. If you are not familiar with this function, for the sake of this article, imagine a <code>malloc</code> function call instead.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>In the allocated memory block, pointed to by the <code>data_</code> pointer, there are then <strong>at some places constructed vector elements</strong>&#8201;&#8212;&#8201;objects of type <code>T</code> (how this is done will be explained in some future article). For <strong>accessing these elements</strong>, there is the <strong>indexing operator</strong> defined, typically in the following way:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">T&amp; operator[](size_type n) { return data_ + n; }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And here there is a problem. This operator contains <strong>pointer arithmetic for a pointer of type <code>T*</code></strong>. Such an operation is by the C&#43;&#43; standard allowed being performed over an <strong>array of objects of type <code>T</code></strong>. But what we have is a <strong>block of uninitialized memory</strong> with subsequently <strong>constructed objects of type <code>T</code> at some places</strong>. According to the C&#43;&#43; standard, this <strong>is not an array of type <code>T</code></strong>. The pointer arithmetic then results in undefined behavior.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Is <code>std::vector</code> implementable?</div>
+<div class="paragraph">
+<p>We ended up with a <strong>paradox</strong>&#8201;&#8212;&#8201;the standard prescribes how a vector should behave, but, at the same time, an effort of its implementation <strong>almost inevitably leads to undefined behavior</strong>. There have been many discussions about this problem. The good news is that C&#43;&#43; implementations know about it well and <strong>provide a correct vector behavior even above the standard level</strong>.</p>
+</div>
+<div class="paragraph">
+<p>This problem also has been addressed by the <em>proposal</em> document P0593R6, available here: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p0593r6.html" class="bare">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p0593r6.html</a>. This proposal should be a part of the C&#43;&#43;20 standard (not yet officially published in the time of writing this article).</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Summary</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Undefined behavior is caused by <strong>violating the rules of the C&#43;&#43; standard</strong>.</p>
+</li>
+<li>
+<p>In the case of undefined behavior, the C&#43;&#43; standard <strong>does not prescribe</strong> how a C&#43;&#43; implementation should behave for a corresponding source code. An implementation can then behave <strong>in any arbitrary way</strong>, which holds both for <strong>compile time</strong> and <strong>runtime</strong>.</p>
+</li>
+<li>
+<p>Implementations typically behave <strong>in a deterministic way</strong> in such cases. Typically, they generate a program with the behavior <strong>defined by its machine code</strong>.</p>
+</li>
+<li>
+<p>Undefined behavior generally leads to the <strong>non-portable source code</strong>&#8201;&#8212;&#8201;<strong>different implementations</strong> can behave <strong>differently</strong> for it.</p>
+</li>
+<li>
+<p>In some cases, C&#43;&#43; implementation <strong>explicitly define behavior</strong> even if it is undefined by the standard.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = window.location.href;
+this.page.identifier = window.location.pathname;
+this.language = "en";
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://yact.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph text-center">
+<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;All rights reserved.</p>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>

@@ -4,7 +4,7 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revremark: poslední modifikace říjen 2020
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
-:description: 
+:description: Nedefinované chování umožňuje generovat efektivní a výkonné programy, a obecně ho nelze detekovat.
 
 [.normal]
 link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
@@ -89,7 +89,7 @@ mov eax, DWORD PTR [rdi]
 ret
 ----
 
-To představuje *optimální strojový kód* -- je přečtena hodnota z paměti na adrese dané argumentem funkce (obsah registru `rdi`) a následně je vrácena na místo volání funkce (přes registr `rax`). Testování platnosti ukazatele by navíc vyžadovalo dodatečné instrukce realizující podmíněný skok a například vyvolání výjimky.
+To představuje *optimální strojový kód* -- je přečtena hodnota z paměti na adrese dané argumentem funkce (obsah registru `rdi`) a následně je vrácena na místo volání funkce (přes registr `eax`). Testování platnosti ukazatele by navíc vyžadovalo dodatečné instrukce realizující podmíněný skok a například vyvolání výjimky.
 
 Ze všeho nejhorší by ale bylo, že by musel existovat mechanizmus, který by při *ukončení životnosti* libovolného objektu o této skutečnosti *informoval všechny na něj navázané ukazatele (a reference)*. Jedině tak by se totiž ukazatel „dozvěděl“ o svém zneplatnění. Paměťová a časové režie takovéhoto mechanizmu by byla devastující.
 

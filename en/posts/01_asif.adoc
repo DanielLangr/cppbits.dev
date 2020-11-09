@@ -5,7 +5,7 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revremark: last modification
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
-:description: The goal of a {cpp} implementation is to provide such observable program behavior that is defined for it by the {cpp} standard.
+:description: A program needs to provide only the observable behavior prescribed to its source code.
 
 [.normal]
 link:../../cs/posts/01_asif.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/01_asif.html"] +

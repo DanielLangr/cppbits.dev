@@ -6,4 +6,5 @@ https://yact.tech/en/posts/01_asif.html
 https://yact.tech/cs/posts/02_implementace.html
 https://yact.tech/en/posts/02_implementation.html
 https://yact.tech/cs/posts/03_nedefinovane_chovani_I.html
+https://yact.tech/en/posts/03_undefined_behavior_I.html
 https://yact.tech/cs/posts/04_nedefinovane_chovani_II.html
