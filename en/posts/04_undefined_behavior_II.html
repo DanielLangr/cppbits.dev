@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="description" content="Undefined behavior allows producing effeicient programs, and, generally, it cannot be detected.">
+<meta name="author" content="Daniel Langr">
+<meta name="copyright" content="(C) Daniel Langr 2020">
+<link rel="icon" type="image/png" href="../favicon/favicon.png">
+<title>04: Undefined behavior II</title>
+<link rel="stylesheet" href="../../stylesheets/ubuntu-custom.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180949618-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-180949618-1');
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>04: Undefined behavior II</h1>
+<div class="details">
+<span id="author" class="author">Daniel Langr</span><br>
+<span id="email" class="email"><a href="mailto:daniel.langr@gmail.com">daniel.langr@gmail.com</a></span><br>
+<span id="revdate">November 2020</span>
+</div>
+</div>
+<div id="content">
+<div class="paragraph normal">
+<p><a href="../../cs/posts/04_nedefinovane_chovani_II.html">Česká verze</a> <span class="image"><a class="image" href="../../cs/posts/04_nedefinovane_chovani_II.html"><img src="https://www.countryflags.io/cz/shiny/24.png" alt="Česká verze"></a></span><br>
+<a href="../index.html">Homepage</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span><br></p>
+</div>
+<hr>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Writing in C or C&#43;&#43; is like running a chain saw with all the safety guards removed.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; Bob Gray
+</div>
+</div>
+<div class="paragraph">
+<p>Undefined behavior is so dangerous mostly because the generated program often <strong>behaves in a seemingly “expected” way</strong>. Typical reasoning in discussions is that “since the program behaves as expected, its source code must be correct”. Nothing can be farther from the truth.</p>
+</div>
+<div class="paragraph">
+<p>The first problem is that expected behavior <strong>can, for everyone, mean something different</strong>. A simple example:</p>
+</div>
+<div class="listingblock">
+<div class="title">main.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int main()
+{
+  int i;
+  return i;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>According to the C&#43;&#43; standard, the variable <code>i</code> has&#8201;&#8212;&#8201;due to the absence of initialization&#8201;&#8212;&#8201;an <strong>undetermined value</strong>. Its <strong>evaluation</strong> in the <code>return i;</code> statement then results in undefined behavior. However, let us assume that a C&#43;&#43; implementation will compile this source code and generate an executable program. What will be its <strong>expected behavior</strong>? There are <strong>two basic options</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The program will normally terminate with <strong>exit status 0</strong>.</p>
+</li>
+<li>
+<p>The program will normally terminate with <strong>exit status having an arbitrary value, which may be both zero or nonzero</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Expected behavior then depends on one&#8217;s preferences in this regard.</p>
+</div>
+<div class="paragraph">
+<p>What would a <strong>C&#43;&#43; implementation</strong> do with this source code? I first tried to compile it with <code>g++ -O2 main.cpp</code>, which generated the following instructions:</p>
+</div>
+<div class="listingblock">
+<div class="title">g&#43;&#43;</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">xor eax, eax
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Obviously, they define the program behavior as its normal termination with exit status 0, which corresponds to the <strong>first expected behavior option</strong>. However, when I used <strong>another C&#43;&#43; implementation</strong> based on Clang (<code>clang++ -O2 main.cpp</code>), I obtained another outcome:</p>
+</div>
+<div class="listingblock">
+<div class="title">clang&#43;&#43;</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This defines the program behavior as its normal termination with exit status given by the <code>eax</code> register value having it before entering the <code>main</code> function. And, this corresponds to the <strong>second expected behavior option</strong>. However, if, in some test environment, one incidentally obtained the 0 exit status, they could <strong>falsely adhere</strong> to the first option instead and expect that 0 would be returned constantly.</p>
+</div>
+<div class="paragraph">
+<p>This example illustrates the peril of undefined behavior. Generally, it may happen that a program with undefined behavior will, <strong>in practice, behave as expected</strong>. It can pass extending testing and then be deployed to a production environment. But there, after some period of smooth operation, <strong>seemingly without any cause</strong>, a problem appears (induced, for example, by returning an unexpected result from some function).</p>
+</div>
+<div class="paragraph">
+<p>It might be <strong>very difficult to discover</strong> such problems. <strong>At best</strong>, the program crashes. However, if then, during repeated testing and debugging, the program starts behaving as expected again, it might be almost impossible to find the error. <strong>At worst</strong>, the program will “silently” continue running with an incorrect state, which may then manifest at some other place and other time. In this case, discovering the cause of the problem is even less possible.</p>
+</div>
+<div class="paragraph">
+<p>With undefined behavior, two questions typically emerge:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Why does undefined behavior <strong>exist</strong> at all?</p>
+</li>
+<li>
+<p>And, is it possible to <strong>detect</strong> it?</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The form of the first question is, in fact, a bit <strong>misleading</strong>. According to the definition of undefined behavior, we should ask why the C&#43;&#43; standard defines program behavior <strong>only if its rules are not violated</strong>. In other words, why it does not define program behavior <strong>in all circumstances</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The answer to this question is that, even if it were possible in theory, it would have a <strong>tremendous negative impact on the performance and efficiency of programs</strong>. Let us look at the following source file:</p>
+</div>
+<div class="listingblock">
+<div class="title">lib.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int dereference_int(int* ptr)
+{
+  return *ptr;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>According to the C&#43;&#43; standard, the <code>ptr</code> pointer may be dereferenced only <strong>if it points to the existing object of type <code>int</code></strong>. But, how could an implementation provide such a check when <code>lib.cpp</code> is compiled? A pointer represents an address; therefore, its memory representation on a 64-bit system has 8 bytes. If we wanted to add the <strong>information about its validity</strong>, we would either have to add some space or encode the information into these 8 bytes themselves. Both options would reduce the efficiency of pointer operations in general.</p>
+</div>
+<div class="paragraph">
+<p>Moreover, there would need to be some runtime overhead imposed into the <code>dereference_int</code> function. In my case, its compilation with <code>g++ -O2 -c lib.cpp</code> resulted in the following instructions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">mov eax, DWORD PTR [rdi]
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is <strong>optimal machine code</strong>&#8201;&#8212;&#8201;the value from the address passed as a function argument (through register <code>rdi</code>) is read and subsequently returned to the function call place (through register <code>eax</code>). Testing the validity of the passed pointer would require additional instructions, such as conditional jumping and possibly throwing an exception.</p>
+</div>
+<div class="paragraph">
+<p>But that is not all. Additionally, there would need to be a mechanism that would <strong>notify all the bound pointers (and references)</strong> when the lifetime of some object ends. Such that the pointer would “learn” about its invalidation. The memory and runtime overhead of this mechanism would be devastating.</p>
+</div>
+<div class="paragraph">
+<p>In other words, the concept of undefined behavior <strong>allows implementations to focus on maximizing performance and efficiency</strong>. To achieve this goal, they need to have the freedom to assume that the C&#43;&#43; standard <strong>rules are not violated</strong>, which allows them not to deal with the other cases.</p>
+</div>
+<div class="paragraph">
+<p>If we cannot get rid of undefined behavior, can we at least <strong>detect it</strong>? Generally, and unfortunately, it <strong>is not possible</strong>. For illustration, let us additionally have the following source file:</p>
+</div>
+<div class="listingblock">
+<div class="title">prog.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int dereference_int(int*);
+
+int main()
+{
+  int* ptr;
+  {
+    int i = 1;
+    ptr = &amp;i;
+  }
+  return dereference_int(ptr);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, if we wanted to make an executable program from both <code>lib.cpp</code> and <code>prog.cpp</code> source files, we would need to compile them. What is important to realize is that, generally, the compilation of both these files <strong>can happen separately</strong>, even on different computer systems. This is, in practice, quite common with libraries. In our case, a library may be represented by the <code>lib.o</code> machine code file obtained by the following compilation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="text" class="language-text hljs">g++ -O2 -c lib.cpp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, let us assume that we want to use this “library” for producing a program that has the <code>prog.cpp</code> source code. Again, we need to <strong>compile</strong> it first:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="text" class="language-text hljs">g++ -O2 -c prog.cpp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>which generates the machine code file <code>prog.o</code>. To finally build the <strong>resulting executable program file</strong>, we need to “link” both generated machine code files together by an implementation tool called a <em>linker</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="text" class="language-text hljs">ld lib.o prog.o</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>Note:</em> The last two steps can be effectively merged into this single command: <code>g++ -O2 prog.cpp lib.o</code>. From the perspective of compilation and linking, the outcome is effectively the same.</p>
+</div>
+<div class="paragraph">
+<p>Now, the question is whether an implementation has any possibility to discover undefined behavior caused by dereferencing the invalid pointer (pointer to the no-longer existing object). Let us analyze this problem with respect to the above-defined steps:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>During the compilation of <code>lib.cpp</code>, <strong>it is not possible to detect the C&#43;&#43; rules violation</strong> since the pointer itself does not contain any information about its validity.</p>
+</li>
+<li>
+<p>In the source code of the <code>prog.cpp</code> file, <strong>there are no C&#43;&#43; rules violated</strong>. An invalid pointer is only passed as an argument into the function call, which is allowed.</p>
+</li>
+<li>
+<p>During linking, <strong>it is no more possible to discover any violation of the C&#43;&#43; standard rules</strong> in general, because these rules are related only to source code (which is not “seen” by the linker anymore).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This example illustrates that, generally, <strong>undefined behavior cannot be detected</strong>. It is possible only in a <strong>limited and specified amount of cases</strong>. There are special tools for these purposes such as <em>UndefinedBehaviorSanitizer (UBSan)</em> provided by the <em>Clang</em> compiler. <em>UBSan</em> can detect, for instance, division by zero or a dereference of a null pointer. In my case, it did not succeed with the cases of undefined behavior shown in this article.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Summary</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Source code that leads to undefined behavior is generally <strong>incorrect</strong>.</p>
+</li>
+<li>
+<p>The great danger stems from the fact that, frequently, both the compilation and the resulting program <strong>seemingly behave in an expected way</strong>. But, if some problem emerges, it might be <strong>very difficult to find its cause</strong>.</p>
+</li>
+<li>
+<p>The concept of undefined behavior <strong>allows</strong> implementations to produce efficient machine code.</p>
+</li>
+<li>
+<p>Undefined behavior may be detected only in a <strong>limited and specified number of cases</strong>. It cannot be detected in general.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = window.location.href;
+this.page.identifier = window.location.pathname;
+this.language = "en";
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://yact.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph text-center">
+<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;All rights reserved.</p>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>

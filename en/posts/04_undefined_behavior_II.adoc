@@ -1,0 +1,159 @@
+= 04: Undefined behavior II
+Daniel Langr <daniel.langr@gmail.com>
+:revdate: November 2020
+//:revremark: poslední modifikace říjen 2020
+:rootdir: ..
+include::{rootdir}/include/attributes.adoc[]
+:description: Undefined behavior allows producing effeicient programs, and, generally, it cannot be detected.
+
+[.normal]
+link:../../cs/posts/04_nedefinovane_chovani_II.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/04_nedefinovane_chovani_II.html"] +
+link:../index.html[Homepage] image:up.png[link="../index.html"] +
+
+''''
+
+[quote, Bob Gray]
+____
+Writing in C or {cpp} is like running a chain saw with all the safety guards removed.
+____
+
+Undefined behavior is so dangerous mostly because the generated program often *behaves in a seemingly “expected” way*. Typical reasoning in discussions is that “since the program behaves as expected, its source code must be correct”. Nothing can be farther from the truth.
+
+The first problem is that expected behavior *can, for everyone, mean something different*. A simple example:
+
+.main.cpp
+[source]
+----
+int main()
+{ 
+  int i;
+  return i;
+}
+----
+
+According to the {cpp} standard, the variable `i` has -- due to the absence of initialization -- an *undetermined value*. Its *evaluation* in the `return i;` statement then results in undefined behavior. However, let us assume that a {cpp} implementation will compile this source code and generate an executable program. What will be its *expected behavior*? There are *two basic options*:
+
+. The program will normally terminate with *exit status 0*.
+. The program will normally terminate with *exit status having an arbitrary value, which may be both zero or nonzero*.
+
+Expected behavior then depends on one's preferences in this regard.
+
+What would a *{cpp} implementation* do with this source code? I first tried to compile it with `g++ -O2 main.cpp`, which generated the following instructions:
+
+.g{plus}{plus}
+[source,x86asm]
+----
+xor eax, eax
+ret
+----
+
+Obviously, they define the program behavior as its normal termination with exit status 0, which corresponds to the *first expected behavior option*. However, when I used *another {cpp} implementation* based on Clang (`clang++ -O2 main.cpp`), I obtained another outcome:
+
+.clang{plus}{plus}
+[source,x86asm]
+----
+ret
+----
+
+This defines the program behavior as its normal termination with exit status given by the `eax` register value having it before entering the `main` function. And, this corresponds to the *second expected behavior option*. However, if, in some test environment, one incidentally obtained the 0 exit status, they could *falsely adhere* to the first option instead and expect that 0 would be returned constantly.
+//For illustration, in the first execution, I got the exit status 32, while, in the subsequent executions, other numbers as well. There could be a problem if a programmer obtained 0 during test executions. Then, they could *wrongly expect* that it would be returned constantly.
+
+This example illustrates the peril of undefined behavior. Generally, it may happen that a program with undefined behavior will, *in practice, behave as expected*. It can pass extending testing and then be deployed to a production environment. But there, after some period of smooth operation, *seemingly without any cause*, a problem appears (induced, for example, by returning an unexpected result from some function).
+
+It might be *very difficult to discover* such problems. *At best*, the program crashes. However, if then, during repeated testing and debugging, the program starts behaving as expected again, it might be almost impossible to find the error. *At worst*, the program will “silently” continue running with an incorrect state, which may then manifest at some other place and other time. In this case, discovering the cause of the problem is even less possible.
+
+With undefined behavior, two questions typically emerge:
+
+. Why does undefined behavior *exist* at all?
+. And, is it possible to *detect* it?
+
+The form of the first question is, in fact, a bit *misleading*. According to the definition of undefined behavior, we should ask why the {cpp} standard defines program behavior *only if its rules are not violated*. In other words, why it does not define program behavior *in all circumstances*.
+
+The answer to this question is that, even if it were possible in theory, it would have a *tremendous negative impact on the performance and efficiency of programs*. Let us look at the following source file:
+
+.lib.cpp
+[source]
+----
+int dereference_int(int* ptr)
+{
+  return *ptr;
+}
+----
+
+According to the {cpp} standard, the `ptr` pointer may be dereferenced only *if it points to the existing object of type `int`*. But, how could an implementation provide such a check when `lib.cpp` is compiled? A pointer represents an address; therefore, its memory representation on a 64-bit system has 8 bytes. If we wanted to add the *information about its validity*, we would either have to add some space or encode the information into these 8 bytes themselves. Both options would reduce the efficiency of pointer operations in general.
+
+Moreover, there would need to be some runtime overhead imposed into the `dereference_int` function. In my case, its compilation with `g++ -O2 -c lib.cpp` resulted in the following instructions:
+
+[source,x86asm]
+----
+mov eax, DWORD PTR [rdi]
+ret
+----
+
+This is *optimal machine code* -- the value from the address passed as a function argument (through register `rdi`) is read and subsequently returned to the function call place (through register `eax`). Testing the validity of the passed pointer would require additional instructions, such as conditional jumping and possibly throwing an exception.
+
+But that is not all. Additionally, there would need to be a mechanism that would *notify all the bound pointers (and references)* when the lifetime of some object ends. Such that the pointer would “learn” about its invalidation. The memory and runtime overhead of this mechanism would be devastating.
+
+In other words, the concept of undefined behavior *allows implementations to focus on maximizing performance and efficiency*. To achieve this goal, they need to have the freedom to assume that the {cpp} standard *rules are not violated*, which allows them not to deal with the other cases.
+
+If we cannot get rid of undefined behavior, can we at least *detect it*? Generally, and unfortunately, it *is not possible*. For illustration, let us additionally have the following source file:
+
+.prog.cpp
+[source]
+----
+int dereference_int(int*);
+
+int main()
+{
+  int* ptr;
+  {
+    int i = 1;
+    ptr = &i;
+  }
+  return dereference_int(ptr);
+}
+----
+
+Now, if we wanted to make an executable program from both `lib.cpp` and `prog.cpp` source files, we would need to compile them. What is important to realize is that, generally, the compilation of both these files *can happen separately*, even on different computer systems. This is, in practice, quite common with libraries. In our case, a library may be represented by the `lib.o` machine code file obtained by the following compilation:
+
+[source,text]
+----
+g++ -O2 -c lib.cpp
+----
+
+Now, let us assume that we want to use this “library” for producing a program that has the `prog.cpp` source code. Again, we need to *compile* it first:
+
+[source,text]
+----
+g++ -O2 -c prog.cpp
+----
+
+which generates the machine code file `prog.o`. To finally build the *resulting executable program file*, we need to “link” both generated machine code files together by an implementation tool called a _linker_:
+
+[source,text]
+----
+ld lib.o prog.o
+----
+
+_Note:_ The last two steps can be effectively merged into this single command: `g++ -O2 prog.cpp lib.o`. From the perspective of compilation and linking, the outcome is effectively the same.
+
+Now, the question is whether an implementation has any possibility to discover undefined behavior caused by dereferencing the invalid pointer (pointer to the no-longer existing object). Let us analyze this problem with respect to the above-defined steps:
+
+- During the compilation of `lib.cpp`, *it is not possible to detect the {cpp} rules violation* since the pointer itself does not contain any information about its validity.
+
+- In the source code of the `prog.cpp` file, *there are no {cpp} rules violated*. An invalid pointer is only passed as an argument into the function call, which is allowed.
+
+- During linking, *it is no more possible to discover any violation of the {cpp} standard rules* in general, because these rules are related only to source code (which is not “seen” by the linker anymore).
+
+This example illustrates that, generally, *undefined behavior cannot be detected*. It is possible only in a *limited and specified amount of cases*. There are special tools for these purposes such as _UndefinedBehaviorSanitizer (UBSan)_ provided by the _Clang_ compiler. _UBSan_ can detect, for instance, division by zero or a dereference of a null pointer. In my case, it did not succeed with the cases of undefined behavior shown in this article.
+
+.Summary
+****
+- Source code that leads to undefined behavior is generally *incorrect*.
+- The great danger stems from the fact that, frequently, both the compilation and the resulting program *seemingly behave in an expected way*. But, if some problem emerges, it might be *very difficult to find its cause*.
+- The concept of undefined behavior *allows* implementations to produce efficient machine code.
+- Undefined behavior may be detected only in a *limited and specified number of cases*. It cannot be detected in general.
+****
+
+include::{rootdir}/include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]

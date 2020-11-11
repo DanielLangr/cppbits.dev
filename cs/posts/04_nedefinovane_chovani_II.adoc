@@ -7,8 +7,8 @@ include::{rootdir}/include/attributes.adoc[]
 :description: Nedefinované chování umožňuje generovat efektivní a výkonné programy, a obecně ho nelze detekovat.
 
 [.normal]
-link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] +
-//link:../../en/posts/03_undefined_behavior.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English, link="../../en/posts/03_undefined_behavior.html"]
+link:../../en/posts/04_undefined_behavior_II.html[English version] image:https://www.countryflags.io/gb/shiny/24.png[English version, link="../../en/posts/04_undefined_behavior_II.html"] +
+link:../index.html[Úvodní stránka] image:up.png[link="../index.html"] 
 
 ''''
 
@@ -142,7 +142,7 @@ Otázkou nyní je, zda implementace vůbec může odhalit nedefinované chován�
 
 - Na úrovni zdrojového kódu souboru `prog.cpp` *žádná pravidla {cpp} porušena nejsou*. Neplatný ukazatel je zde pouze předán jako argument do volání funkce, a to samo o sobě zakázáno není.
 
-- Při spojování *porušení pravidel standardu {cpp} již ohladit nelze*, protože tato pravidla se týkají jen zdrojového kódu. A ta už _linker_ „nevidí“.
+- Při spojování *porušení pravidel standardu {cpp} již ohladit nelze*, protože tato pravidla se týkají jen zdrojového kódu. A ten už _linker_ „nevidí“.
  
 //K odhalení nedefinovaného chování by v našem případě překladač musel mít k dispozici oba zdrojové soubory najednou. To v praxi obecně není možné zajistit. Jak jsme již zmínili, překlad souboru `prog.cpp` může probíhat na místě, kde se soubor `lib.cpp` vůbec nevyskytuje. K takovým situacím dochází dennodenně při použití knihoven, které jsou do systémů distribuovány v binární podobě. K nim sice jsou k dispozici příslušné hlavičkové soubory knihovny, ale ty většinou obsahují pouze deklarace knihovních funkcí.
 

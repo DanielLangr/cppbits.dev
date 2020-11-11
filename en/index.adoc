@@ -10,9 +10,9 @@ link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/
 
 == Recent posts
 
+link:posts/04_undefined_behavior_II.html[04: Undefined behavior II] _(Nov 2020)_ +
 link:posts/03_undefined_behavior_I.html[03: Undefined behavior I] _(Nov 2020)_ +
 link:posts/02_implementation.html[02: {cpp} implementation] _(Nov 2020)_ +
-link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_
 
 == Introduction
 
@@ -52,9 +52,10 @@ This tutorial -- *by itself* -- is not intended for complete beginners. It does 
 
 link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_ +
 link:posts/02_implementation.html[02: {cpp} implementation] _(Nov 2020)_ +
-link:posts/03_undefined_behavior_I.html[03: Undefined behavior I] _(Nov 2020)_ 
+link:posts/03_undefined_behavior_I.html[03: Undefined behavior I] _(Nov 2020)_ +
+link:posts/04_undefined_behavior_II.html[04: Undefined behavior II] _(Nov 2020)_ 
 
-== About author
+== About the author
 
 I work as a research assistant professor at the Faculty of Information Technology of the Czech Technical University in Prague, where I participate in both research and teaching activities. {cpp} has been with me for more than 25 years. In the beginning, that was thanks to the Borland {cpp} implementation, which existed even before the first {cpp} standard appeared. During those 25 years, {cpp} has become both my work and my hobby. As for its applications, I use it mostly for the development of massively-parallel programs intended to be run on large supercomputers. For instance, I collaborate with theoretical nuclear physicists on the solution of the Schrödinger equation for atomic nuclei by employing the ab-initio no-core shell model.
 
