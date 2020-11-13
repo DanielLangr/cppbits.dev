@@ -1,0 +1,177 @@
+= 05: Declarations and definitions I
+Daniel Langr <daniel.langr@gmail.com>
+:revdate: November 2020
+//:revremark: poslední modifikace říjen 2020
+:rootdir: ..
+include::{rootdir}/include/attributes.adoc[]
+:description: Declaration of some entity tells a compiler that it exists and how it can be used.
+
+[.normal]
+//link:../../cs/posts/05_deklarace_a_definice.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/05_deklarace_a_definice.html"] +
+link:../index.html[Homepage] image:up.png[link="../index.html"] 
+
+''''
+
+[quote, Bjarne Stroustrup]
+____
+If you think it's simple, then you have misunderstood the problem.
+____
+
+Assume that -- *somewhere in the void* -- there exist the following function:
+
+[source]
+----
+int add(int a, int b)
+{
+  return a + b;
+}
+----
+
+Let us now try to write a source file for a program that *uses this function*. The first attempt may look like:
+
+.main.cpp
+[source]
+----
+int main()
+{
+  int i = 1;
+  int j = add(i, 2) + 3;
+  return j;
+}
+----
+
+If we now try to *generate machine code* for this source code (for example, by running `g++ -O2 -c main.cpp`), it *fails*. Why?
+
+In the source code, the `add` function is *called* from the `main` function. Therefore, a compiler needs to generate a corresponding call of `add` at the machine code level. On an x86_64 architecture, such a call is represented by the `call` instruction. But this instruction, alone, is *not sufficient*.
+
+A compiler also needs to generate instructions for *passing arguments and a return value to/from the function*. In our case, a compiler “sees” the arguments (`i` and `2`, both of type `int`), and also sees what is done with the return value (application of the binary operator `+`). However, this is *not enough* for the generation of corresponding “passing instructions”. For example -- are the arguments passed by value of by reference? Or, is there any implicit conversion required? At a machine code level, this makes a difference.
+
+What is missing here for a successful generation of passing instructions is that a compiler also needs to see *the types of function parameters as well as its return type*. The provision of such information is the role of a *function declaration*. In our case, the simplest form of the declaration of the function `add` is:
+
+[source]
+----
+int add(int, int);
+----
+
+How to assure that our compiler will *see this declaration* when compiling `main`? The most fundamental solution is simply to add it into the same source file:
+
+.main2.cpp
+[source]
+----
+int add(int, int);
+
+int main()
+{
+  int i = 1;
+  int j = add(i, 2) + 3;
+  return j;
+}
+----
+
+Now, the compilation with `g++ -O2 -c main2.cpp` succeeds, and, in my case, I obtained the following instructions for the `main` function:
+
+[source,x86asm]
+----
+sub  rsp, 8
+mov  esi, 2
+mov  edi, 1
+call add(int, int)
+add  rsp, 8
+add  eax, 3
+ret
+----
+
+.Application binary interface (ABI)
+****
+On each computer system, there needs to be some *agreement* on how to pass arguments and return values to/from functions *at a machine code level*. This agreement is a part of what is called an *application binary interface (ABI)*. Without an ABI, pieces of machine code generated, for example, by different compilers would not be able to cooperate.
+
+On my system, the ABI prescribes that the values of arguments are -- into a function having two parameters of type `int` -- passed through the `edi` and `esi` registers, respectively. Since, in my `add` function call, the arguments have values 1 and 2, they are assigned to these registers. 
+The applied ABI also prescribes that the return value of type `int` is passed from a function through the `eax` register. Note that in our case, this holds for both the `add` and `main` functions. According to the source code, the value returned from `add` is incremented by 3 and then returned from `main`. At a machine code level, a simple increment of `eax` by 3 therefore renders this effect.
+
+Finally, why are there those two instructions that manipulate the _stack pointer_ register `rsp`? It is again related to the applied ABI. Namely, the ABI prescribes that, at the beginning of execution of some function, a part of the stack available to it -- the so-called _stack frame_ -- which is pointed to by `rsp`, shall be aligned to a 16-byte address.
+
+At the beginning of `main`, the address stored in `rsp` is therefore aligned to a 16-byte memory boundary. However, the subsequent `call` instruction stores, on the stack, the current value of the _instruction pointer_ `rip`. This is necessary such that the `ret` instruction called within the `add` function knows where to go back.
+
+This “remembering” of `rip` on the stack involves decrementing `rsp` by 8. To ensure the 16-byte alignment of the stack frame at the beginning of `add`, `rsp` therefore needs to be decremented by 8 once more, which is accomplished by that `sub rsp, 8` instruction. After the `add` function call, the effect of this operation is reverted by `add rsp, 8`.
+****
+
+Now, we are able to compile (translate) the source code of `main2.cpp` into machine code. However, this machine code is *not yet in the form an executable program*. Instead, thanks to the `-c` command line option provided to `g++`, it has the form of the so-called *object file*, which has the `main2.o` filename by default.
+
+To build an executable program, all occurrences of the `call` instruction needs to be *linked* to the machine code of the corresponding functions. This is a task for a {cpp} implementation tool called a *linker*. In my case, the linker is a program called `ld`, which is internally used by `g++` when this gets an object file as an input. 
+
+With my `g{plus}{plus}`-based implementation, we now have *two options* for building an executable program from `main2.cpp`. The first one is to *separately compile* this source file with
+
+[source,plaintext]
+----
+g++ -O2 -c main2.cpp
+----
+
+and the resulting `main2.o` object file *link* into an executable program with
+
+[source,plaintext]
+----
+g++ main2.o
+----
+
+The second option is to *merge both steps into a single command*:
+
+[source,plaintext]
+----
+g++ -O2 main2.cpp
+----
+which internally *does the same* (only without explicit storage of `main2.o`). 
+
+In my case, both these options resulted in the following *error* reported by the `ld` linker:
+
+[source,plaintext]
+----
+undefined reference to `add(int, int)'
+----
+
+The cause of this error is pretty obvious -- the linker sees the `call` instruction for the `add` function, but it does not see any machine code of this function to which it could *link that call*.
+
+How to provide such machine code? Of course, a compiler cannot generate it merely from the `add` function declaration. Instead, it needs to see the *body of the function*, which is provided by the *function definition*. In our case, this definition is as follows:
+
+[source]
+----
+int add(int a, int b)
+{
+  return a + b;
+}
+----
+
+Generally, a function definition *instructs a compiler to generate its machine code*. Let us, first, put the definition of `add` into a separate source file:
+
+.add.cpp
+[source]
+----
+int add(int a, int b)
+{
+  return a + b;
+}
+----
+
+Now, we can generate its machine code in the form of the object file `add.o` with the command `g++ -O2 -c add.cpp`. The generated instructions of the `add` function were, in my case:
+
+[source,x86asm]
+----
+lea eax, [rdi+rsi]
+ret
+----
+
+The `lea` instruction adds the values of the arguments -- passed through `edi` and `esi` (upper parts of `rdi` and `rsi` do not matter) -- and stores the result into `eax`. This register is then used to pass the result back to the function caller.
+
+We, finally, have all that we need to build an *executable program file*. In `main2.o`, there is the call of the `add` function. In `add.o`, there is its machine code. The command `g++ main2.o add.o` passes both to the linker, which then generates a program file having the `a.out` filename by default.
+
+By the way, `g{plus}{plus}` allows us to merge the compilation of both source files and the linkage of the resulting object files into a single command: `g{plus}{plus} -O2 main2.cpp add.cpp`. In my case, the resulting executable file was the very same.
+
+
+.Summary
+****
+- A *function declaration* instructs a compiler to *generate machine code for calls of this function*.
+- A *function definition* instructs a compiler to generate *its machine code* (machine code for its body).
+- For building an executable program, function call instructions *need to linked* with the machine code of these functions, which does a tool called a *linker*.
+****
+
+include::{rootdir}/include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]

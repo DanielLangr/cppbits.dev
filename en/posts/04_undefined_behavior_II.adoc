@@ -8,7 +8,7 @@ include::{rootdir}/include/attributes.adoc[]
 
 [.normal]
 link:../../cs/posts/04_nedefinovane_chovani_II.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/04_nedefinovane_chovani_II.html"] +
-link:../index.html[Homepage] image:up.png[link="../index.html"] +
+link:../index.html[Homepage] image:up.png[link="../index.html"] 
 
 ''''
 
@@ -132,7 +132,7 @@ which generates the machine code file `prog.o`. To finally build the *resulting 
 
 [source,text]
 ----
-ld lib.o prog.o
+g++ lib.o prog.o
 ----
 
 _Note:_ The last two steps can be effectively merged into this single command: `g++ -O2 prog.cpp lib.o`. From the perspective of compilation and linking, the outcome is effectively the same.
