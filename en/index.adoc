@@ -10,9 +10,9 @@ link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/
 
 == Recent posts
 
+link:posts/06_declarations_and_definitions_II.html[06: Declarations and definitions II] _(Nov 2020)_ +
 link:posts/05_declarations_and_definitions_I.html[05: Declarations and definitions I] _(Nov 2020)_ +
-link:posts/04_undefined_behavior_II.html[04: Undefined behavior II] _(Nov 2020)_ +
-link:posts/03_undefined_behavior_I.html[03: Undefined behavior I] _(Nov 2020)_
+link:posts/04_undefined_behavior_II.html[04: Undefined behavior II] _(Nov 2020)_ 
 
 == Introduction
 
@@ -54,7 +54,8 @@ link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_ +
 link:posts/02_implementation.html[02: {cpp} implementation] _(Nov 2020)_ +
 link:posts/03_undefined_behavior_I.html[03: Undefined behavior I] _(Nov 2020)_ +
 link:posts/04_undefined_behavior_II.html[04: Undefined behavior II] _(Nov 2020)_ +
-link:posts/05_declarations_and_definitions_I.html[05: Declarations and definitions I] _(Nov 2020)_ 
+link:posts/05_declarations_and_definitions_I.html[05: Declarations and definitions I] _(Nov 2020)_ +
+link:posts/06_declarations_and_definitions_II.html[06: Declarations and definitions II] _(Nov 2020)_ 
 
 == About the author
 

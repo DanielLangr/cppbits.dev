@@ -7,7 +7,7 @@ include::{rootdir}/include/attributes.adoc[]
 :description: Declaration of some entity tells a compiler that it exists and how it can be used.
 
 [.normal]
-//link:../../cs/posts/05_deklarace_a_definice.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/05_deklarace_a_definice.html"] +
+//link:../../cs/posts/05_deklarace_a_definice_I.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/05_deklarace_a_definice_I.html"] +
 link:../index.html[Homepage] image:up.png[link="../index.html"] 
 
 ''''
