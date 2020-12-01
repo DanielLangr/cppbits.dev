@@ -168,7 +168,7 @@ By the way, `g{plus}{plus}` allows us to merge the compilation of both source fi
 
 .Summary
 ****
-- A *function declaration* instructs a compiler to *generate machine code for calls of this function*.
+- A *function declaration* instructs a compiler on how to *generate machine code for calls of this function*.
 - A *function definition* instructs a compiler to generate *its machine code* (machine code for its body).
 - For building an executable program, function call instructions *need to linked* with the machine code of these functions, which does a tool called a *linker*.
 ****
