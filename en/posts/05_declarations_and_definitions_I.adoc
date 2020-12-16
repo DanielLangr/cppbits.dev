@@ -4,10 +4,10 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revremark: poslední modifikace říjen 2020
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
-:description: Declaration of some entity tells a compiler that it exists and how it can be used.
+:description: Declaration of some entity tells a compiler that it exists and how it can be used. Function definition tells a compiler to generate its machine code.
 
 [.normal]
-//link:../../cs/posts/05_deklarace_a_definice_I.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/05_deklarace_a_definice_I.html"] +
+link:../../cs/posts/05_deklarace_a_definice_I.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/05_deklarace_a_definice_I.html"] +
 link:../index.html[Homepage] image:up.png[link="../index.html"] 
 
 ''''
@@ -119,6 +119,7 @@ The second option is to *merge both steps into a single command*:
 ----
 g++ -O2 main2.cpp
 ----
+
 which internally *does the same* (only without explicit storage of `main2.o`). 
 
 In my case, both these options resulted in the following *error* reported by the `ld` linker:

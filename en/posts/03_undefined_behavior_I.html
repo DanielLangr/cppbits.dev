@@ -8,7 +8,7 @@
 <meta name="description" content="If the rules of the C&#43;&#43; standard are violated, the behavior of the C&#43;&#43; implementation is not defined.">
 <meta name="author" content="Daniel Langr">
 <meta name="copyright" content="(C) Daniel Langr 2020">
-<link rel="icon" type="image/png" href="../favicon/favicon.png">
+<link rel="icon" type="image/png" href="../../favicon/favicon.png">
 <title>03: Undefined behavior I</title>
 <link rel="stylesheet" href="../../stylesheets/ubuntu-custom.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -145,7 +145,7 @@ ret</code></pre>
 <p>The question is whether it is guaranteed that the generated program will behave in this way. Of course, the C&#43;&#43; standard does not guarantee that. An implementation <strong>may or may not</strong> guarantee that, and to find out the exact answer can be complicated or even almost impossible. The good news is that implementations mostly (if not always) behave <strong>in a deterministic way</strong>. It is therefore highly probable that, in our case, <code>g++</code> would always produce the executable program with the same described behavior (under the same build configuration).</p>
 </div>
 <div class="paragraph">
-<p>In some cases, C&#43;&#43; implementations even <strong>explicitly</strong> define program behavior even if it is undefined by the standard. Let us try to solve the same problem&#8201;&#8212;&#8201;inspecting the value of an object of some type through the memory representation of an object of some other type&#8201;&#8212;&#8201;with the help of the <code>union</code> class type. In contrast to <code>class</code> and <code>struct</code>, <code>union</code> stores its member variables <strong>not next to each other, but over each other</strong> instead. An alternative solution to <code>main2.cpp</code> could then look like:</p>
+<p>In some cases, C&#43;&#43; implementations even <strong>explicitly</strong> define program behavior when it is undefined by the standard. Let us try to solve the same problem&#8201;&#8212;&#8201;inspecting the value of an object of some type through the memory representation of an object of some other type&#8201;&#8212;&#8201;with the help of the <code>union</code> class type. In contrast to <code>class</code> and <code>struct</code>, <code>union</code> stores its member variables <strong>not next to each other, but over each other</strong> instead. An alternative solution to <code>main2.cpp</code> could then look like:</p>
 </div>
 <div class="listingblock">
 <div class="title">main3.cpp</div>

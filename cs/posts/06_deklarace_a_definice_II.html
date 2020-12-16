@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="description" content="Pokud překladač vidí výraz volání funkce a její definici najednou, může generovat optimálnější strojový kód.">
+<meta name="author" content="Daniel Langr">
+<meta name="copyright" content="(C) Daniel Langr 2020">
+<link rel="icon" type="image/png" href="../../favicon/favicon.png">
+<title>06: Deklarace a definice II.</title>
+<link rel="stylesheet" href="../../stylesheets/ubuntu-custom.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180949618-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-180949618-1');
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>06: Deklarace a definice II.</h1>
+<div class="details">
+<span id="author" class="author">Daniel Langr</span><br>
+<span id="email" class="email"><a href="mailto:daniel.langr@gmail.com">daniel.langr@gmail.com</a></span><br>
+<span id="revdate">prosinec 2020</span>
+</div>
+</div>
+<div id="content">
+<div class="paragraph normal">
+<p><a href="../../en/posts/06_declarations_and_definitions_II.html">English version</a> <span class="image"><a class="image" href="../../en/posts/06_declarations_and_definitions_II.html"><img src="https://www.countryflags.io/gb/shiny/24.png" alt="English version"></a></span><br>
+<a href="../index.html">Úvodní stránka</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span></p>
+</div>
+<hr>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>If you think it&#8217;s simple, then you have misunderstood the problem.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; Bjarne Stroustrup
+</div>
+</div>
+<div class="paragraph">
+<p>Posledně jsme skončili s programem sestaveným z těchto dvou zdrojových souborů:</p>
+</div>
+<div class="listingblock">
+<div class="title">main2.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int add(int, int);
+
+int main()
+{
+  int i = 1;
+  int j = add(i, 2) + 3;
+  return j;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">add.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int add(int a, int b)
+{
+  return a + b;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Jeden z těch souborů obsahoval <strong>deklaraci</strong> funkce <code>add</code> a její použití (volání), zatímco ten druhý obsahoval její <strong>definici</strong>. Samozřejmě jsme mohli tuto definici dát přímo i do souboru s funkcí <code>main</code>, například tímto způsobem:</p>
+</div>
+<div class="listingblock">
+<div class="title">main3.cpp</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">int add(int, int);
+
+int main()
+{
+  int i = 1;
+  int j = add(i, 2) + 3;
+  return j;
+}
+
+int add(int a, int b)
+{
+  return a + b;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Je mezi oběma těmito alternativami <strong>nějaký rozdíl</strong>? Zdrojový kód je v obou případech <strong>úplně stejný</strong>. Navíc je stejné i jejich <strong>pozorovatelné chování</strong>, kterým je normální ukončení programu s návratovým statusem 6. My to můžeme snadno vidět, ale my nejsme důležití. Na čem záleží je <strong>jestli to může „vidět“ i překladač</strong>.</p>
+</div>
+<div class="paragraph">
+<p>U <strong>druhé alternativy</strong> odpověď zní <strong>ano</strong>. Překladač vidí veškerý zdrojový kód najednou, a proto může pozorovatelné chování celého programu odvodit a zajistit ho efektivním způsobem na úrovni strojového kódu. Pro ilustraci, za použití příkazu <code>g&#43;&#43; -O2 main3.cpp</code> jsem dostal následující strojový kód funkce <code>main</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">mov eax, 6
+ret</code></pre>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Inlining</div>
+<div class="paragraph">
+<p>Jedna z důležitých optimalizačních technik překladače je tzv. <strong><em>inlining</em></strong> funkcí. To pracuje tak, že volání funkce je <strong>virtuálně nahrazeno</strong> jejím tělem. V našem případě, <code>int j = add(i, 2) + 3</code> je virtuálně nahrazeno kódem <code>int j = (i + 2) + 3;</code>.</p>
+</div>
+<div class="paragraph">
+<p>Mějte na paměti, že inlining nemá <strong>nic společného</strong> se specifikátorem <code>inline</code>, což může být pro začátečníky zavádějící. V našem kódu se žádný specifikátor <code>inline</code> nevyskytuje a přesto <code>g&#43;&#43;</code> aplikovalo inlining v rámci optimalizací <code>-O2</code>. <code>g&#43;&#43;</code> nám dovoluje explicitně zakázal inlining funkcí pomocí přepínače <code>-fno-inline</code>. S <code>g&#43;&#43; -O2 -fno-inline main3.cpp</code> můžeme obdržet program, který obsahuje strojový kód funkce <code>add</code> a její volání z funkce <code>main</code>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Vraťme se nyní k <strong>první alternativě</strong> s dvěma soubory se zdrojovým kódem. Zde, při překladu <code>main2.cpp</code> překladač vidí deklaraci funkce <code>add</code> a její volání, ale neví, co tato funkce vykonává ve svém těle. Proto <strong>nemá jinou možnost</strong> než vygenerovat strojový kód s tímto voláním:</p>
+</div>
+<div class="listingblock">
+<div class="title">main2.o</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">sub  rsp, 8
+mov  esi, 2
+mov  edi, 1
+call add(int, int)
+add  rsp, 8
+add  eax, 3
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Poté, při překladu <code>add.cpp</code> překladač vidí definici funkce <code>add</code>, ale vůbec netuší jak je tato funkce použita. Opět má jen <strong>jedinou možnost</strong>&#8201;&#8212;&#8201;vygenerovat strojový kód funkce:</p>
+</div>
+<div class="listingblock">
+<div class="title">add.o</div>
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">lea eax, [rdi+rsi]
+ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nakonec, linker pouze <strong>sloučí obě části strojového kódu dohromady</strong> do spustitelného programového souboru.</p>
+</div>
+<div class="paragraph">
+<p>Při porovnání obou alternativ, skončili jsme se <strong>dvěma spustitelnými programy</strong> které mají naprosto stejné pozorovatelné chování. Ale, toto chování je v obou případech zajištěno na úrovni strojového kódu <strong>velmi odlišným způsobem</strong>. A opravdu nemusíme být raketovými inženýry abychom uhodli, která z těchto alternativ bude za běhu programu efektivnější. Jen co se týče počtu vykonávaných instrukcí, skóre je 9:2.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Link-time optimizations (LTO)</div>
+<div class="paragraph">
+<p>Inlining a další optimalizace mohou být aplikovány nejen překladačem. Teoreticky je může aplikovat i linker na úrovni strojového kódu. Ale, linker je, primárně, prostě linker. Navíc, obecně, optimalizace je mnohem snazší provádět pokud je k dispozici strojový kód.</p>
+</div>
+<div class="paragraph">
+<p>Pro příklad, C&#43;&#43; nástroje od GCC a Clang umožňují <strong>optimalizace v čase spojování <em>(link-time optimizations; LTO)</em></strong>. Nicméně, pro jejich aplikaci musí být překladačem vygenerované a linkeru předané dodatečné informace&#8201;&#8212;&#8201;tzv. <em>intermediate representation</em>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Otázku jestli rozdíl mezi oběma výše-představenými alternativami bude mít význam v praxi význam <strong>nelze obecně zodpovědět</strong>. Obvykle pokud funkce vykonává <strong>velké množství operací</strong> tak má její inlining zanedbatelný efekt z hlediska výkonu programu. To samé pravděpodobně bude platit i o funkci, která je při běhu programu volána <strong>párkrát nebo dokonce jen jednou</strong>. Obecně platí, že inlining může mít přínos především pro <strong>„krátké“ funkce, které jsou volány často</strong>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Souhrn</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Překladač může generovat výrazně více optimalizovaný strojový kód pokud vidí <strong>volání funkce a její definici</strong> najednou.</p>
+</li>
+<li>
+<p>Aplikace techniky inlining funkcí <strong>nesouvisí</strong> se specifikátorem <code>inline</code>.</p>
+</li>
+<li>
+<p>Inlining je specificky důležitý pro <strong>často volané funkce, které vykonávají jen malé množství operací</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+this.page.url = window.location.href;
+this.page.identifier = window.location.pathname;
+this.language = "cs";
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://yact.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph text-center">
+<p>&#169; 2020 Daniel Langr&#8201;&#8212;&#8201;všechna práva vyhrazena.</p>
+</div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>

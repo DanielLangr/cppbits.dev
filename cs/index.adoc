@@ -10,9 +10,9 @@ link:../en/index.html[English version] image:https://www.countryflags.io/gb/shin
 
 == Nejnovější příspěvky
 
-link:posts/04_nedefinovane_chovani_II.html[04: Nedefinované chování II.] _(říjen 2020)_ +
-link:posts/03_nedefinovane_chovani_I.html[03: Nedefinované chování I.] _(říjen 2020)_ +
-link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ 
+link:posts/06_deklarace_a_definice_II.html[06: Deklarace a definice II.] _(prosinec 2020)_ +
+link:posts/05_deklarace_a_definice_I.html[05: Deklarace a definice I.] _(prosinec 2020)_ +
+link:posts/04_nedefinovane_chovani_II.html[04: Nedefinované chování II.] _(říjen 2020)_ 
 
 == Úvod
 
@@ -52,7 +52,9 @@ Tento tutoriál *sám o sobě* není určen pro úplné začátečníky. Nemá s
 link:posts/01_asif.html[01: _As-if_ pravidlo] _(říjen 2020)_ +
 link:posts/02_implementace.html[02: Implementace {cpp}] _(říjen 2020)_ +
 link:posts/03_nedefinovane_chovani_I.html[03: Nedefinované chování I.] _(říjen 2020)_ +
-link:posts/04_nedefinovane_chovani_II.html[04: Nedefinované chování II.] _(říjen 2020)_ 
+link:posts/04_nedefinovane_chovani_II.html[04: Nedefinované chování II.] _(říjen 2020)_ +
+link:posts/05_deklarace_a_definice_I.html[05: Deklarace a definice I.] _(prosinec 2020)_ +
+link:posts/06_deklarace_a_definice_II.html[06: Deklarace a definice II.] _(prosinec 2020)_ 
 
 == O autorovi
 

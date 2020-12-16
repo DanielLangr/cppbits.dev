@@ -4,7 +4,7 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revremark: poslední modifikace říjen 2020
 :rootdir: ..
 include::{rootdir}/include/attributes.adoc[]
-:description: Declaration of some entity tells a compiler that it exists and how it can be used.
+:description: If a compiler sees call expression and definition of a function at once, it can generate more optimized machine code.
 
 [.normal]
 //link:../../cs/posts/05_deklarace_a_definice_II.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/05_deklarace_a_definice_II.html"] +
@@ -61,7 +61,7 @@ int add(int a, int b)
 }
 ----
 
-*Is there any difference* between these two alternatives? The source code of both is *exactly the same*. Moreover, the same is also their *observable behavior*, which is the normal program termination with exit status 6. We may easily see it, but we are not important. What matters is *whether it can be “seen” by a compiler*?
+*Is there any difference* between these two alternatives? The source code of both is *exactly the same*. Moreover, the same is also their *observable behavior*, which is the normal program termination with exit status 6. We may easily see it, but we are not important. What matters is *whether it can be “seen” by a compiler*.
 
 For the *second alternative*, the answer is *yes*. A compiler can see all the code at once; therefore, it can derive its observable behavior and render it efficiently at a machine code level. For instance, with `g{plus}{plus} -O2 main3.cpp`, I got this minimal machine code for the `main` function:
 

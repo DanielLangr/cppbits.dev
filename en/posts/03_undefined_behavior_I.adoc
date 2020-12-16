@@ -98,7 +98,7 @@ It is obvious that its behavior is, again, clearly defined (normal program termi
 
 The question is whether it is guaranteed that the generated program will behave in this way. Of course, the {cpp} standard does not guarantee that. An implementation *may or may not* guarantee that, and to find out the exact answer can be complicated or even almost impossible. The good news is that implementations mostly (if not always) behave *in a deterministic way*. It is therefore highly probable that, in our case, `g++` would always produce the executable program with the same described behavior (under the same build configuration).
 
-In some cases, {cpp} implementations even *explicitly* define program behavior even if it is undefined by the standard. Let us try to solve the same problem -- inspecting the value of an object of some type through the memory representation of an object of some other type -- with the help of the `union` class type. In contrast to `class` and `struct`, `union` stores its member variables *not next to each other, but over each other* instead. An alternative solution to `main2.cpp` could then look like:
+In some cases, {cpp} implementations even *explicitly* define program behavior when it is undefined by the standard. Let us try to solve the same problem -- inspecting the value of an object of some type through the memory representation of an object of some other type -- with the help of the `union` class type. In contrast to `class` and `struct`, `union` stores its member variables *not next to each other, but over each other* instead. An alternative solution to `main2.cpp` could then look like:
 
 .main3.cpp
 [source]

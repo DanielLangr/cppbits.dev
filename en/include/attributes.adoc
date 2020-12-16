@@ -1,7 +1,7 @@
 // +++ contents-related attributes:
 :lang: en
 :copyright: (C) Daniel Langr 2020
-:favicon: {rootdir}/favicon/favicon.png
+:favicon: {rootdir}/../favicon/favicon.png
 :icons: font
 :nofooter:
 // +++ google analytics:
