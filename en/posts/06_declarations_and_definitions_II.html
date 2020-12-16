@@ -33,7 +33,8 @@
 </div>
 <div id="content">
 <div class="paragraph normal">
-<p><a href="../index.html">Homepage</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span></p>
+<p><a href="../../cs/posts/06_deklarace_a_definice_II.html">Česká verze</a> <span class="image"><a class="image" href="../../cs/posts/06_deklarace_a_definice_II.html"><img src="https://www.countryflags.io/cz/shiny/24.png" alt="Česká verze"></a></span><br>
+<a href="../index.html">Homepage</a> <span class="image"><a class="image" href="../index.html"><img src="../../images/up.png" alt="up"></a></span></p>
 </div>
 <hr>
 <div class="quoteblock">
@@ -93,7 +94,7 @@ int add(int a, int b)
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Is there any difference</strong> between these two alternatives? The source code of both is <strong>exactly the same</strong>. Moreover, the same is also their <strong>observable behavior</strong>, which is the normal program termination with exit status 6. We may easily see it, but we are not important. What matters is <strong>whether it can be “seen” by a compiler</strong>?</p>
+<p><strong>Is there any difference</strong> between these two alternatives? The source code of both is <strong>exactly the same</strong>. Moreover, the same is also their <strong>observable behavior</strong>, which is the normal program termination with exit status 6. We may easily see it, but we are not important. What matters is <strong>whether it can be “seen” by a compiler</strong>.</p>
 </div>
 <div class="paragraph">
 <p>For the <strong>second alternative</strong>, the answer is <strong>yes</strong>. A compiler can see all the code at once; therefore, it can derive its observable behavior and render it efficiently at a machine code level. For instance, with <code>g&#43;&#43; -O2 main3.cpp</code>, I got this minimal machine code for the <code>main</code> function:</p>

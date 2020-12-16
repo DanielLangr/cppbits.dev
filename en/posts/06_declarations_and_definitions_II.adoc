@@ -7,7 +7,7 @@ include::{rootdir}/include/attributes.adoc[]
 :description: If a compiler sees call expression and definition of a function at once, it can generate more optimized machine code.
 
 [.normal]
-//link:../../cs/posts/05_deklarace_a_definice_II.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/05_deklarace_a_definice_II.html"] +
+link:../../cs/posts/06_deklarace_a_definice_II.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../../cs/posts/06_deklarace_a_definice_II.html"] +
 link:../index.html[Homepage] image:up.png[link="../index.html"] 
 
 ''''
