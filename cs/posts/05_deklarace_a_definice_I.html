@@ -59,7 +59,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Pokusme se nyní napsat zdrojový kód programu, který <strong>tuto funkci použije</strong>. První varianta by mohla vypada takto:</p>
+<p>Pokusme se nyní napsat zdrojový kód programu, který <strong>tuto funkci použije</strong>. První varianta by mohla vypadat takto:</p>
 </div>
 <div class="listingblock">
 <div class="title">main.cpp</div>
@@ -76,13 +76,13 @@
 <p>Pokud se nyní pokusíme z tohoto zdrojového kódu <strong>vygenerovat strojový kód</strong> (například příkazem <code>g&#43;&#43; -O2 -c main.cpp</code>), tak to selže. Proč?</p>
 </div>
 <div class="paragraph">
-<p>Ve zdrojovém kódu, funkce <code>add</code> je <strong>volána</strong> z funkce <code>main</code>. Překladač proto potřebuje vygenerovat odpovídající volání funkce <code>add</code> na úrovni strojového kódu. Na architektuře x86_64, takovéto volání je reprezentováno instrukcí <code>call</code>. Ale tato instrukce, sama o sobě, <strong>není dostačující</strong>.</p>
+<p>Ve zdrojovém kódu je funkce <code>add</code> <strong>volána</strong> z funkce <code>main</code>. Překladač proto potřebuje vygenerovat odpovídající volání funkce <code>add</code> na úrovni strojového kódu. Na architektuře x86_64 je takovéto volání reprezentováno instrukcí <code>call</code>. Ale tato instrukce sama o sobě <strong>není dostačující</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Překladač totiž také potřebuje vygenerovat instrukce pro <strong>předání argumentů a návratové hodnoty do/z funkce</strong>. V našem případě, překladač „vidí“ argumenty (<code>i</code> a <code>2</code>, oba typu <code>int</code>) a také vidí co se děje s návratovou hodnotou (aplikace binárního operátoru <code>+</code>). Nicméně, toto <strong>nestačí</strong> pro generování odpovídajících „předávajících“ instrukcí. Například&#8201;&#8212;&#8201;jsou argumenty předávané hodnotou nebo referencí? Nebo, je zde vyžadována nějaká implicitní konverze? Na úrovni strojového kódu to představuje rozdíl.</p>
+<p>Překladač totiž také potřebuje vygenerovat instrukce pro <strong>předání argumentů a návratové hodnoty do/z funkce</strong>. V našem případě překladač „vidí“ argumenty (<code>i</code> a <code>2</code>, oba typu <code>int</code>) a také vidí, co se děje s návratovou hodnotou (aplikace binárního operátoru <code>+</code>). Nicméně toto <strong>nestačí</strong> pro generování odpovídajících „předávajících“ instrukcí. Například, jsou argumenty předávané hodnotou nebo referencí? Nebo, je zde vyžadována nějaká implicitní konverze? Na úrovni strojového kódu to představuje rozdíl.</p>
 </div>
 <div class="paragraph">
-<p>Co zde chybí pro úspěšné generování předávajících instrukcí je, že překladač potřebuje vidět i <strong>typy funkčních parametrů a typ návratové hodnoty</strong>. Poskytnutí těchto informací je úkolem <strong>deklarace funkce</strong>. V našem případě, nejjednodušší forma deklarace funkce <code>add</code> je:</p>
+<p>Co zde chybí pro úspěšné generování předávajících instrukcí je, že překladač potřebuje vidět i <strong>typy funkčních parametrů a typ návratové hodnoty</strong>. Poskytnutí těchto informací je úkolem <strong>deklarace funkce</strong>. V našem případě je nejjednodušší forma deklarace funkce <code>add</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -90,7 +90,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Jak zajistit aby překladač <strong>viděl tuto deklaraci</strong> když překládá funkci <code>main</code>? Nejzákladnější řešení je jednoduše přidání deklarace do stejného zdrojového souboru:</p>
+<p>Jak zajistit aby překladač <strong>viděl tuto deklaraci</strong> když překládá funkci <code>main</code>? Nejpřímočařejším řešením je jednoduše přidání deklarace do stejného zdrojového souboru:</p>
 </div>
 <div class="listingblock">
 <div class="title">main2.cpp</div>
@@ -106,7 +106,7 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>Nyní, překlad pomocí <code>g&#43;&#43; -O2 -c main2.cpp</code> uspělo a&#8201;&#8212;&#8201;v mém případě&#8201;&#8212;&#8201;jsem obdržel následující instrukce vygenerované pro funkci <code>main</code>:</p>
+<p>Nyní, překlad pomocí <code>g&#43;&#43; -O2 -c main2.cpp</code> uspěl a&#8201;&#8212;&#8201;v mém případě&#8201;&#8212;&#8201;jsem obdržel následující instrukce vygenerované pro funkci <code>main</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -123,30 +123,30 @@ ret</code></pre>
 <div class="content">
 <div class="title">Aplikační binární rozhraní (ABI)</div>
 <div class="paragraph">
-<p>Na každém počítačovém systému musí existovat <strong>dohoda</strong> o tom, jak jsou předávány argumenty a návratové hodnoty do/z funkcí <strong>na úrovni strojového kódu</strong>. Tato dohoda je součástí něčeho, čemu se říká <strong>aplikační binární rozhraní <em>(application binary interface; ABI)</em></strong>. Bez ABI, části strojového kódu vygenerované například rozdílnými překladači by nebyly schopny spolupracovat.</p>
+<p>Na každém počítačovém systému musí existovat <strong>dohoda</strong> o tom, jak jsou předávány argumenty a návratové hodnoty do/z funkcí <strong>na úrovni strojového kódu</strong>. Tato dohoda je součástí něčeho, čemu se říká <strong>aplikační binární rozhraní <em>(application binary interface; ABI)</em></strong>. Bez ABI by části strojového kódu vygenerované například rozdílnými překladači nebyly schopny spolupracovat.</p>
 </div>
 <div class="paragraph">
-<p>Na mém systému, ABI předepisuje, že hodnoty argumentů jsou&#8201;&#8212;&#8201;do funkce, která má dva parametry typu <code>int</code>&#8201;&#8212;&#8201;předávány přes registry procesoru <code>edi</code> a <code>esi</code>, v uvedeném pořadí. Protože u našeho volání funkce <code>add</code> mají tyto argumenty hodnoty 1 a 2, jsou tyto hodnoty přiřazeny těmto registrům. ABI dále předepisuje, že návratová hodnota typu <code>int</code> je předána z funkce přes registr <code>eax</code>. Povšimněme si, že toto platí pro obě funkce <code>add</code> a <code>main</code>. Podle zdrojového kódu, hodnota navrácená z funkce <code>add</code> je inkrementována o 3 a vrácena z funkce <code>main</code>. Na úrovni strojového kódu tento efekt zajistí inkrement registru <code>eax</code> o 3.</p>
+<p>Na mém systému ABI předepisuje, že hodnoty argumentů jsou do funkce, která má dva parametry typu <code>int</code>, předávány přes registry procesoru <code>edi</code> a <code>esi</code>. Protože u našeho volání funkce <code>add</code> mají argumenty hodnoty 1 a 2, jsou přiřazeny těmto registrům. ABI dále předepisuje, že návratová hodnota typu <code>int</code> je předána z funkce přes registr <code>eax</code>. Povšimněme si, že toto platí pro obě funkce <code>add</code> a <code>main</code>. Podle zdrojového kódu je hodnota navrácená z funkce <code>add</code> inkrementována o 3 a vrácena z funkce <code>main</code>. Na úrovni strojového kódu tento efekt zajistí inkrement registru <code>eax</code> o 3.</p>
 </div>
 <div class="paragraph">
-<p>Nakonec, proč jsou zde ony dvě instrukce, které manipulují s registrem ukazatele zásobníku <em>(stack pointer</em>) <code>rsp</code>? Důvod rovněž souvisí s použitým ABI. To totiž předepisuje, že na začátku spuštění funkce musí být jeho část zásobníku&#8201;&#8212;&#8201;tzv. <em>stack frame</em>&#8201;&#8212;&#8201;na kterou ukazuje <code>rsp</code>, zarovnána na 16 bytovou adresu.</p>
+<p>Nakonec, proč jsou zde ony dvě instrukce, které manipulují s registrem ukazatele zásobníku <em>(stack pointer)</em> <code>rsp</code>? Důvod rovněž souvisí s použitým ABI. To totiž předepisuje, že na začátku spuštění funkce musí být jeho část zásobníku&#8201;&#8212;&#8201;tzv. <em>stack frame</em>&#8201;&#8212;&#8201;na kterou ukazuje <code>rsp</code>, zarovnána na 16 bytovou adresu.</p>
 </div>
 <div class="paragraph">
 <p>Na začátku funkce <code>main</code> je proto adresa v <code>rsp</code> zarovnána na 16 bytové paměťové hranici. Nicméně, následná instrukce <code>call</code> uloží na zásobník aktuální hodnotu instrukčního ukazatele <em>(instruction pointer)</em> <code>rip</code>. To je nezbytné aby instrukce <code>ret</code> ve funkci <code>add</code> věděla, kam se má běh programu vrátit zpět.</p>
 </div>
 <div class="paragraph">
-<p>Toto „zapamatování“ hodnoty <code>rip</code> na zásobníku zahrnuje dekrement <code>rsp</code> o hodnotu 8. Pro zajištění 16 bytového zarovnání pro <em>stack frame</em> na začátku funkce <code>add</code>, <code>rsp</code> proto musí být dekrementován o dalších 8 bytů, což právě zjišťuje instrukce <code>sub rsp, 8</code>. Po návratu z funkce <code>add</code>, tento efekt je invertován instrukcí <code>add rsp, 8</code>.</p>
+<p>Toto „zapamatování“ hodnoty <code>rip</code> na zásobníku zahrnuje dekrement <code>rsp</code> o 8 bytů. Pro zajištění 16 bytového zarovnání pro <em>stack frame</em> na začátku funkce <code>add</code>, <code>rsp</code> proto musí být dekrementován o dalších 8 bytů, což právě zjišťuje instrukce <code>sub rsp, 8</code>. Po návratu z funkce <code>add</code>, tento efekt je invertován instrukcí <code>add rsp, 8</code>.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Nyní jsme tedy schopni přeložit zdrojový kód souboru <code>main2.cpp</code> na strojový kód. Nicméně, tento strojový kód <strong>zatím ještě není ve formě spustitelného programu</strong>. Díky přepínači <code>-c</code> použitého pro překladač <code>g&#43;&#43; má zatím formu tzv. <strong>objektového souboru <em>(object file)</em></strong>, který má implicitně název `main2.o</code>.</p>
+<p>Nyní jsme tedy schopni přeložit zdrojový kód souboru <code>main2.cpp</code> na strojový kód. Nicméně tento strojový kód <strong>zatím ještě není ve formě spustitelného programu</strong>. Díky přepínači <code>-c</code> použitého pro překladač <code>g&#43;&#43;</code> má zatím formu tzv. <strong>objektového souboru <em>(object file)</em></strong>, který má implicitně název <code>main2.o</code>.</p>
 </div>
 <div class="paragraph">
-<p>Pro sestavení spustitelného programu, všechny výskyty instrukce <code>call</code> musejí být <strong>spojeny</strong> <em>(link)</em> se strojovým kódem volaných funkcí. Toto je úkolem nástroje implementace C&#43;&#43; nazvaného <strong><em>linker</em></strong>. V mém případě je linker program nazvaný <code>ld</code>, který interně využívá `g&#43;&#43; v případě, že na vstupu dostane objektový soubor.</p>
+<p>Pro sestavení spustitelného programu musejí být všechny výskyty instrukce <code>call</code> <strong>spojeny</strong> <em>(link)</em> se strojovým kódem volaných funkcí. Toto je úkolem nástroje implementace C&#43;&#43; nazvaného <strong><em>linker</em></strong>. V mém případě je linker program nazvaný <code>ld</code>, který interně využívá <code>g&#43;&#43;</code> v případě, že na vstupu dostane objektový soubor.</p>
 </div>
 <div class="paragraph">
-<p>S mojí implementací založené na <code>g&#43;&#43; máme nyní dvě možnosti jak sestavit spustitelný program pro `main2.cpp</code>. Ta první je, že <strong>odděleně přeložíme</strong> tento zdrojový soubor pomocí</p>
+<p>S mojí implementací založené na <code>g&#43;&#43;</code> máme nyní dvě možnosti jak sestavit spustitelný program pro <code>main2.cpp</code>. Ta první je, že <strong>odděleně přeložíme</strong> tento zdrojový soubor pomocí</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -181,10 +181,10 @@ ret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Příčina této chyby je zřejmá&#8201;&#8212;&#8201;linker vidí instrukci <code>call</code> pro volání funkce <code>add</code>, ale nevidí žádný strojový kód této funkce, s kterým by ono <strong>volání mohl spojit</strong>.</p>
+<p>Příčina této chyby (jedné z vůbec nejčastějších při programování v C&#43;&#43;) je zřejmá&#8201;&#8212;&#8201;linker vidí instrukci <code>call</code> pro volání funkce <code>add</code>, ale nevidí žádný strojový kód této funkce, s kterým by ono <strong>volání mohl spojit</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Jak tedy poskytnout tento zdrojový kód? Překladač ho samozřejmě nemůže vygenerovat jen na základě deklarace funkce <code>add</code>. Místo toho potřebuje vidět <strong>tělo funkce</strong>, které je poskytnuto <strong>definicí funkce</strong>. V našem případě tato definice vypadá následovně:</p>
+<p>Jak tedy poskytnout tento zdrojový kód? Překladač ho samozřejmě nemůže vygenerovat jen na základě deklarace funkce <code>add</code>. Místo toho potřebuje vidět <strong>tělo funkce</strong>, které zpřístupňuje její <strong>definice</strong>. V našem případě tato definice vypadá následovně:</p>
 </div>
 <div class="listingblock">
 <div class="content">

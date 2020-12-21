@@ -27,7 +27,7 @@ int add(int a, int b)
 }
 ----
 
-Pokusme se nyní napsat zdrojový kód programu, který *tuto funkci použije*. První varianta by mohla vypada takto:
+Pokusme se nyní napsat zdrojový kód programu, který *tuto funkci použije*. První varianta by mohla vypadat takto:
 
 .main.cpp
 [source]
@@ -42,18 +42,18 @@ int main()
 
 Pokud se nyní pokusíme z tohoto zdrojového kódu *vygenerovat strojový kód* (například příkazem `g{plus}{plus} -O2 -c main.cpp`), tak to selže. Proč?
 
-Ve zdrojovém kódu, funkce `add` je *volána* z funkce `main`. Překladač proto potřebuje vygenerovat odpovídající volání funkce `add` na úrovni strojového kódu. Na architektuře x86_64, takovéto volání je reprezentováno instrukcí `call`. Ale tato instrukce, sama o sobě, *není dostačující*.
+Ve zdrojovém kódu je funkce `add` *volána* z funkce `main`. Překladač proto potřebuje vygenerovat odpovídající volání funkce `add` na úrovni strojového kódu. Na architektuře x86_64 je takovéto volání reprezentováno instrukcí `call`. Ale tato instrukce sama o sobě *není dostačující*.
 
-Překladač totiž také potřebuje vygenerovat instrukce pro *předání argumentů a návratové hodnoty do/z funkce*. V našem případě, překladač „vidí“ argumenty (`i` a `2`, oba typu `int`) a také vidí co se děje s návratovou hodnotou (aplikace binárního operátoru `+`). Nicméně, toto *nestačí* pro generování odpovídajících „předávajících“ instrukcí. Například -- jsou argumenty předávané hodnotou nebo referencí? Nebo, je zde vyžadována nějaká implicitní konverze? Na úrovni strojového kódu to představuje rozdíl.
+Překladač totiž také potřebuje vygenerovat instrukce pro *předání argumentů a návratové hodnoty do/z funkce*. V našem případě překladač „vidí“ argumenty (`i` a `2`, oba typu `int`) a také vidí, co se děje s návratovou hodnotou (aplikace binárního operátoru `+`). Nicméně toto *nestačí* pro generování odpovídajících „předávajících“ instrukcí. Například, jsou argumenty předávané hodnotou nebo referencí? Nebo, je zde vyžadována nějaká implicitní konverze? Na úrovni strojového kódu to představuje rozdíl.
 
-Co zde chybí pro úspěšné generování předávajících instrukcí je, že překladač potřebuje vidět i *typy funkčních parametrů a typ návratové hodnoty*. Poskytnutí těchto informací je úkolem *deklarace funkce*. V našem případě, nejjednodušší forma deklarace funkce `add` je:
+Co zde chybí pro úspěšné generování předávajících instrukcí je, že překladač potřebuje vidět i *typy funkčních parametrů a typ návratové hodnoty*. Poskytnutí těchto informací je úkolem *deklarace funkce*. V našem případě je nejjednodušší forma deklarace funkce `add`:
 
 [source]
 ----
 int add(int, int);
 ----
 
-Jak zajistit aby překladač *viděl tuto deklaraci* když překládá funkci `main`? Nejzákladnější řešení je jednoduše přidání deklarace do stejného zdrojového souboru:
+Jak zajistit aby překladač *viděl tuto deklaraci* když překládá funkci `main`? Nejpřímočařejším řešením je jednoduše přidání deklarace do stejného zdrojového souboru:
 
 .main2.cpp
 [source]
@@ -68,7 +68,7 @@ int main()
 }
 ----
 
-Nyní, překlad pomocí `g{plus}{plus} -O2 -c main2.cpp` uspělo a -- v mém případě -- jsem obdržel následující instrukce vygenerované pro funkci `main`:
+Nyní, překlad pomocí `g{plus}{plus} -O2 -c main2.cpp` uspěl a -- v mém případě -- jsem obdržel následující instrukce vygenerované pro funkci `main`:
 
 [source,x86asm]
 ----
@@ -83,22 +83,22 @@ ret
 
 .Aplikační binární rozhraní (ABI)
 ****
-Na každém počítačovém systému musí existovat *dohoda* o tom, jak jsou předávány argumenty a návratové hodnoty do/z funkcí *na úrovni strojového kódu*. Tato dohoda je součástí něčeho, čemu se říká *aplikační binární rozhraní _(application binary interface; ABI)_*. Bez ABI, části strojového kódu vygenerované například rozdílnými překladači by nebyly schopny spolupracovat.
+Na každém počítačovém systému musí existovat *dohoda* o tom, jak jsou předávány argumenty a návratové hodnoty do/z funkcí *na úrovni strojového kódu*. Tato dohoda je součástí něčeho, čemu se říká *aplikační binární rozhraní _(application binary interface; ABI)_*. Bez ABI by části strojového kódu vygenerované například rozdílnými překladači nebyly schopny spolupracovat.
 
-Na mém systému, ABI předepisuje, že hodnoty argumentů jsou -- do funkce, která má dva parametry typu `int` -- předávány přes registry procesoru `edi` a `esi`, v uvedeném pořadí. Protože u našeho volání funkce `add` mají tyto argumenty hodnoty 1 a 2, jsou tyto hodnoty přiřazeny těmto registrům. ABI dále předepisuje, že návratová hodnota typu `int` je předána z funkce přes registr `eax`. Povšimněme si, že toto platí pro obě funkce `add` a `main`. Podle zdrojového kódu, hodnota navrácená z funkce `add` je inkrementována o 3 a vrácena z funkce `main`. Na úrovni strojového kódu tento efekt zajistí inkrement registru `eax` o 3.
+Na mém systému ABI předepisuje, že hodnoty argumentů jsou do funkce, která má dva parametry typu `int`, předávány přes registry procesoru `edi` a `esi`. Protože u našeho volání funkce `add` mají argumenty hodnoty 1 a 2, jsou přiřazeny těmto registrům. ABI dále předepisuje, že návratová hodnota typu `int` je předána z funkce přes registr `eax`. Povšimněme si, že toto platí pro obě funkce `add` a `main`. Podle zdrojového kódu je hodnota navrácená z funkce `add` inkrementována o 3 a vrácena z funkce `main`. Na úrovni strojového kódu tento efekt zajistí inkrement registru `eax` o 3.
 
-Nakonec, proč jsou zde ony dvě instrukce, které manipulují s registrem ukazatele zásobníku _(stack pointer_) `rsp`? Důvod rovněž souvisí s použitým ABI. To totiž předepisuje, že na začátku spuštění funkce musí být jeho část zásobníku -- tzv. _stack frame_ -- na kterou ukazuje `rsp`, zarovnána na 16 bytovou adresu.
+Nakonec, proč jsou zde ony dvě instrukce, které manipulují s registrem ukazatele zásobníku _(stack pointer)_ `rsp`? Důvod rovněž souvisí s použitým ABI. To totiž předepisuje, že na začátku spuštění funkce musí být jeho část zásobníku -- tzv. _stack frame_ -- na kterou ukazuje `rsp`, zarovnána na 16 bytovou adresu.
 
 Na začátku funkce `main` je proto adresa v `rsp` zarovnána na 16 bytové paměťové hranici. Nicméně, následná instrukce `call` uloží na zásobník aktuální hodnotu instrukčního ukazatele _(instruction pointer)_ `rip`. To je nezbytné aby instrukce `ret` ve funkci `add` věděla, kam se má běh programu vrátit zpět. 
 
-Toto „zapamatování“ hodnoty `rip` na zásobníku zahrnuje dekrement `rsp` o hodnotu 8. Pro zajištění 16 bytového zarovnání pro _stack frame_ na začátku funkce `add`, `rsp` proto musí být dekrementován o dalších 8 bytů, což právě zjišťuje instrukce `sub rsp, 8`. Po návratu z funkce `add`, tento efekt je invertován instrukcí `add rsp, 8`.
+Toto „zapamatování“ hodnoty `rip` na zásobníku zahrnuje dekrement `rsp` o 8 bytů. Pro zajištění 16 bytového zarovnání pro _stack frame_ na začátku funkce `add`, `rsp` proto musí být dekrementován o dalších 8 bytů, což právě zjišťuje instrukce `sub rsp, 8`. Po návratu z funkce `add`, tento efekt je invertován instrukcí `add rsp, 8`.
 ****
 
-Nyní jsme tedy schopni přeložit zdrojový kód souboru `main2.cpp` na strojový kód. Nicméně, tento strojový kód *zatím ještě není ve formě spustitelného programu*. Díky přepínači `-c` použitého pro překladač `g{plus}{plus} má zatím formu tzv. *objektového souboru _(object file)_*, který má implicitně název `main2.o`.
+Nyní jsme tedy schopni přeložit zdrojový kód souboru `main2.cpp` na strojový kód. Nicméně tento strojový kód *zatím ještě není ve formě spustitelného programu*. Díky přepínači `-c` použitého pro překladač `g{plus}{plus}` má zatím formu tzv. *objektového souboru _(object file)_*, který má implicitně název `main2.o`.
 
-Pro sestavení spustitelného programu, všechny výskyty instrukce `call` musejí být *spojeny* _(link)_ se strojovým kódem volaných funkcí. Toto je úkolem nástroje implementace {cpp} nazvaného *_linker_*. V mém případě je linker program nazvaný `ld`, který interně využívá `g{plus}{plus} v případě, že na vstupu dostane objektový soubor.
+Pro sestavení spustitelného programu musejí být všechny výskyty instrukce `call` *spojeny* _(link)_ se strojovým kódem volaných funkcí. Toto je úkolem nástroje implementace {cpp} nazvaného *_linker_*. V mém případě je linker program nazvaný `ld`, který interně využívá `g{plus}{plus}` v případě, že na vstupu dostane objektový soubor.
 
-S mojí implementací založené na `g{plus}{plus} máme nyní dvě možnosti jak sestavit spustitelný program pro `main2.cpp`. Ta první je, že *odděleně přeložíme* tento zdrojový soubor pomocí
+S mojí implementací založené na `g{plus}{plus}` máme nyní dvě možnosti jak sestavit spustitelný program pro `main2.cpp`. Ta první je, že *odděleně přeložíme* tento zdrojový soubor pomocí
 
 [source,plaintext]
 ----
@@ -128,9 +128,9 @@ V mém případě obě tyto možnosti vedly na následující *chybu*, kterou re
 undefined reference to `add(int, int)'
 ----
 
-Příčina této chyby je zřejmá -- linker vidí instrukci `call` pro volání funkce `add`, ale nevidí žádný strojový kód této funkce, s kterým by ono *volání mohl spojit*.
+Příčina této chyby (jedné z vůbec nejčastějších při programování v {cpp}) je zřejmá -- linker vidí instrukci `call` pro volání funkce `add`, ale nevidí žádný strojový kód této funkce, s kterým by ono *volání mohl spojit*.
 
-Jak tedy poskytnout tento zdrojový kód? Překladač ho samozřejmě nemůže vygenerovat jen na základě deklarace funkce `add`. Místo toho potřebuje vidět *tělo funkce*, které je poskytnuto *definicí funkce*. V našem případě tato definice vypadá následovně:
+Jak tedy poskytnout tento zdrojový kód? Překladač ho samozřejmě nemůže vygenerovat jen na základě deklarace funkce `add`. Místo toho potřebuje vidět *tělo funkce*, které zpřístupňuje její *definice*. V našem případě tato definice vypadá následovně:
 
 [source]
 ----
