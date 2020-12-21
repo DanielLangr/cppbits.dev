@@ -73,7 +73,7 @@ int main()
 </div>
 </div>
 <div class="paragraph">
-<p>Jeden z těch souborů obsahoval <strong>deklaraci</strong> funkce <code>add</code> a její použití (volání), zatímco ten druhý obsahoval její <strong>definici</strong>. Samozřejmě jsme mohli tuto definici dát přímo i do souboru s funkcí <code>main</code>, například tímto způsobem:</p>
+<p>Jeden z těch souborů obsahoval <strong>deklaraci</strong> funkce <code>add</code> a její použití (volání), zatímco ten druhý obsahoval její <strong>definici</strong>. Samozřejmě bychom mohli tuto definici dát přímo i do souboru s funkcí <code>main</code>, například tímto způsobem:</p>
 </div>
 <div class="listingblock">
 <div class="title">main3.cpp</div>
@@ -94,7 +94,7 @@ int add(int a, int b)
 </div>
 </div>
 <div class="paragraph">
-<p>Je mezi oběma těmito alternativami <strong>nějaký rozdíl</strong>? Zdrojový kód je v obou případech <strong>úplně stejný</strong>. Navíc je stejné i jejich <strong>pozorovatelné chování</strong>, kterým je normální ukončení programu s návratovým statusem 6. My to můžeme snadno vidět, ale my nejsme důležití. Na čem záleží je <strong>jestli to může „vidět“ i překladač</strong>.</p>
+<p>Bude mezi oběma těmito alternativami <strong>nějaký rozdíl</strong>? Zdrojový kód je v obou případech <strong>úplně stejný</strong>. Navíc je stejné i jejich <strong>pozorovatelné chování</strong>, kterým je normální ukončení programu s návratovým statusem 6. My to můžeme snadno vidět, ale my nejsme důležití. Na čem záleží je <strong>jestli to může „vidět“ i překladač</strong>.</p>
 </div>
 <div class="paragraph">
 <p>U <strong>druhé alternativy</strong> odpověď zní <strong>ano</strong>. Překladač vidí veškerý zdrojový kód najednou, a proto může pozorovatelné chování celého programu odvodit a zajistit ho efektivním způsobem na úrovni strojového kódu. Pro ilustraci, za použití příkazu <code>g&#43;&#43; -O2 main3.cpp</code> jsem dostal následující strojový kód funkce <code>main</code>:</p>
@@ -112,12 +112,12 @@ ret</code></pre>
 <p>Jedna z důležitých optimalizačních technik překladače je tzv. <strong><em>inlining</em></strong> funkcí. To pracuje tak, že volání funkce je <strong>virtuálně nahrazeno</strong> jejím tělem. V našem případě, <code>int j = add(i, 2) + 3</code> je virtuálně nahrazeno kódem <code>int j = (i + 2) + 3;</code>.</p>
 </div>
 <div class="paragraph">
-<p>Mějte na paměti, že inlining nemá <strong>nic společného</strong> se specifikátorem <code>inline</code>, což může být pro začátečníky zavádějící. V našem kódu se žádný specifikátor <code>inline</code> nevyskytuje a přesto <code>g&#43;&#43;</code> aplikovalo inlining v rámci optimalizací <code>-O2</code>. <code>g&#43;&#43;</code> nám dovoluje explicitně zakázal inlining funkcí pomocí přepínače <code>-fno-inline</code>. S <code>g&#43;&#43; -O2 -fno-inline main3.cpp</code> můžeme obdržet program, který obsahuje strojový kód funkce <code>add</code> a její volání z funkce <code>main</code>.</p>
+<p>Mějte na paměti, že inlining nemá <strong>nic společného</strong> se specifikátorem <code>inline</code>, což může být pro začátečníky zavádějící. V našem kódu se žádný specifikátor <code>inline</code> nevyskytuje a přesto <code>g&#43;&#43;</code> aplikovalo inlining v rámci optimalizací <code>-O2</code>. <code>g&#43;&#43;</code> nám dovoluje explicitně zakázat inlining funkcí pomocí přepínače <code>-fno-inline</code>. S <code>g&#43;&#43; -O2 -fno-inline main3.cpp</code> můžeme obdržet program, který obsahuje strojový kód funkce <code>add</code> a její volání z funkce <code>main</code>.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Vraťme se nyní k <strong>první alternativě</strong> s dvěma soubory se zdrojovým kódem. Zde, při překladu <code>main2.cpp</code> překladač vidí deklaraci funkce <code>add</code> a její volání, ale neví, co tato funkce vykonává ve svém těle. Proto <strong>nemá jinou možnost</strong> než vygenerovat strojový kód s tímto voláním:</p>
+<p>Vraťme se nyní k <strong>první alternativě</strong> se dvěma soubory se zdrojovým kódem. Zde při překladu <code>main2.cpp</code> překladač vidí deklaraci funkce <code>add</code> a její volání, ale neví, co tato funkce vykonává ve svém těle. Proto <strong>nemá jinou možnost</strong> než vygenerovat strojový kód s tímto voláním:</p>
 </div>
 <div class="listingblock">
 <div class="title">main2.o</div>
@@ -145,21 +145,21 @@ ret</code></pre>
 <p>Nakonec, linker pouze <strong>sloučí obě části strojového kódu dohromady</strong> do spustitelného programového souboru.</p>
 </div>
 <div class="paragraph">
-<p>Při porovnání obou alternativ, skončili jsme se <strong>dvěma spustitelnými programy</strong> které mají naprosto stejné pozorovatelné chování. Ale, toto chování je v obou případech zajištěno na úrovni strojového kódu <strong>velmi odlišným způsobem</strong>. A opravdu nemusíme být raketovými inženýry abychom uhodli, která z těchto alternativ bude za běhu programu efektivnější. Jen co se týče počtu vykonávaných instrukcí, skóre je 9:2.</p>
+<p>Při porovnání obou alternativ jsme skončili se <strong>dvěma spustitelnými programy</strong> které mají naprosto stejné pozorovatelné chování. Ale, toto chování je v obou případech zajištěno na úrovni strojového kódu <strong>velmi odlišným způsobem</strong>. A opravdu nemusíme být raketovými inženýry abychom uhodli, která z těchto alternativ bude za běhu programu efektivnější. Jen v počtu vykonávaných instrukcí je skóre 9:2.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">Link-time optimizations (LTO)</div>
 <div class="paragraph">
-<p>Inlining a další optimalizace mohou být aplikovány nejen překladačem. Teoreticky je může aplikovat i linker na úrovni strojového kódu. Ale, linker je, primárně, prostě linker. Navíc, obecně, optimalizace je mnohem snazší provádět pokud je k dispozici strojový kód.</p>
+<p>Inlining a další optimalizace mohou být aplikovány nejen překladačem. Teoreticky je může aplikovat i linker na úrovni strojového kódu. Ale linker je, primárně, prostě linker. Navíc, obecně, optimalizace je mnohem snazší provádět pokud je k dispozici zdrojový kód.</p>
 </div>
 <div class="paragraph">
-<p>Pro příklad, C&#43;&#43; nástroje od GCC a Clang umožňují <strong>optimalizace v čase spojování <em>(link-time optimizations; LTO)</em></strong>. Nicméně, pro jejich aplikaci musí být překladačem vygenerované a linkeru předané dodatečné informace&#8201;&#8212;&#8201;tzv. <em>intermediate representation</em>.</p>
+<p>Pro příklad, C&#43;&#43; nástroje od GCC a Clang umožňují <strong>optimalizace v čase spojování <em>(link-time optimizations; LTO)</em></strong>. Nicméně pro jejich aplikaci musí být překladačem vygenerované a linkeru předané dodatečné informace&#8201;&#8212;&#8201;tzv. <em>intermediate representation</em>.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Otázku jestli rozdíl mezi oběma výše-představenými alternativami bude mít význam v praxi význam <strong>nelze obecně zodpovědět</strong>. Obvykle pokud funkce vykonává <strong>velké množství operací</strong> tak má její inlining zanedbatelný efekt z hlediska výkonu programu. To samé pravděpodobně bude platit i o funkci, která je při běhu programu volána <strong>párkrát nebo dokonce jen jednou</strong>. Obecně platí, že inlining může mít přínos především pro <strong>„krátké“ funkce, které jsou volány často</strong>.</p>
+<p>Otázku jestli rozdíl mezi oběma výše-představenými alternativami bude mít v praxi význam <strong>nelze obecně zodpovědět</strong>. Obvykle pokud funkce vykonává <strong>velké množství operací</strong> tak má její inlining zanedbatelný efekt z hlediska výkonu programu. To samé pravděpodobně bude platit i o funkci, která je při běhu programu volána <strong>párkrát nebo dokonce jen jednou</strong>. Obecně platí, že inlining může mít přínos především pro <strong>„krátké“ funkce, které jsou volány často</strong>.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -167,7 +167,7 @@ ret</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>Překladač může generovat výrazně více optimalizovaný strojový kód pokud vidí <strong>volání funkce a její definici</strong> najednou.</p>
+<p>Překladač může generovat výrazně optimalizovanější strojový kód pokud vidí <strong>volání funkce a její definici</strong> najednou.</p>
 </li>
 <li>
 <p>Aplikace techniky inlining funkcí <strong>nesouvisí</strong> se specifikátorem <code>inline</code>.</p>
