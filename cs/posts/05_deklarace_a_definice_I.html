@@ -129,13 +129,7 @@ ret</code></pre>
 <p>Na mém systému ABI předepisuje, že hodnoty argumentů jsou do funkce, která má dva parametry typu <code>int</code>, předávány přes registry procesoru <code>edi</code> a <code>esi</code>. Protože u našeho volání funkce <code>add</code> mají argumenty hodnoty 1 a 2, jsou přiřazeny těmto registrům. ABI dále předepisuje, že návratová hodnota typu <code>int</code> je předána z funkce přes registr <code>eax</code>. Povšimněme si, že toto platí pro obě funkce <code>add</code> a <code>main</code>. Podle zdrojového kódu je hodnota navrácená z funkce <code>add</code> inkrementována o 3 a vrácena z funkce <code>main</code>. Na úrovni strojového kódu tento efekt zajistí inkrement registru <code>eax</code> o 3.</p>
 </div>
 <div class="paragraph">
-<p>Nakonec, proč jsou zde ony dvě instrukce, které manipulují s registrem ukazatele zásobníku <em>(stack pointer)</em> <code>rsp</code>? Důvod rovněž souvisí s použitým ABI. To totiž předepisuje, že na začátku spuštění funkce musí být jeho část zásobníku&#8201;&#8212;&#8201;tzv. <em>stack frame</em>&#8201;&#8212;&#8201;na kterou ukazuje <code>rsp</code>, zarovnána na 16 bytovou adresu.</p>
-</div>
-<div class="paragraph">
-<p>Na začátku funkce <code>main</code> je proto adresa v <code>rsp</code> zarovnána na 16 bytové paměťové hranici. Nicméně, následná instrukce <code>call</code> uloží na zásobník aktuální hodnotu instrukčního ukazatele <em>(instruction pointer)</em> <code>rip</code>. To je nezbytné aby instrukce <code>ret</code> ve funkci <code>add</code> věděla, kam se má běh programu vrátit zpět.</p>
-</div>
-<div class="paragraph">
-<p>Toto „zapamatování“ hodnoty <code>rip</code> na zásobníku zahrnuje dekrement <code>rsp</code> o 8 bytů. Pro zajištění 16 bytového zarovnání pro <em>stack frame</em> na začátku funkce <code>add</code>, <code>rsp</code> proto musí být dekrementován o dalších 8 bytů, což právě zjišťuje instrukce <code>sub rsp, 8</code>. Po návratu z funkce <code>add</code>, tento efekt je invertován instrukcí <code>add rsp, 8</code>.</p>
+<p>Nakonec, proč jsou zde ony dvě instrukce, které manipulují s registrem ukazatele zásobníku <em>(stack pointer)</em> <code>rsp</code>? Důvod rovněž souvisí s použitým ABI. To totiž předepisuje, že při spuštění instrukce <code>call</code> musí být <code>rsp</code> zarovnáno na 16 bytovou adresu. Toto platí při volání funkce <code>main</code>, ale odpovídající instrukce <code>call</code> sníží hodnotu <code>rsp</code> o 8 (díky uložení aktuální hodnoty instrukčního ukazatele <em>(instruction pointer)</em> <code>rip</code> na zásobník). Pro zajištění 16 bytového zarovnání <code>rsp</code> před voláním <code>call add</code> uvnitř <code>main</code> je tedy potřeba snížít hodnotu <code>rsp</code> ještě jednou (<code>sub rsp, 8</code>). Po návratu z funkce <code>add</code> je tento efekt invertován instrukcí <code>add rsp, 8</code>.</p>
 </div>
 </div>
 </div>

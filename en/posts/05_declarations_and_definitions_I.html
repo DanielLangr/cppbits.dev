@@ -130,13 +130,7 @@ ret</code></pre>
 The applied ABI also prescribes that the return value of type <code>int</code> is passed from a function through the <code>eax</code> register. Note that in our case, this holds for both the <code>add</code> and <code>main</code> functions. According to the source code, the value returned from <code>add</code> is incremented by 3 and then returned from <code>main</code>. At a machine code level, a simple increment of <code>eax</code> by 3 therefore renders this effect.</p>
 </div>
 <div class="paragraph">
-<p>Finally, why are there those two instructions that manipulate the <em>stack pointer</em> register <code>rsp</code>? It is again related to the applied ABI. Namely, the ABI prescribes that, at the beginning of execution of some function, a part of the stack available to it&#8201;&#8212;&#8201;the so-called <em>stack frame</em>&#8201;&#8212;&#8201;which is pointed to by <code>rsp</code>, shall be aligned to a 16-byte address.</p>
-</div>
-<div class="paragraph">
-<p>At the beginning of <code>main</code>, the address stored in <code>rsp</code> is therefore aligned to a 16-byte memory boundary. However, the subsequent <code>call</code> instruction stores, on the stack, the current value of the <em>instruction pointer</em> <code>rip</code>. This is necessary such that the <code>ret</code> instruction called within the <code>add</code> function knows where to go back.</p>
-</div>
-<div class="paragraph">
-<p>This “remembering” of <code>rip</code> on the stack involves decrementing <code>rsp</code> by 8. To ensure the 16-byte alignment of the stack frame at the beginning of <code>add</code>, <code>rsp</code> therefore needs to be decremented by 8 once more, which is accomplished by that <code>sub rsp, 8</code> instruction. After the <code>add</code> function call, the effect of this operation is reverted by <code>add rsp, 8</code>.</p>
+<p>Finally, why are there those two instructions that manipulate the <em>stack pointer</em> register <code>rsp</code>? It is again related to the applied ABI. Namely, the ABI prescribes that when <code>call</code> instruction is executed, <code>rsp</code> needs to be aligned to a 16-byte address. This holds when <code>main</code> is called, but the corresponding <code>call</code> instruction decreases <code>rsp</code> by 8 (by storing the value of the <em>instruction pointer</em> <code>rip</code> on the stack). To ensure the 16-byte alignment of <code>rsp</code> before <code>call add</code> is executed inside <code>main</code>, <code>rsp</code> therefore needs to be decreased by 8 once more (<code>sub rsp, 8</code>). After the <code>add</code> function call, the effect of this operation is reverted by <code>add rsp, 8</code>.</p>
 </div>
 </div>
 </div>
