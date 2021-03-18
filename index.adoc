@@ -33,7 +33,7 @@ ____
 In a typical implementation, automatic objects are allocated on the stack...
 ____
 
-[quote, Stephen Praha, {cpp} Primer Plus (6th edition)]
+[quote, Stephen Prata, {cpp} Primer Plus (6th edition)]
 ____
 When a function is called, its automatic variables are added to the stack...
 ____
