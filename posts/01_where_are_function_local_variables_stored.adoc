@@ -25,7 +25,7 @@ What is wrong with this question? Actually, almost everything. Even if we rewrit
 
 the things won't go any better. Why? First, *there are no variables at runtime*. A variable is an *abstraction mechanism* that exist only *at the source code level*. Basically, a variable is a *named instance of some data type*. But *CPUs do not refer memory by names* and *memory does not recognize data types*. We should better speak about *variable values being stored in memory* than variables themselves. This may not sound like a big deal, but there come more serious ones.
 
-{cpp} itself -- defined by the {cpp} standard -- *doesn't have the concept of stack*. From the perspective {cpp}, values of function local variables *cannot be stored at a place it does not recognize*. Yet, all today's mainstream CPU architectures are stack-based and {cpp} implementations reflect it. Can we say at least that *on a typical modern computer system, values of function local variables are stored on the stack*? No, even this is *generally wrong*. Consider the following function:
+{cpp} itself -- defined by the {cpp} standard -- *doesn't have the concept of stack*. From the perspective of {cpp}, values of function local variables *cannot be stored at a place it does not recognize*. Yet, all today's mainstream CPU architectures are stack-based and {cpp} implementations reflect it. Can we say at least that *on a typical modern computer system, values of function local variables are stored on the stack*? No, even this is *generally wrong*. Consider the following function:
 
 [source]
 ----
