@@ -24,7 +24,7 @@ Typical {cpp} learning texts teach us how to use all those abstraction mechanism
 
 Of course, the highest motivation for using {cpp} is *performance and efficiency*. Performance in terms of fast programs and efficiency in terms of minimizing required system resources, such as CPU runtime or the amount of allocated memory. Without the need for performance and efficiency, one would likely not use {cpp} since it is not an easy language.
 
-In fact, *{cpp} is hard*. Forget about learning it in 21 days. Yes, you can learn how to write a program with some desired functionality (which you should likely learn much easier with Python). But to learn how to write code with respect to maximizing performance and efficiency usually requires much more knowledge and insight.
+In fact, *{cpp} is hard*. Forget about learning it in 21 days. Yes, you can learn how to write a program with some desired functionality (which you would likely learn much easier with Python). But to learn how to write code with respect to maximizing performance and efficiency usually requires much more knowledge and insight.
 
 For illustration, let us look at a question frequently asked C++ students or job applicants: *“Where are function local variables stored?”* A typical meaning of this question actually is: _“Where are stored function local variables with automatic storage duration when the function is executed at runtime?”_ A common answer is: *“On the stack.”* We were tauhgt so. Even the books tell us that:
 
