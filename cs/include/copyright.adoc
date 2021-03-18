@@ -1,4 +1,0 @@
-****
-[.text-center]
-(C) 2020 Daniel Langr -- všechna práva vyhrazena.
-****
