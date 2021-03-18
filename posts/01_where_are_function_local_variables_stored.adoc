@@ -45,9 +45,9 @@ f():
   ret
 ----
 
-We can clearly see that the values of `a`,`b`, and `c` variables *did not at all exist at runtime*. Not only they were *not stored on the stack*, they were even not stored anywhere else. Generally, variable values *may be stored on the stack*, but this was not the case.
+We can clearly see that the values of `a`,`b`, and `c` variables *do not at all exist at runtime*. Not only they are *not stored on the stack*, they are even not stored anywhere else. Generally, variable values *may be stored on the stack*, but this was not the case.
 
-I was even able to involve *more complex (non-trivial) class data type*:
+I was even able to involve *more complex (non-trivial class) data type*:
 
 [source]
 ----
@@ -75,7 +75,7 @@ f():
   ret
 ----
 
-To understand what happened here we need to understand some of the key {cpp} mechanisms -- *the as-if rule and the observable behavior concept*. We will get to them later in this tutorial.
+To understand what happened here we need to get familiar with some of the key {cpp} mechanisms -- *the as-if rule and the observable behavior concept*. We will get to them later in this tutorial.
 
 include::{rootdir}/include/disqus.adoc[]
 include::{rootdir}/include/copyright.adoc[]
