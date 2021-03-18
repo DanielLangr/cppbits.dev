@@ -3,7 +3,7 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revdate: {docdate}
 :rootdir: .
 include::{rootdir}/include/attributes.adoc[]
-:description: Learning material for the {cpp} programming language focused on topics that are not commonly presented, but yet important for understanding of {cpp} and its efficient use.
+:description: A bit different {cpp} tutorial
 
 A bit different {cpp} tutorial
 
@@ -18,43 +18,30 @@ A bit different {cpp} tutorial
 
 == Introduction
 
-Why should anyone want to read a
+*Why should anyone want to read another {cpp} learning material* when there are so many of them out there, both printed and online? Because, in my opinion, they generally *do not provide the true understanding of {cpp}*. For example, how can anyone understand {cpp} without learning about the _as-if rule_ and the _observable behavior concept_?
 
+Typical learning texts teach us how to use in {cpp} all those abstranction mechanisms such as functions, classes, or polymorphism, they teach us how to write data to a file or how to sort an array. But these mechanisms and functionalities are provided by many other programming languages as well. *So why should we actually use {cpp} and what is so unique about it?*
 
-//The purpose of this site is to provide *a bit different learning material for programming in {cpp}*. I want to focus on topics that are not commonly presented, and yet that are *essential for a proper understanding of {cpp}*.
+Of course, the highest motivation for using {cpp} is *performance and efficiency*. Performance in terms of fast programs and efficiencny in terms of minimizing required system resources, such as CPU runtime or the amount of allocated memory. Without the need of performance and efficiency, one would likely not use {cpp} since it is not an easy language. In fact, *{cpp} is hard*. Forget about learning it in 21 days. Yes, you can learn how to write a program with some desired functionality (which you should likely learn how to implement much easier with Python). But to learn how to write code with respect to maximizing performance and efficiency usually requires much more knowledge and insight.
 
-//The reason for programming in {cpp} is primarily a need for *high performance and efficiency of programs*. This means that programs run as fast as possible and consume a minimum amount of system resources, such as processor time or the amount of allocated memory. To achieve this, it is often not sufficient to understand {cpp} only at a level of *source code*. Sometimes, one needs to look at what happens “inside” at a level of *machine code* generated from source code by a compiler.
+For illustration, let us look at a question commonly asked students or job applicants: *“Where are function local variables stored?”* A typical meaning of this question is actually _“Where are stored function local variables with automatic storage duration when the function is executed at runtime”_? A typical answer is: *“On the stack.”* Even the books tell us that:
 
-//A simple example -- every {cpp} book for beginners explains how to create a *local variable* in a function (more formally, a variable with automatic storage duration). A common understanding is that such a variable will be, at runtime, stored *on the program stack*. Is that true? May that variable be stored in a *processor register* instead? Does that variable need to *exist* at runtime *at all*? Which factors determine this? And, what if that variable is of a *class type*? What does it even mean to create a variable of a class type by a *constructor*? A seemingly trivial problem at a source code level involves a relatively wide and complex problem at a machine code level, which a processor executes at program runtime.
+[quote, Bjarne Stroustrup, The {cpp} Programmin Language (4th edition)]
+____
+In a typical implementation, automatic objects are allocated on the stack...
+____
 
-//Here are some examples of other topics that are not commonly explained by learning {cpp} materials, and yet it can be very important to understand them:
+[quote, Stephen Praha, {cpp} Primer Plus (6th edition)]
+____
+When a function is called, its automatic variables are added to the stack...
+____
 
-//****
-//- What is a *{cpp} implementation*? How do various implementations differ from each other? 
-//- What is *undefined behavior*? If a program has undefined behavior according to the {cpp} standard, does it imply undefined behavior of generated machine code?
-//- What is the difference between an object size from the perspective of its *contents* and the byte size of its *memory representation*?
-//- Why does *padding* exist and how is it related to the *alignment* of object memory representation?
-//- Why is it not possible to fully separate an *API* (interface) of a class from its *implementation details*?
-//- How is, in practice, realized *passing arguments and return values* to/from functions?
-//- What is an *ABI* and how to provide *compatibility* at this level?
-//- What are the *translation units*? How are they related to the problem of *linking/linkage*?
-//- Why is the `inline` specifier *not related* to the optimization called *inlining*?
-//- Why is it not possible from a given program machine code to *derive the source code* it was generated from?
-//- Why is it not possible to *move an object* in memory from one place to the other? 
-//****
+But, *this answer is incorrect*. Moreover, *the question itself is wrong* since it does not make any sense. To understand, please, read the very first post of this tutorial...
 
-//The goal of this tutorial is to *analyze and explain such topics*. It stems from my long-term experience with contributing link:https://stackoverflow.com/[Stack Overflow] {cpp} posts and with teaching programming in {cpp} at the Czech Technical University in Prague. I have also used {cpp} in practice a lot -- actually, I participate in the development of programs that target world-wide most powerful supercomputers, whose computing time is extremely expensive and rare. Performance and efficiency play here a vital role, since when running on hundreds of thousands of processor cores, a seemingly negligible source of inefficiency may turn into a main program bottleneck.
+== Contents
 
-//Nevertheless, I definitely do not consider myself being a {cpp} expert. The actual draft of the {cpp} standard (N4868) has *1849 pages*, and there is hardly anyone who would know about {cpp} everything. It may happen that the presented text will be, at some places, inaccurate or wrong. I will therefore welcome any *feedback* in the form of *comments and suggestions*, especially those being constructive. Please, note that in many cases, the explanation will be more or less *simplified* for the sake of readability and brevity. Analyzing each problem down to the level of {cpp} standard rules would be too extensive and tedious. 
+link:posts/01_where_are_function_local_variables_stored.html[01: Where are function local variables stored?] _(Mar 2021)_ +
 
-//Since I am a *non-native English speaker/writer*, please, do not judge the linguistic form of these pages too hard. What matters most is their *content*.
-
-//== Who is this tutorial for?
-//
-//This tutorial -- *by itself* -- is not intended for complete beginners. It does not make any sense to present here the very basics of {cpp}; libraries and the internet are full of these. Despite that, this tutorial is not intended only for programmers who have already adopted the basics well. It may very well serve as a *complementary learning material for beginners*. In such a case, it can provide to the learned information different and, I hope, an *attractive and useful perspective*.
-
-//== Contents
-//
 //link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_ +
 //link:posts/02_implementation.html[02: {cpp} implementation] _(Nov 2020)_ +
 //link:posts/03_undefined_behavior_I.html[03: Undefined behavior I] _(Nov 2020)_ +
