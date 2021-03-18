@@ -17,7 +17,7 @@ xref:../index.adoc#_contents[Table of contents]
 *“Where are function local variables stored?”*
 ****
 
-What is wrong with this question? Actually, almost everything. Even if we rewrite it to a bit more exact form:
+What is wrong with this question? And, what is wrong with the answer *“On the stack.”*? Actually, almost everything. Even if we rewrite the question to a bit more exact form:
 
 ****
 *“Where are function local variables with automatic storage duration stored when the function is executed at runtime?”*

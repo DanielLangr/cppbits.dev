@@ -40,6 +40,8 @@ ____
 
 But *this answer is incorrect*. Moreover, *the question itself is wrong* since it does not make any sense. To understand, please, follow to the very first post of this tutorial...
 
+Note that this tutorial *does not explain {cpp} completely from scratch*. If you are a beginner with {cpp}, or even with programming, I would recommend -- simultaneosly with this tutorial -- using some of the multitude of the *“conventional” {cpp} learning sources*, such as the books I quoted above.
+
 == Contents
 
 link:posts/01_where_are_function_local_variables_stored.html[01: Where are function local variables stored?] _(Mar 2021)_ +
