@@ -1,7 +1,7 @@
 // +++ contents-related attributes:
 :lang: en
-:copyright: (C) Daniel Langr 2020
-:favicon: {rootdir}/../favicon/favicon.png
+:copyright: (C) Daniel Langr 2021
+:favicon: {rootdir}/favicon/favicon.png
 :icons: font
 :nofooter:
 // +++ google analytics:
@@ -9,13 +9,13 @@
 :docinfo: shared-head
 // style:
 :linkcss:
-:stylesdir: {rootdir}/../stylesheets
+:stylesdir: {rootdir}/stylesheets
 :stylesheet: ubuntu-custom.css
 // +++ code highlighting:
 :source-highlighter: highlightjs
 :highlightjs-theme: agate
 :source-language: c++
-:imagesdir: {rootdir}/../images
+:imagesdir: {rootdir}/images
 // +++ table of contents:
 //:toc: left
 //:toc-title: Obsah

@@ -1,4 +1,4 @@
 ****
 [.text-center]
-(C) 2020 Daniel Langr -- All rights reserved.
+(C) 2021 Daniel Langr -- All rights reserved.
 ****
