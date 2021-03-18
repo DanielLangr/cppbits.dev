@@ -8,16 +8,34 @@ include::{rootdir}/include/attributes.adoc[]
 :description: A program needs to provide only the observable behavior prescribed to its source code.
 
 [.normal]
-link:../index.html[Homepage]
+//link:../index.html[Homepage]
+xref:../index.adoc#_contents[Table of contents]
 
 ''''
 
-Some text...
+[sidebar]
+*“Where are function local variables stored?”*
 
-.Summary
-****
-- 
-****
+What is wrong with this question? Actually, almost everything. Even if we rewrite it to a bit more exact form:
+
+[sidebar]
+*“Where are stored function local variables with automatic storage duration when the function is executed at runtime?”*
+
+the things won't go any better. Why? First, there are no variables at runtime. A variable is an abstraction mechanism that exist only in the source code.
+
+Basically, a variable is a named instance of some data type, where the data type define a set of possible variable values and the operations that can be done with it. At runtime, a CPU is executing the machine code instructions that were translated from the function source code. And, CPUs don't understand names. Therefore, a CPU that is executing the function actually doesn't understand one of the variable fundamental property -- it's name. Rather than variables being stored somewhere, I would rather suggest considering them being mapped to somewhere.
+
+Second, are variables mapped to the stack? From the perspective of {cpp} they are not. {cpp} doesn't know the concept of a stack. The C++ standard, where {cpp} is defined, doesn't require a stack for its usage. Instead, it only works with the term automatic storage duration.
+
+But yes, all mainstream computer systems and their CPUs are stack-based and all mainstream {cpp} implementations therefore work with stack. So we might ask:
+
+[sidebar]
+*“Where are function local variables with automatic storage duration mapped when the function is executed at runtime on a common today's computer system?”*
+
+Even then the on the stack answer is generally wrong. Consider the following function:
+
+
+
 
 include::{rootdir}/include/disqus.adoc[]
 include::{rootdir}/include/copyright.adoc[]

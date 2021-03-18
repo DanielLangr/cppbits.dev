@@ -33,18 +33,37 @@
 </div>
 <div id="content">
 <div class="paragraph normal">
-<p><a href="../index.html">Homepage</a></p>
+<p><a href="../index.html#_contents">Table of contents</a></p>
 </div>
 <hr>
+<div class="sidebarblock">
+<div class="content">
+<strong>“Where are function local variables stored?”</strong>
+</div>
+</div>
 <div class="paragraph">
-<p>Some text&#8230;&#8203;</p>
+<p>What is wrong with this question? Actually, almost everything. Even if we rewrite it to a bit more exact form:</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
-<div class="title">Summary</div>
-<div class="paragraph">
-<p>-</p>
+<strong>“Where are stored function local variables with automatic storage duration when the function is executed at runtime?”</strong>
 </div>
+</div>
+<div class="paragraph">
+<p>the things won&#8217;t go any better. Why? First, there are no variables at runtime. A variable is an abstraction mechanism that exist only in the source code.</p>
+</div>
+<div class="paragraph">
+<p>Basically, a variable is a named instance of some data type, where the data type define a set of possible variable values and the operations that can be done with it. At runtime, a CPU is executing the machine code instructions that were translated from the function source code. And, CPUs don&#8217;t understand names. Therefore, a CPU that is executing the function actually doesn&#8217;t understand one of the variable fundamental property&#8201;&#8212;&#8201;it&#8217;s name. Rather than variables being stored somewhere, I would rather suggest considering them being mapped to somewhere.</p>
+</div>
+<div class="paragraph">
+<p>Second, are variables mapped to the stack? From the perspective of C&#43;&#43; they are not. C&#43;&#43; doesn&#8217;t know the concept of a stack. The C++ standard, where C&#43;&#43; is defined, doesn&#8217;t require a stack for its usage. Instead, it only works with the term automatic storage duration.</p>
+</div>
+<div class="paragraph">
+<p>But yes, all mainstream computer systems and their CPUs are stack-based and all mainstream C&#43;&#43; implementations therefore work with stack. So we might ask:</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<strong>“Where are function local variables with automatic storage duration mapped when the function is executed at runtime on a common today&#8217;s computer system?”</strong>
 </div>
 </div>
 <div id="disqus_thread"></div>
