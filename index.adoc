@@ -5,7 +5,7 @@ Daniel Langr <daniel.langr@gmail.com>
 include::{rootdir}/include/attributes.adoc[]
 :description: A bit different {cpp} tutorial
 
-_A bit different {cpp} tutorial_
+A bit different {cpp} tutorial
 
 //[.normal]
 //link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../cs/index.html"]
@@ -26,7 +26,7 @@ Of course, the highest motivation for using {cpp} is *performance and efficiency
 
 In fact, *{cpp} is hard*. Forget about learning it in 21 days. Yes, you can learn how to write a program with some desired functionality (which you would likely learn much easier with Python). But to learn how to write code with respect to maximizing performance and efficiency usually requires much more knowledge and insight.
 
-For illustration, let us look at a question frequently asked C++ students or job applicants: *“Where are function local variables stored?”* A typical meaning of this question actually is: _“Where are stored function local variables with automatic storage duration when the function is executed at runtime?”_ A common answer is: *“On the stack.”* We were tauhgt so. Even the books tell us that:
+For illustration, let us look at a question frequently asked C++ students or job applicants: *“Where are function local variables stored?”* A typical meaning of this question actually is: _“Where are function local variables with automatic storage duration stored when the function is executed at runtime?”_ A common answer is: *“On the stack.”* We were tauhgt so. Even the books tell us that:
 
 [quote, Bjarne Stroustrup, The {cpp} Programmin Language (4th edition)]
 ____

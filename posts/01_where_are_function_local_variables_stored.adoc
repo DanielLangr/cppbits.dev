@@ -13,29 +13,69 @@ xref:../index.adoc#_contents[Table of contents]
 
 ''''
 
-[sidebar]
+****
 *“Where are function local variables stored?”*
+****
 
 What is wrong with this question? Actually, almost everything. Even if we rewrite it to a bit more exact form:
 
-[sidebar]
-*“Where are stored function local variables with automatic storage duration when the function is executed at runtime?”*
+****
+*“Where are function local variables with automatic storage duration stored when the function is executed at runtime?”*
+****
 
-the things won't go any better. Why? First, there are no variables at runtime. A variable is an abstraction mechanism that exist only in the source code.
+the things won't go any better. Why? First, *there are no variables at runtime*. A variable is an *abstraction mechanism* that exist only *at the source code level*. Basically, a variable is a *named instance of some data type*. But *CPUs do not refer memory by names* and *memory does not recognize data types*. We should better speak about *variable values being stored in memory* than variables themselves. This may not sound like a big deal, but there come more serious ones.
 
-Basically, a variable is a named instance of some data type, where the data type define a set of possible variable values and the operations that can be done with it. At runtime, a CPU is executing the machine code instructions that were translated from the function source code. And, CPUs don't understand names. Therefore, a CPU that is executing the function actually doesn't understand one of the variable fundamental property -- it's name. Rather than variables being stored somewhere, I would rather suggest considering them being mapped to somewhere.
+{cpp} itself -- defined by the {cpp} standard -- *doesn't have the concept of stack*. From the perspective {cpp}, values of function local variables *cannot be stored at a place it does not recognize*. Yet, all today's mainstream CPU architectures are stack-based and {cpp} implementations reflect it. Can we say at least that *on a typical modern computer system, values of function local variables are stored on the stack*? No, even this is *generally wrong*. Consider the following function:
 
-Second, are variables mapped to the stack? From the perspective of {cpp} they are not. {cpp} doesn't know the concept of a stack. The C++ standard, where {cpp} is defined, doesn't require a stack for its usage. Instead, it only works with the term automatic storage duration.
+[source]
+----
+void f()
+{
+  int a = 1;
+  int b = 2;
+  int c = a + b;
+}
+----
 
-But yes, all mainstream computer systems and their CPUs are stack-based and all mainstream {cpp} implementations therefore work with stack. So we might ask:
+When I compiled it with GCC on an x86_64 system, I obtained the following (disassembled) machine code:
 
-[sidebar]
-*“Where are function local variables with automatic storage duration mapped when the function is executed at runtime on a common today's computer system?”*
+[source,x86asm]
+----
+f():
+  ret
+----
 
-Even then the on the stack answer is generally wrong. Consider the following function:
+We can clearly see that the values of `a`,`b`, and `c` variables *did not at all exist at runtime*. Not only they were *not stored on the stack*, they were even not stored anywhere else. Generally, variable values *may be stored on the stack*, but this was not the case.
 
+I was even able to involve *more complex (non-trivial) class data type*:
 
+[source]
+----
+class Int
+{
+  int i_;
+public:
+  Int(int i) : i_(i) { }
+  operator int&() { return i_; }
+};
 
+void f()
+{
+  Int a = 1;
+  Int b = 2;
+  Int c = a + b;
+}
+----
+
+with the *very same outcome*:
+
+[source,x86asm]
+----
+f():
+  ret
+----
+
+To understand what happened here we need to understand some of the key {cpp} mechanisms -- *the as-if rule and the observable behavior concept*. We will get to them later in this tutorial.
 
 include::{rootdir}/include/disqus.adoc[]
 include::{rootdir}/include/copyright.adoc[]

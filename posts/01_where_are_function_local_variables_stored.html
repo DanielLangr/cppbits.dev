@@ -38,7 +38,9 @@
 <hr>
 <div class="sidebarblock">
 <div class="content">
-<strong>“Where are function local variables stored?”</strong>
+<div class="paragraph">
+<p><strong>“Where are function local variables stored?”</strong></p>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -46,25 +48,71 @@
 </div>
 <div class="sidebarblock">
 <div class="content">
-<strong>“Where are stored function local variables with automatic storage duration when the function is executed at runtime?”</strong>
+<div class="paragraph">
+<p><strong>“Where are function local variables with automatic storage duration stored when the function is executed at runtime?”</strong></p>
+</div>
 </div>
 </div>
 <div class="paragraph">
-<p>the things won&#8217;t go any better. Why? First, there are no variables at runtime. A variable is an abstraction mechanism that exist only in the source code.</p>
+<p>the things won&#8217;t go any better. Why? First, <strong>there are no variables at runtime</strong>. A variable is an <strong>abstraction mechanism</strong> that exist only <strong>at the source code level</strong>. Basically, a variable is a <strong>named instance of some data type</strong>. But <strong>CPUs do not refer memory by names</strong> and <strong>memory does not recognize data types</strong>. We should better speak about <strong>variable values being stored in memory</strong> than variables themselves. This may not sound like a big deal, but there come more serious ones.</p>
 </div>
 <div class="paragraph">
-<p>Basically, a variable is a named instance of some data type, where the data type define a set of possible variable values and the operations that can be done with it. At runtime, a CPU is executing the machine code instructions that were translated from the function source code. And, CPUs don&#8217;t understand names. Therefore, a CPU that is executing the function actually doesn&#8217;t understand one of the variable fundamental property&#8201;&#8212;&#8201;it&#8217;s name. Rather than variables being stored somewhere, I would rather suggest considering them being mapped to somewhere.</p>
+<p>C&#43;&#43; itself&#8201;&#8212;&#8201;defined by the C&#43;&#43; standard&#8201;&#8212;&#8201;<strong>doesn&#8217;t have the concept of stack</strong>. From the perspective C&#43;&#43;, values of function local variables <strong>cannot be stored at a place it does not recognize</strong>. Yet, all today&#8217;s mainstream CPU architectures are stack-based and C&#43;&#43; implementations reflect it. Can we say at least that <strong>on a typical modern computer system, values of function local variables are stored on the stack</strong>? No, even this is <strong>generally wrong</strong>. Consider the following function:</p>
 </div>
-<div class="paragraph">
-<p>Second, are variables mapped to the stack? From the perspective of C&#43;&#43; they are not. C&#43;&#43; doesn&#8217;t know the concept of a stack. The C++ standard, where C&#43;&#43; is defined, doesn&#8217;t require a stack for its usage. Instead, it only works with the term automatic storage duration.</p>
-</div>
-<div class="paragraph">
-<p>But yes, all mainstream computer systems and their CPUs are stack-based and all mainstream C&#43;&#43; implementations therefore work with stack. So we might ask:</p>
-</div>
-<div class="sidebarblock">
+<div class="listingblock">
 <div class="content">
-<strong>“Where are function local variables with automatic storage duration mapped when the function is executed at runtime on a common today&#8217;s computer system?”</strong>
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">void f()
+{
+  int a = 1;
+  int b = 2;
+  int c = a + b;
+}</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>When I compiled it with GCC on an x86_64 system, I obtained the following (disassembled) machine code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">f():
+  ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can clearly see that the values of <code>a</code>,<code>b</code>, and <code>c</code> variables <strong>did not at all exist at runtime</strong>. Not only they were <strong>not stored on the stack</strong>, they were even not stored anywhere else. Generally, variable values <strong>may be stored on the stack</strong>, but this was not the case.</p>
+</div>
+<div class="paragraph">
+<p>I was even able to involve <strong>more complex (non-trivial) class data type</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="c++" class="language-c++ hljs">class Int
+{
+  int i_;
+public:
+  Int(int i) : i_(i) { }
+  operator int&amp;() { return i_; }
+};
+
+void f()
+{
+  Int a = 1;
+  Int b = 2;
+  Int c = a + b;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>with the <strong>very same outcome</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="x86asm" class="language-x86asm hljs">f():
+  ret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To understand what happened here we need to understand some of the key C&#43;&#43; mechanisms&#8201;&#8212;&#8201;<strong>the as-if rule and the observable behavior concept</strong>. We will get to them later in this tutorial.</p>
 </div>
 <div id="disqus_thread"></div>
 <script>
