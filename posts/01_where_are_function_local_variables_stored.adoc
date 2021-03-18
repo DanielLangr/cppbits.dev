@@ -75,7 +75,7 @@ f():
   ret
 ----
 
-To understand what happened here we need to get familiar with some of the key {cpp} mechanisms -- *the as-if rule and the observable behavior concept*. We will get to them later in this tutorial.
+To understand what happened here, we need to get familiar with two key {cpp} mechanisms -- *the as-if rule and the observable behavior concept*. We will get to them later in this tutorial.
 
 include::{rootdir}/include/disqus.adoc[]
 include::{rootdir}/include/copyright.adoc[]
