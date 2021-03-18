@@ -8,7 +8,7 @@ include::{rootdir}/include/attributes.adoc[]
 :description: A program needs to provide only the observable behavior prescribed to its source code.
 
 [.normal]
-link:../index.html[Homepage] image:up.png[link="../index.html"] 
+link:../index.html[Homepage]
 
 ''''
 
