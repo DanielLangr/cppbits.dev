@@ -5,7 +5,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="description" content="A program needs to provide only the observable behavior prescribed to its source code.">
 <meta name="author" content="Daniel Langr">
 <meta name="copyright" content="(C) Daniel Langr 2021">
 <link rel="icon" type="image/png" href="../favicon/favicon.png">
@@ -57,7 +56,7 @@
 <p>the things won&#8217;t go any better. Why? First, <strong>there are no variables at runtime</strong>. A variable is an <strong>abstraction mechanism</strong> that exist only <strong>at the source code level</strong>. Basically, a variable is a <strong>named instance of some data type</strong>. But <strong>CPUs do not refer memory by names</strong> and <strong>memory does not recognize data types</strong>. We should better speak about <strong>variable values being stored in memory</strong> than variables themselves. This may not sound like a big deal, but there come more serious ones.</p>
 </div>
 <div class="paragraph">
-<p>C&#43;&#43; itself&#8201;&#8212;&#8201;defined by the C&#43;&#43; standard&#8201;&#8212;&#8201;<strong>doesn&#8217;t have the concept of stack</strong>. From the perspective of C&#43;&#43;, values of function local variables <strong>cannot be stored at a place it does not recognize</strong>. Yet, all today&#8217;s mainstream CPU architectures are stack-based and C&#43;&#43; implementations reflect it. Can we say at least that <strong>on a typical modern computer system, values of function local variables are stored on the stack</strong>? No, even this is <strong>generally wrong</strong>. Consider the following function:</p>
+<p>C&#43;&#43; itself&#8201;&#8212;&#8201;defined by the C&#43;&#43; standard&#8201;&#8212;&#8201;<strong>does not have the concept of stack</strong>. From the perspective of C&#43;&#43;, values of function local variables <strong>cannot be stored at a place it does not recognize</strong>. Yet, all today&#8217;s mainstream CPU architectures are stack-based and C&#43;&#43; implementations reflect it. Can we say at least that <strong>on a typical modern computer system, values of function local variables are stored on the stack</strong>? No, even this is <strong>generally wrong</strong>. Consider the following function:</p>
 </div>
 <div class="listingblock">
 <div class="content">

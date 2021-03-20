@@ -3,7 +3,7 @@ Daniel Langr <daniel.langr@gmail.com>
 //:revdate: {docdate}
 :rootdir: .
 include::{rootdir}/include/attributes.adoc[]
-:description: A bit different {cpp} tutorial
+//:description: A bit different {cpp} tutorial
 
 A bit different {cpp} tutorial
 
@@ -18,9 +18,9 @@ A bit different {cpp} tutorial
 
 == Introduction
 
-*Why should anyone want to read another {cpp} learning material* when there are so many of them out there, both printed and online? Because, in my opinion, they generally *do not provide a true understanding of {cpp}*. For example, how can anyone understand {cpp} without learning about the _as-if rule_ and the _observable behavior concept_?
+*Why should anyone want to study another {cpp} learning source* when there are so many of them out there, both printed and online? Because, in my opinion, they generally *do not provide a true understanding of {cpp}*. For example, how can anyone understand {cpp} without learning about the _as-if rule_ and the _observable behavior concept_?
 
-Typical {cpp} learning texts teach us how to use all those abstraction mechanisms such as functions, classes, or polymorphism, they teach us how to write data to a file or how to sort an array. But these mechanisms and functionalities are provided by many other programming languages as well. *So why should we actually use {cpp} and what is so unique about it?*
+Typical {cpp} learning sources teach us how to use all those abstraction mechanisms such as functions, classes, or polymorphism, they teach us how to write data to a file or how to sort an array. But these mechanisms and functionalities are provided by many other programming languages as well. *So why should we actually use {cpp} and what is so unique about it?*
 
 Of course, the highest motivation for using {cpp} is *performance and efficiency*. Performance in terms of fast programs and efficiency in terms of minimizing required system resources, such as CPU runtime or the amount of allocated memory. Without the need for performance and efficiency, one would likely not use {cpp} since it is not an easy language.
 
@@ -45,13 +45,9 @@ Note that this tutorial *does not explain {cpp} completely from scratch*. If you
 == Contents
 
 link:posts/01_where_are_function_local_variables_stored.html[01: Where are function local variables stored?] _(Mar 2021)_ +
+link:posts/02_programming_and_abstractions_i.html[02: Programming and abstractions I] _(Mar 2021)_ +
+link:posts/03_programming_and_abstractions_ii.html[03: Programming and abstractions II] _(Mar 2021)_ +
 
-//link:posts/01_asif.html[01: As-if rule] _(Nov 2020)_ +
-//link:posts/02_implementation.html[02: {cpp} implementation] _(Nov 2020)_ +
-//link:posts/03_undefined_behavior_I.html[03: Undefined behavior I] _(Nov 2020)_ +
-//link:posts/04_undefined_behavior_II.html[04: Undefined behavior II] _(Nov 2020)_ +
-//link:posts/05_declarations_and_definitions_I.html[05: Declarations and definitions I] _(Nov 2020)_ +
-//link:posts/06_declarations_and_definitions_II.html[06: Declarations and definitions II] _(Nov 2020)_ 
 
 == About the author
 
