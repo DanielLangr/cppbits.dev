@@ -1,0 +1,21 @@
+= 04: Programming and abstractions III
+Daniel Langr <daniel.langr@gmail.com>
+//:revdate: {docdate}
+:revdate: March 2021
+//:revremark: last modification
+:rootdir: ..
+include::{rootdir}/include/attributes.adoc[]
+//:description: A program needs to provide only the observable behavior prescribed to its source code.
+
+[.normal]
+//link:../index.html[Homepage]
+xref:../index.adoc#_contents[Table of contents]
+
+''''
+
+Where would {cpp} be at the _level of abstraction vs system control_ scale? In my opinion, one of the most important {cpp} feature is that it is a widely-adopted programming language that covers this scale almost whole. {cpp} allows programmers to use it as a high-level language.
+
+
+
+include::{rootdir}/include/disqus.adoc[]
+include::{rootdir}/include/copyright.adoc[]
