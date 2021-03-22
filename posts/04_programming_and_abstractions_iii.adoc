@@ -13,9 +13,21 @@ xref:../index.adoc#_contents[Table of contents]
 
 ''''
 
-Where would {cpp} be at the _level of abstraction vs system control_ scale? In my opinion, one of the most important {cpp} feature is that it is a widely-adopted programming language that covers this scale almost whole. {cpp} allows programmers to use it as a high-level language.
+Is {cpp} a *high-level or low-level programming language*? In my opinion, {cpp} is *both*. It is a widely-adopted programming language that covers the _level-of-abstraction vs system-control_ scale *almost entirely*. On the one hand, it provides users with sophisticated abstraction mechanisms that allow expressing some functionality with relative ease. In such cases, we need to use some building blocks -- such as containers and algorithms -- and “only” put them together in a right way. We can then get fast and efficient programs without caring much about how they interact with the system.
 
+On the other hand, what if we are the ones who need to implement these building blocks? Then, {cpp} enables us to do that and provides us with a high level of system control, which is necessary for performance and efficiency.
 
+As an example, let's take `std::string`. If we only need to write a program that works with strings, we can use this class and count on its efficient implementation without caring about system-level details. On the contrary, if we need to implement `std::string` class, then we need to care about all those mechanisms such as pointer, static and dynamic memory allocations, small string optimization techniques, aliasing, pointer restrictions, etc. 
+
+It may also happen that the available building blocks will not suit our needs and we will write our own solutions. For example, `std::string` is not thread-safe, or `std::vector` cannot apply small buffer optimization. Or, what if we need to sort data in parallel? Yes, we now have parallelism in {cpp}, however, as far as I know, no implementation now provides its own parallel sorting implementation <<footnote1,^[1]^>> (libstdc++ only provides a wrapper over the Intel TBB library and it's parallel mode is build upon non-standard OpenMP).
+
+There are simply cases where we need to use {cpp} at a very low programming level with high system control abilities. It is not easy to use {cpp} this way, but it is possible and sometimes necessary for getting performant and efficient programs.
+
+''''
+
+[horizontal]
+[[footnote1]]^[1]^::
+[.small]#Some text...#
 
 include::{rootdir}/include/disqus.adoc[]
 include::{rootdir}/include/copyright.adoc[]

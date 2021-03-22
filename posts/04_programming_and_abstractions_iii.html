@@ -36,7 +36,32 @@
 </div>
 <hr>
 <div class="paragraph">
-<p>Where would C&#43;&#43; be at the <em>level of abstraction vs system control</em> scale? In my opinion, one of the most important C&#43;&#43; feature is that it is a widely-adopted programming language that covers this scale almost whole. C&#43;&#43; allows programmers to use it as a high-level language.</p>
+<p>Is C&#43;&#43; a <strong>high-level or low-level programming language</strong>? In my opinion, C&#43;&#43; is <strong>both</strong>. It is a widely-adopted programming language that covers the <em>level-of-abstraction vs system-control</em> scale <strong>almost entirely</strong>. On the one hand, it provides users with sophisticated abstraction mechanisms that allow expressing some functionality with relative ease. In such cases, we need to use some building blocks&#8201;&#8212;&#8201;such as containers and algorithms&#8201;&#8212;&#8201;and “only” put them together in a right way. We can then get fast and efficient programs without caring much about how they interact with the system.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, what if we are the ones who need to implement these building blocks? Then, C&#43;&#43; enables us to do that and provides us with a high level of system control, which is necessary for performance and efficiency.</p>
+</div>
+<div class="paragraph">
+<p>As an example, let&#8217;s take <code>std::string</code>. If we only need to write a program that works with strings, we can use this class and count on its efficient implementation without caring about system-level details. On the contrary, if we need to implement <code>std::string</code> class, then we need to care about all those mechanisms such as pointer, dynamic memory allocations, small string optimization techniques, etc.</p>
+</div>
+<div class="paragraph">
+<p>It may also happen that the available building blocks will not suit our needs and we will write our own solutions. For example, <code>std::string</code> is not thread-safe, or <code>std::vector</code> cannot apply small buffer optimization. Or, what if we need to sort data in parallel? Yes, we now have parallelism in C&#43;&#43;, however, as far as I know, no implementation now provides its own parallel sorting implementation <a href="#footnote1"><sup>[1]</sup></a> (libstdc++ only provides a wrapper over the Intel TBB library and it&#8217;s parallel mode is build upon non-standard OpenMP).</p>
+</div>
+<div class="paragraph">
+<p>There are simply cases where we need to use C&#43;&#43; at a very low programming level with high system control abilities. It is not easy to use C&#43;&#43; this way, but it is possible and sometimes necessary for getting performant and efficient programs.</p>
+</div>
+<hr>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<a id="footnote1"></a><sup>[1]</sup>
+</td>
+<td class="hdlist2">
+<p><span class="small">Some text&#8230;&#8203;</span></p>
+</td>
+</tr>
+</table>
 </div>
 <div id="disqus_thread"></div>
 <script>
