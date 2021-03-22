@@ -13,7 +13,7 @@ xref:../index.adoc#_contents[Table of contents]
 
 ''''
 
-To understand *{cpp}*, we first need to understand *programming*. Programming is basically a way how to *express some functionality* in a specific *human-“readable” form*, which differes from language to language. We then want this written funtionality -- called *source code* -- to be *performed on a computer system*. More precisely, performed by its *CPU* (we will not cover here special cases such as GPU programming).
+To understand *{cpp}*, we first need to understand *programming*. Programming is basically a way how to *express some functionality* in a specific *human-“readable” form*, which differs from language to language. We then want this written functionality -- called *source code* -- to be *performed on a computer system*. More precisely, performed by its *CPU* (we will not cover here special cases such as GPU programming).
 
 *CPUs do not understand source code.* They understand only a single “language” -- the *machine code*. This inevitably leads to the conclusion that to execute the desired functionality, its *source code must be first translated into machine code*. This is a role of *implementations of programming languages* with their specific tools (compilers, interpreters, linkers,...).
 
@@ -39,11 +39,11 @@ Its functionality is taking two integer numbers and returning a higher of their 
 0f 4d c7 c3 
 ----
 
-These are the numbers (called _opcodes_) my CPU undestands. We can undrstand them as well by studying the _Intel Instruction Set Reference_ or similar sources. For instance, we can read there that the last `c3` opcode corresponds to the `ret` instruction.
+These are the numbers (called _opcodes_) my CPU understands. We can understand them as well by studying the _Intel Instruction Set Reference_ or similar sources. For instance, we can read there that the last `c3` opcode corresponds to the `ret` instruction.
 
-However, let's get back to programming languages. *How do they differ?* Among others -- such as that they use a different source code form/syntax -- each language proivdes a *different set of abstraction mechanisms*. An *abstraction mechanism* is a *programming language entity/concept* that allows us to *express some desired functionality*. Exemplary abstraction mechanisms are _variables, functions (with parameters and return values), loop constructs, structures, classes, inheritance, polymorphism, templates, reflection,_ and many more.
+However, let's get back to programming languages. *How do they differ?* Among others -- such as that they use a different source code form/syntax -- each language provides a *different set of abstraction mechanisms*. An *abstraction mechanism* is a *programming language entity/concept* that allows us to *express some desired functionality*. Exemplary abstraction mechanisms are _variables, functions (with parameters and return values), loop constructs, structures, classes, inheritance, polymorphism, templates, reflection,_ and many more.
 
-The important aspect of abstracion mechanisms is that they *do not exist at a machine code level*, that is, they *do not exist at runtime*. If we decoded the above-presented machine code, we would realize that it contained only the insturctions for register manipulations and transfering control back to a function caller.
+The important aspect of abstraction mechanisms is that they *do not exist at a machine code level*, that is, they *do not exist at runtime*. If we decoded the above-presented machine code, we would realize that it contained only the instructions for register manipulations and transferring control back to a function caller.
 
 In the next post, we will look at how we can classify programming languages according to the abstraction mechanisms they provide.
 
