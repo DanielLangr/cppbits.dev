@@ -5,6 +5,10 @@ Daniel Langr <daniel.langr@gmail.com>
 include::{rootdir}/include/attributes.adoc[]
 //:description: A bit different {cpp} tutorial
 
+WARNING: This site is under construction.
+
+////
+
 A bit different {cpp} tutorial
 
 //[.normal]
@@ -58,3 +62,5 @@ I work as a research assistant professor at the Faculty of Information Technolog
 
 include::{rootdir}/include/disqus.adoc[]
 include::{rootdir}/include/copyright.adoc[]
+
+////
