@@ -36,7 +36,7 @@
 </div>
 <hr>
 <div class="paragraph">
-<p>To understand <strong>C&#43;&#43;</strong>, we first need to understand <strong>programming</strong>. Programming is basically a way how to <strong>express some functionality</strong> in a specific <strong>human-“readable” form</strong>, which differes from language to language. We then want this written funtionality&#8201;&#8212;&#8201;called <strong>source code</strong>&#8201;&#8212;&#8201;to be <strong>performed on a computer system</strong>. More precisely, performed by its <strong>CPU</strong> (we will not cover here special cases such as GPU programming).</p>
+<p>To understand <strong>C&#43;&#43;</strong>, we first need to understand <strong>programming</strong>. Programming is basically a way how to <strong>express some functionality</strong> in a specific <strong>human-“readable” form</strong>, which differs from language to language. We then want this written functionality&#8201;&#8212;&#8201;called <strong>source code</strong>&#8201;&#8212;&#8201;to be <strong>performed on a computer system</strong>. More precisely, performed by its <strong>CPU</strong> (we will not cover here special cases such as GPU programming).</p>
 </div>
 <div class="paragraph">
 <p><strong>CPUs do not understand source code.</strong> They understand only a single “language”&#8201;&#8212;&#8201;the <strong>machine code</strong>. This inevitably leads to the conclusion that to execute the desired functionality, its <strong>source code must be first translated into machine code</strong>. This is a role of <strong>implementations of programming languages</strong> with their specific tools (compilers, interpreters, linkers,&#8230;&#8203;).</p>
@@ -66,13 +66,13 @@
 </div>
 </div>
 <div class="paragraph">
-<p>These are the numbers (called <em>opcodes</em>) my CPU undestands. We can undrstand them as well by studying the <em>Intel Instruction Set Reference</em> or similar sources. For instance, we can read there that the last <code>c3</code> opcode corresponds to the <code>ret</code> instruction.</p>
+<p>These are the numbers (called <em>opcodes</em>) my CPU understands. We can understand them as well by studying the <em>Intel Instruction Set Reference</em> or similar sources. For instance, we can read there that the last <code>c3</code> opcode corresponds to the <code>ret</code> instruction.</p>
 </div>
 <div class="paragraph">
-<p>However, let&#8217;s get back to programming languages. <strong>How do they differ?</strong> Among others&#8201;&#8212;&#8201;such as that they use a different source code form/syntax&#8201;&#8212;&#8201;each language proivdes a <strong>different set of abstraction mechanisms</strong>. An <strong>abstraction mechanism</strong> is a <strong>programming language entity/concept</strong> that allows us to <strong>express some desired functionality</strong>. Exemplary abstraction mechanisms are <em>variables, functions (with parameters and return values), loop constructs, structures, classes, inheritance, polymorphism, templates, reflection,</em> and many more.</p>
+<p>However, let&#8217;s get back to programming languages. <strong>How do they differ?</strong> Among others&#8201;&#8212;&#8201;such as that they use a different source code form/syntax&#8201;&#8212;&#8201;each language provides a <strong>different set of abstraction mechanisms</strong>. An <strong>abstraction mechanism</strong> is a <strong>programming language entity/concept</strong> that allows us to <strong>express some desired functionality</strong>. Exemplary abstraction mechanisms are <em>variables, functions (with parameters and return values), loop constructs, structures, classes, inheritance, polymorphism, templates, reflection,</em> and many more.</p>
 </div>
 <div class="paragraph">
-<p>The important aspect of abstracion mechanisms is that they <strong>do not exist at a machine code level</strong>, that is, they <strong>do not exist at runtime</strong>. If we decoded the above-presented machine code, we would realize that it contained only the insturctions for register manipulations and transfering control back to a function caller.</p>
+<p>The important aspect of abstraction mechanisms is that they <strong>do not exist at a machine code level</strong>, that is, they <strong>do not exist at runtime</strong>. If we decoded the above-presented machine code, we would realize that it contained only the instructions for register manipulations and transferring control back to a function caller.</p>
 </div>
 <div class="paragraph">
 <p>In the next post, we will look at how we can classify programming languages according to the abstraction mechanisms they provide.</p>
