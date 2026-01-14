@@ -1,5 +1,5 @@
 = {cpp} Bits
-Daniel Langr <daniel.langr@gmail.com>
+Daniel Langr <daniel.langr@outlook.com>
 //:revdate: {docdate}
 :rootdir: .
 include::{rootdir}/include/attributes.adoc[]
@@ -60,7 +60,6 @@ I work as a research assistant professor at the Faculty of Information Technolog
 
 == Comments
 
-include::{rootdir}/include/disqus.adoc[]
 include::{rootdir}/include/copyright.adoc[]
 
 ////

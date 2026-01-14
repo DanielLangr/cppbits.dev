@@ -1,6 +1,6 @@
 // +++ contents-related attributes:
 :lang: en
-:copyright: (C) Daniel Langr 2021
+:copyright: (C) Daniel Langr 2025
 :favicon: {rootdir}/favicon/favicon.png
 :icons: font
 :nofooter:
