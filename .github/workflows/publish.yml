@@ -41,6 +41,14 @@ jobs:
             asciidoctor posts/*.adoc
           fi
 
+      - name: Remove files not needed for publishing
+        run: |
+          rm -f *.psd **/*.psd
+          rm -f *.adoc **/*.adoc
+          rm -rf include
+          rm -f _config.yml
+          rm -f CNAME
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 

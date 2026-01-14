@@ -5,7 +5,7 @@ Daniel Langr <daniel.langr@outlook.com>
 include::{rootdir}/include/attributes.adoc[]
 //:description: A bit different {cpp} tutorial
 
-WARNING: This site is under construction.
+WARNING: This page is under construction.
 
 
 ////
