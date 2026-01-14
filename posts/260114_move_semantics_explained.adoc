@@ -1,0 +1,17 @@
+= Move Semantics Explained 
+Daniel Langr <daniel.langr@outlook.com>
+//:revdate: {docdate}
+:revdate: January 2025
+//:revremark: last modification
+:rootdir: ..
+include::{rootdir}/include/attributes.adoc[]
+//:description: 
+
+Consider variable `s` of type `std::string`, the content of which is the string of characters “orange”.
+
+[source]
+----
+std::string s("orange");
+----
+
+include::{rootdir}/include/copyright.adoc[]
