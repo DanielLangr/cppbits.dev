@@ -1,5 +1,6 @@
 = Move Semantics Explained 
-Daniel Langr <daniel.langr@outlook.com>
+Daniel Langr
+//Daniel Langr <daniel.langr@outlook.com>
 //:revdate: {docdate}
 :revdate: January 2025
 //:revremark: last modification
@@ -7,11 +8,14 @@ Daniel Langr <daniel.langr@outlook.com>
 include::{rootdir}/include/attributes.adoc[]
 //:description: 
 
-Consider variable `s` of type `std::string`, the content of which is the string of characters “orange”.
+Consider a variable `s` of type `std::string`, the value of which is the string of characters “orange”.
 
 [source]
 ----
 std::string s("orange");
 ----
+
+Now, let assume that we want to crate a new variable of type `std::string` that will gain the same value as `s`.
+
 
 include::{rootdir}/include/copyright.adoc[]

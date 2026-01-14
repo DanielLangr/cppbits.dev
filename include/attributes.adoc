@@ -13,7 +13,8 @@
 :stylesheet: ubuntu-custom.css
 // +++ code highlighting:
 :source-highlighter: highlightjs
-:highlightjs-theme: agate
+//:highlightjs-theme: agate
+:highlightjs-theme: github
 :source-language: c++
 :imagesdir: {rootdir}/images
 // +++ table of contents:
