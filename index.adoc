@@ -60,6 +60,6 @@ I work as a research assistant professor at the Faculty of Information Technolog
 
 == Comments
 
-include::{rootdir}/include/copyright.adoc[]
-
 ////
+
+include::{rootdir}/include/copyright.adoc[]
