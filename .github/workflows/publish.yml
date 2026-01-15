@@ -49,6 +49,7 @@ jobs:
           rm -f _config.yml
           rm -f CNAME
           rm -f .gitignore
+          rm -f CLAUDE.md
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
