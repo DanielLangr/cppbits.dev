@@ -15,16 +15,13 @@ Consider a variable `s` of type `std::string`, the value of which is some string
 std::string s("orange");
 // The value of 's' is "orange".
 
-std::string s2(
-  // What to write here to 's2' get the same value as 's'?
-)
+// How to define 's2' so that has the same value as 's'?
 ----
 
-To achieve that, the initialization of `s2` somehow needs to refer to `s`. 
+To resolve this problem, we first need to answer another question:
 
-In situations like this one, the fundamental question is:
+IMPORTANT: *What should happen with the value of `s`?*
 
-IMPORTANT: What should happen with the value of `s`?
 
 
 include::{rootdir}/include/copyright.adoc[]
