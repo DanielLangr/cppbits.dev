@@ -8,14 +8,23 @@ Daniel Langr
 include::{rootdir}/include/attributes.adoc[]
 //:description: 
 
-Consider a variable `s` of type `std::string`, the value of which is the string of characters “orange”.
+Consider a variable `s` of type `std::string`, the value of which is some string of characters. Now, we will want to create a new variable `s2` of type `std::string` that will have the same value as `s`.
 
 [source]
 ----
 std::string s("orange");
+// The value of 's' is "orange".
+
+std::string s2(
+  // What to write here to 's2' get the same value as 's'?
+)
 ----
 
-Now, let assume that we want to crate a new variable of type `std::string` that will gain the same value as `s`.
+To achieve that, the initialization of `s2` somehow needs to refer to `s`. 
+
+In situations like this one, the fundamental question is:
+
+IMPORTANT: What should happen with the value of `s`?
 
 
 include::{rootdir}/include/copyright.adoc[]
