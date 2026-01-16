@@ -4,9 +4,7 @@ Daniel Langr
 include::{rootdir}/include/attributes.adoc[]
 
 [.lead]
-These are some articles...
-
-I work as a research assistant professor at the Faculty of Information Technology of the Czech Technical University in Prague, where I participate in both research and teaching activities. {cpp} has been with me for more than 25 years. During those 25 years, {cpp} has become both my work and my hobby. I use it mostly for developing massively-parallel programs intended to be run on large supercomputers.
+This site contains articles aimed at helping readers gain a deeper understanding of selected {cpp} topics. The motivation for writing them comes from my experience teaching advanced {cpp} course at the Czech Technical University in Prague, as well as from using {cpp} in practice to develop high-performance computing applications.
 
 == Content
 

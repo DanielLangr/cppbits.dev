@@ -1,4 +1,4 @@
 ****
 [.text-center]
-(C) 2025 Daniel Langr -- All rights reserved.
+(C) 2025 mailto:daniel.langr@outlook.com[Daniel Langr] -- All rights reserved.
 ****
