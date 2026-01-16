@@ -1,66 +1,16 @@
 = {cpp} Bits
-Daniel Langr <daniel.langr@outlook.com>
+Daniel Langr 
 //:revdate: {docdate}
 :rootdir: .
 include::{rootdir}/include/attributes.adoc[]
 //:description: A bit different {cpp} tutorial
 
-WARNING: This page is under construction.
+== Content
 
-
-////
-
-A bit different {cpp} tutorial
-
-//[.normal]
-//link:../cs/index.html[Česká verze] image:https://www.countryflags.io/cz/shiny/24.png[Česká verze, link="../cs/index.html"]
-
-//== Recent posts
-
-//link:posts/06_declarations_and_definitions_II.html[06: Declarations and definitions II] _(Nov 2020)_ +
-//link:posts/05_declarations_and_definitions_I.html[05: Declarations and definitions I] _(Nov 2020)_ +
-//link:posts/04_undefined_behavior_II.html[04: Undefined behavior II] _(Nov 2020)_ 
-
-== Introduction
-
-*Why should anyone want to study another {cpp} learning source* when there are so many of them out there, both printed and online? Because, in my opinion, they generally *do not provide a true understanding of {cpp}*. For example, how can anyone understand {cpp} without learning about the _as-if rule_ and the _observable behavior concept_?
-
-Typical {cpp} learning sources teach us how to use all those abstraction mechanisms such as functions, classes, or polymorphism, they teach us how to write data to a file or how to sort an array. But these mechanisms and functionalities are provided by many other programming languages as well. *So why should we actually use {cpp} and what is so unique about it?*
-
-Of course, the highest motivation for using {cpp} is *performance and efficiency*. Performance in terms of fast programs and efficiency in terms of minimizing required system resources, such as CPU runtime or the amount of allocated memory. Without the need for performance and efficiency, one would likely not use {cpp} since it is not an easy language.
-
-In fact, *{cpp} is hard*. Forget about learning it in 21 days. Yes, you can learn how to write a program with some desired functionality (which you would likely learn much easier with Python). But to learn how to write code with respect to maximizing performance and efficiency usually requires much more knowledge and insight.
-
-For illustration, let us look at a question frequently asked C++ students or job applicants: *“Where are function local variables stored?”* A typical meaning of this question actually is: _“Where are function local variables with automatic storage duration stored when the function is executed at runtime?”_ A common answer is: *“On the stack.”* We were tauhgt so. Even the books tell us that:
-
-[quote, Bjarne Stroustrup, The {cpp} Programmin Language (4th edition)]
-____
-In a typical implementation, automatic objects are allocated on the stack...
-____
-
-[quote, Stephen Prata, {cpp} Primer Plus (6th edition)]
-____
-When a function is called, its automatic variables are added to the stack...
-____
-
-But *this answer is incorrect*. Moreover, *the question itself is wrong* since it does not make any sense. To understand, please, follow to the very first post of this tutorial...
-
-Note that this tutorial *does not explain {cpp} completely from scratch*. If you are a beginner with {cpp}, or even with programming, I would recommend -- simultaneosly with this tutorial -- using some of the multitude of the *“conventional” {cpp} learning sources*, such as the books I quoted above.
-
-== Contents
-
-link:posts/01_where_are_function_local_variables_stored.html[01: Where are function local variables stored?] _(Mar 2021)_ +
-link:posts/02_programming_and_abstractions_i.html[02: Programming and abstractions I] _(Mar 2021)_ +
-link:posts/03_programming_and_abstractions_ii.html[03: Programming and abstractions II] _(Mar 2021)_ +
-
+. link:./articles/move[Move Semantics Explained mini series]
 
 == About the author
 
 I work as a research assistant professor at the Faculty of Information Technology of the Czech Technical University in Prague, where I participate in both research and teaching activities. {cpp} has been with me for more than 25 years. During those 25 years, {cpp} has become both my work and my hobby. I use it mostly for developing massively-parallel programs intended to be run on large supercomputers.
-// For instance, I collaborate with theoretical nuclear physicists on the solution of the Schrödinger equation for atomic nuclei by employing the ab-initio no-core shell model.
-
-== Comments
-
-////
 
 include::{rootdir}/include/copyright.adoc[]
