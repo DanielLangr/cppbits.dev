@@ -8,7 +8,8 @@ Daniel Langr
 include::{rootdir}/include/attributes.adoc[]
 //:description: 
 
-This is a part of the mini-series link:./index.html[Move Semantics Explained].
+[.normal]
+_This is a part of the mini-series link:./index.html[Move Semantics Explained]._
 
 Consider a variable `s` of type `std::string`, whose value is some string of characters. Suppose we now want to create another variable `s2` of type `std::string` that should contain the same value as `s`.
 
@@ -17,10 +18,18 @@ Consider a variable `s` of type `std::string`, whose value is some string of cha
 std::string s("orange");
 // The value of 's' is "orange".
 
-// How do we define 's2' so that has the same value as 's'?
+// How do we define 's2' so that it will have the same value as 's'?
 ----
 
-To answer this, we first need to ask a more fundamental question:
+To achieve that, we need to “intialize `s2` by `s`”. To be more precise, the expression that initializes `s2` needs to refer to `s`. 
+
+[source]
+----
+std::string s2( /* expression referring to 's' */ );
+// => The value of 's2' is "orange".
+----
+
+The question now is how this expression should look like. To answer this, we first need to ask another question:
 
 IMPORTANT: What should happen to the value of `s`?
 
@@ -29,30 +38,25 @@ There are two possible answers:
 . We need the value of `s` to be preserved.
 . We don't need the value of `s` to be preserved.
 
-If the first option applies, we can initialize `s2` simply by `s` itself:
+If the first option applies, the initialization expression can be simply `s` itself:
 
 [source]
 ----
+// The value of 's' is "orange".
 std::string s2(s);
-// The value of 's2' is "orange"...
-// ...while the value of 's' is "orange" as well.
+// The value of 's' is "orange".
 ----
 
-If the second options applies, the idiomatic solution is to initialize `s2` by `std::move(s)`:
+If the second options applies, the initialization expression typically used is `std::move(s)`:
 
 [source]
 ----
+// The value of 's' is "orange".
 std::string s2(std::move(s));
-// The value of 's2' is "orange"...
-// ...while the value of 's' does not need to be "orange".
+// The value of 's' does not need to be "orange".
 ----
 
-What is common to both these cases? Both expressions that initialize `s2` refer to `s`:
-
-. Expression `s` refers to variable `s`.
-. Expression `std::move(s)` refers to variable `s` as well.
-
-This guarantees that `s2` will have the same value as `s` originally had.
+What have these expressions in common? They both refer to variable `s`. This guarantees that `s2` will have the same value as `s` originally had.
 
 [source]
 ----
@@ -68,7 +72,7 @@ std::string s2(std::move(s)); // 'std::move(s)' refers to 's'
 // => The value of 's2' is "orange".
 ----
 
-How do these two cases differ? They differ in which constructor of `std::string` is called for initialization of `s2`:
+What is the difference between both these cases? They differ in which constructor of `std::string` is called for initialization of `s2`:
 
 . The initialization expression `s` causes the _copy constructor_ of `std::string` to be called.
 . The initialization expression `std::move(s)` causes the _move constructor_ of `std::string` to be called. 
@@ -83,83 +87,32 @@ std::string s2(s); // 's2' is initialized by copy constructor of 'std::string'.
 std::string s2(std::move(s)); // 's2' is intialized by move constructor of 'std::string'.
 ----
 
-Both these constructors work internally with variable `s`; however:
+Both of them set the value of constructed `s2` to the value of `s`; however:
 
 . The copy constructor guarantees that the value of `s` is preserved.
 . The move constructor is free not to preserve the value of `s`.
 
-If we put it all together:
+When we put it all together:
 
 [source]
 ----
 // The value of 's' is "orange".
 std::string s2(s); // 's2' is initialized by copy constructor of 'std::string'.
-// The value of 's2' is "orange".
-// The value of 's' is "orange".
+// => The value of 's2' is "orange".
+// => The value of 's' is "orange".
 ----
 
 [source]
 ----
 // The value of 's' is "orange".
-std::string s2(std::move(s)); // 's2' is initialized by move constructor of 'std::string'.
-// The value of 's2' is "orange".
-// The value of 's' does not need to be "orange".
+std::string s2(std::move(s)); // 's2' is intialized by move constructor of 'std::string'.
+// => The value of 's2' is "orange".
+// => The value of 's' does not need to be "orange".
 ----
 
 
 
 
 
-
-
-
-
-////
- They differ in what is called a value category. In particular:
-
-. The value category of expression `s` is _lvalue_.
-. The value category of epxression `std::move(s)` is _rvalue_.
-
-Let us put all together:
-
-. `s` is an lvalue expression that refers to variable `s`.
-. `std::move(s)` is an rvalue expression that refers to variable `s`.
-
-[source]
-----
-// The value of 's' is "orange".
-std::string s2(s); // 's' is an lvalue expression that refers to 's'
-// The value of 's2' is "orange".
-// The value of 's' is "orange".
-----
-
-[source]
-----
-// The value of 's' is "orange".
-std::string s2(std::move(s)); // 'std::move(s)' is an rvalue expression that refers to 's' 
-// The value of 's2' is "orange".
-// The value of 's' does not need to be "orange".
-----
-
-What happened under the hood? 
-
-. Initialization expression `s` caused the _copy constructor_ of `std::string` to be called for initialization of 
-////
-
-
-
-
-
-
-
-
-
-
-////
-The choice depends on the logic of our program:
-
-. The first option makes sense if the value of `s` is later used.
-. The second option makes sense if this value is not used anymore.
-////
 
 include::{rootdir}/include/copyright.adoc[]
