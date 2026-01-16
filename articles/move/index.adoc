@@ -1,0 +1,17 @@
+= Move Semantics Explained 
+Daniel Langr
+//Daniel Langr <daniel.langr@outlook.com>
+//:revdate: {docdate}
+:revdate: January 2025
+//:revremark: last modification
+:rootdir: ../..
+include::{rootdir}/include/attributes.adoc[]
+//:description: 
+
+This is a mini series of articles devoted to the move semantics in {cpp}.
+
+Parts of the series:
+
+- link:./introductory_example.html[01: Introductory Example]
+
+include::{rootdir}/include/copyright.adoc[]

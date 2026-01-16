@@ -4,27 +4,23 @@ ASCIIDOCTOR = asciidoctor
 
 # Source files
 ROOT_SOURCES = index.adoc
-POST_SOURCES = $(wildcard posts/*.adoc)
+ARTICLE_SOURCES = $(shell find articles -name '*.adoc')
 
 # Include files (dependencies)
 INCLUDES = include/attributes.adoc include/copyright.adoc
 
 # Output files
 ROOT_HTML = $(ROOT_SOURCES:.adoc=.html)
-POST_HTML = $(POST_SOURCES:.adoc=.html)
+ARTICLE_HTML = $(ARTICLE_SOURCES:.adoc=.html)
 
-ALL_HTML = $(ROOT_HTML) $(POST_HTML)
+ALL_HTML = $(ROOT_HTML) $(ARTICLE_HTML)
 
 .PHONY: all clean
 
 all: $(ALL_HTML)
 
-# Rule for root directory
+# Generic rule for all .adoc files (works for any directory depth)
 %.html: %.adoc $(INCLUDES)
-	$(ASCIIDOCTOR) $<
-
-# Rule for posts directory
-posts/%.html: posts/%.adoc $(INCLUDES)
 	$(ASCIIDOCTOR) $<
 
 clean:

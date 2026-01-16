@@ -36,15 +36,15 @@ jobs:
           # Build index.adoc
           asciidoctor index.adoc
 
-          # Build all .adoc files in posts directory (if any)
-          if [ -d posts ] && compgen -G "posts/*.adoc" > /dev/null; then
-            asciidoctor posts/*.adoc
+          # Build all .adoc files in articles directory recursively (if any)
+          if [ -d articles ]; then
+            find articles -name '*.adoc' -exec asciidoctor {} \;
           fi
 
       - name: Remove files not needed for publishing
         run: |
-          rm -f *.psd **/*.psd
           rm -f *.adoc **/*.adoc
+          rm -f favicon/favicon.psd
           rm -rf include
           rm -f _config.yml
           rm -f CNAME

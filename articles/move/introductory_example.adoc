@@ -1,12 +1,14 @@
-= Move Semantics Explained — Introduction
+= 01: Introductory Example
 Daniel Langr
 //Daniel Langr <daniel.langr@outlook.com>
 //:revdate: {docdate}
 :revdate: January 2025
 //:revremark: last modification
-:rootdir: ..
+:rootdir: ../..
 include::{rootdir}/include/attributes.adoc[]
 //:description: 
+
+This is a part of the mini-series link:./index.html[Move Semantics Explained].
 
 Consider a variable `s` of type `std::string`, whose value is some string of characters. Suppose we now want to create another variable `s2` of type `std::string` that should contain the same value as `s`.
 
