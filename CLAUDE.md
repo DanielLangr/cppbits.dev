@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is **cppbits.dev**, a static website for C++ tutorials written in AsciiDoc format. The site is deployed to GitHub Pages at cppbits.dev.
 
-## Build and Preview
+## Build Commands
 
 The site uses Asciidoctor to convert `.adoc` files to HTML.
 
@@ -15,42 +15,45 @@ The site uses Asciidoctor to convert `.adoc` files to HTML.
 gem install asciidoctor
 ```
 
-**Build all files locally:**
+**Build everything:**
 ```bash
-asciidoctor index.adoc
-asciidoctor posts/*.adoc
+make
 ```
 
-**Build a single post:**
+**Build a single file:**
 ```bash
-asciidoctor posts/260114_move_semantics_explained.adoc
+asciidoctor articles/move/introductory_example.adoc
+```
+
+**Clean generated HTML:**
+```bash
+make clean
 ```
 
 The GitHub Actions workflow (`.github/workflows/publish.yml`) automatically builds and deploys on push to master.
 
 ## Content Structure
 
-- `index.adoc` - Main landing page with table of contents
-- `posts/*.adoc` - Individual tutorial posts (naming: `YYMMDD_title.adoc`)
-- `include/attributes.adoc` - Shared AsciiDoc attributes (styling, syntax highlighting, etc.)
+- `index.adoc` - Main landing page
+- `articles/` - Tutorial content organized by topic (e.g., `articles/move/`)
+- `include/attributes.adoc` - Shared AsciiDoc attributes (styling, syntax highlighting)
 - `include/copyright.adoc` - Copyright footer included in all pages
 - `stylesheets/ubuntu-custom.css` - Custom styling based on Ubuntu theme
 
-## Writing Posts
+## Writing Articles
 
-Posts should:
-1. Set `:rootdir: ..` to properly resolve includes
+Articles should:
+1. Set `:rootdir:` relative to the include directory (e.g., `../..` for `articles/topic/file.adoc`)
 2. Include `{rootdir}/include/attributes.adoc` for consistent styling
 3. Include `{rootdir}/include/copyright.adoc` at the end
-4. Use `[source]` blocks for C++ code (syntax highlighting is preconfigured)
+4. Use `[source]` blocks for C++ code (syntax highlighting via highlight.js is preconfigured)
 
-Example post header:
+Example article header:
 ```asciidoc
-= Post Title
+= Article Title
 Daniel Langr
-:revdate: January 2025
-:rootdir: ..
+:rootdir: ../..
 include::{rootdir}/include/attributes.adoc[]
 ```
 
-After creating a new post, add a link to it in `index.adoc` under the Contents section.
+After creating a new article or section, add a link to it in the appropriate index file.

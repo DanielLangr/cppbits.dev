@@ -21,7 +21,7 @@ std::string s("orange");
 // How do we define 's2' so that it will have the same value as 's'?
 ----
 
-To achieve that, we need to “intialize `s2` by `s`”. To be more precise, the expression that initializes `s2` needs to refer to `s`. 
+To achieve that, we need to “initialize `s2` by `s`”. More precisely, the expression that initializes `s2` must refer to `s`. 
 
 [source]
 ----
@@ -47,7 +47,7 @@ std::string s2(s);
 // The value of 's' is "orange".
 ----
 
-If the second options applies, the initialization expression typically used is `std::move(s)`:
+If the second option applies, the initialization expression typically used is `std::move(s)`:
 
 [source]
 ----
@@ -56,7 +56,7 @@ std::string s2(std::move(s));
 // The value of 's' does not need to be "orange".
 ----
 
-What have these expressions in common? They both refer to variable `s`. This guarantees that `s2` will have the same value as `s` originally had.
+What do these expressions have in common? They both refer to variable `s`. This guarantees that `s2` will have the same value as `s` originally had.
 
 [source]
 ----
