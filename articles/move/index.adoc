@@ -4,7 +4,7 @@ Daniel Langr
 include::{rootdir}/include/attributes.adoc[]
 
 [.lead]
-This mini-series is devoted to understanding the move semantics in {cpp}.
+This mini-series is intended to help understanding of move semantics in {cpp}.
 
 == Content
 
